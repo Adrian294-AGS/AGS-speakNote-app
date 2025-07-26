@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  width: 100%;
+
+  display: grid;
+  grid:
+    "header" auto
+    "main" 1fr
+    "." auto
+    / 1fr;
+  height: 100vh;
+  gap: 10px;
+}
+
+.header {
+  grid-area: header;
+}
+
+.AGS-LOGO {
+  color: green;
+}
+
+.main {
+  grid-area: main;
+  display: inline-block;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: none;
+}
+
+
+
+
+
