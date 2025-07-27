@@ -1,9 +1,8 @@
 import express from "express";
-import { login, googleCallback, success, register, signUp, addInfoSignUp, logout } from "../controller/authController.js";
-import { logForm } from "../controller/homeController.js";
-import "../controller/passportSetup.js";
+import { login, googleCallback, success, register, signUp, addInfoSignUp, logout, logForm } from "../controller/authController.js";
+import "../services/passportSetup.js";
 import passport from "passport";
-import { isLoggedIn } from "../authMiddlewares/authMiddleware.js";
+import { isLoggedIn } from "../Middlewares/authMiddleware.js";
 
 const router = express.Router();
 
