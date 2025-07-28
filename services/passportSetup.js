@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import dotenv from "dotenv";
-import { selectUser, createUser } from "../dbQuerys/sql.js";
+import { selectUser, createUser } from "../models/sql.js";
 
 dotenv.config({ path: "./.env" });
 

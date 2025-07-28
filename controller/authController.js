@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { SelectUserNoGoogle, createUser } from "../dbQuerys/sql.js";
+import { SelectUserNoGoogle, createUser } from "../models/sql.js";
 
 export const login = (req, res) => {
   res.render("login");
