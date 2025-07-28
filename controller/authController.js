@@ -125,6 +125,8 @@ export const logForm = async (req, res) => {
   }
 };
 
+
+
 export const logout = (req, res) => {
   req.logOut((error) => {
     if (error) {
