@@ -23,7 +23,7 @@ passport.use(
     },
     async function (request, accessToken, refreshToken, profile, done) {
       // check if the email is already inserted
-
+      console.log(refreshToken);
       try {
         const results = await selectUser(profile.id);
         if(results){
