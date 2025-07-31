@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { SelectUserNoGoogle, createUser } from "../models/sql.js";
+import { generate_access_token, generate_refresh_token } from "../Middlewares/generateToken.js";
 
 export const login = (req, res) => {
   res.render("login");
@@ -11,20 +12,22 @@ export const signUp = (req, res) => {
 
 //Register using Google-oauth2
 export const googleCallback = (req, res) => {
-  res.redirect("/success");
+   const payload = {id: req.user.ID, username: req.user.email};
+   try {
+    const access_token = generate_access_token(payload);
+    const refresh_token = generate_refresh_token(payload);
+
+    res.cookie("access_token", access_token, {httpOnly: true, maxAge: 15 * 60 * 1000});
+    res.cookie("refresh_token", refresh_token, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000})
+
+    res.redirect("/success");
+   } catch (error) {
+    console.log(error);
+   }
 };
 
 export const success = (req, res) => {
   console.log(req.user);
-  const user = req.user;
-
-  if (user.createdAt) {
-    return res.render("login", {
-      msg: `${user.email} is Already Registered!!!!`,
-    });
-  } else {
-    return res.render("additionalSignUpInfo", { profile: user });
-  }
 };
 
 export const addInfoSignUp = async (req, res) => {
@@ -125,18 +128,6 @@ export const logForm = async (req, res) => {
   }
 };
 
-
-
 export const logout = (req, res) => {
-  req.logOut((error) => {
-    if (error) {
-      return next(error);
-    }
-    req.session.destroy((error) => {
-      if (error) {
-        return next(error);
-      }
-      return res.redirect("/");
-    });
-  });
+  return res.redirect("/");
 };

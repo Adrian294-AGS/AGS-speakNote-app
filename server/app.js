@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import router from "../routes/mainRoutes.js";
 import passport from "passport";
+import cookieParser from "cookie-parser";
 
 dotenv.config({ path: "./.env" });
 
@@ -12,11 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(express.static("upload"));
+app.use(cookieParser());
 
 app.set("view engine", "hbs");
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/", router);
 
