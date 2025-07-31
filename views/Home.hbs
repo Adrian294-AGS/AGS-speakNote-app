@@ -11,7 +11,7 @@
     />
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="index.css" />
+   
     <style>
       .btnSearch {
         background-color: green;
@@ -29,7 +29,48 @@
         color: green;
       }
 
-      
+      #card2 {
+        width: 100%;
+        height: 50%;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .layout {
+
+        display: grid;
+        grid:
+          "header" auto
+          "main" 1fr
+          "." auto
+          / 1fr;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .header {
+        grid-area: header;
+      }
+
+      .AGS-LOGO {
+        color: green;
+      }
+
+      .main {
+        grid-area: main;
+        display: inline-block;
+        overflow-y: auto;
+        flex: 1;
+        scrollbar-width: none;
+      }
+
+      #card2_border {
+        border: 1px solid;
+        border-color: dimgray;
+      }
     </style>
   </head>
   <body>
@@ -98,7 +139,7 @@
       
       <div class="main">
         <div class="card1">
-          <div class="container mt-5">
+          <div class="container mt-5 w-50">
             <div class="card shadow rounded">
               <div class="card-header bg-primary text-white text-center">
                 <h4><i class="bi bi-music-note-beamed"></i> Audio Upload Form</h4>
@@ -123,7 +164,7 @@
                     </div>
                   </div>
 
-                  <button type="submit" class="btn btn-secondary w-100" disabled id="uploadBtn">
+                  <button type="submit" class="btn btn-primary w-100" disabled id="uploadBtn">
                     <i class="bi bi-upload"></i> Upload Audio
                   </button>
                 </div>
@@ -139,8 +180,8 @@
             </div>
           </div>
         </div>
-        <div class="card2">
-          <div class="container mt-5">
+        <div class="card2 p-2">
+          <div class="container mt-5 w-50 p-5" id="card2_border">
             <h2 class="text-center mb-4">🎧 Audio Transcriptions</h2>
 
             {{#if transcriptions.length}}
