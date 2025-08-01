@@ -38,7 +38,7 @@ export const googleCallback = (req, res) => {
 
 export const success = (req, res) => {
   const user = req.user;
-  return res.render("Home", { profile: user });
+  
 };
 
 //Register Without APIs

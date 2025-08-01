@@ -1,4 +1,4 @@
-# App Idea: SpeakNotes — Voice-to-Structured-NotesApp
+# AGS-SpeakNotes
 
 What is it?
 
