@@ -6,11 +6,11 @@ export const createUser = async (table, input) => {
 };
 
 export async function selectUser (params) {
-    const [results] = await db.query("SELECT * FROM tbluser WHERE googleId = ?", [params]);
+    const [results] = await db.query("SELECT * FROM tblusers WHERE displayName = ?", [params]);
     return results[0];
 };
 
-export const SelectUserNoGoogle = async (params) => {
-    const [results] = await db.query("SELECT * FROM tblNoGoogleUser WHERE email = ?", [params]);
+export const SelectUserGoogle = async (params) => {
+    const [results] = await db.query("SELECT * FROM tblusers WHERE googleId = ?", [params]);
     return results[0];
 };

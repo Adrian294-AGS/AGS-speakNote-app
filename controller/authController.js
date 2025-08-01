@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
-import { SelectUserNoGoogle, createUser } from "../models/sql.js";
-import { generate_access_token, generate_refresh_token } from "../Middlewares/generateToken.js";
+import { selectUser, createUser } from "../models/sql.js";
+import {
+  generate_access_token,
+  generate_refresh_token,
+} from "../Middlewares/generateToken.js";
 
 export const login = (req, res) => {
   res.render("login");
@@ -12,97 +15,68 @@ export const signUp = (req, res) => {
 
 //Register using Google-oauth2
 export const googleCallback = (req, res) => {
-   const payload = {id: req.user.ID, username: req.user.email};
-   try {
+  console.log(req.user);
+  const payload = { id: req.user.Id, username: req.user.email };
+  try {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 
-    res.cookie("access_token", access_token, {httpOnly: true, maxAge: 15 * 60 * 1000});
-    res.cookie("refresh_token", refresh_token, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000})
+    res.cookie("access_token", access_token, {
+      httpOnly: true,
+      maxAge: 15 * 60 * 1000,
+    });
+    res.cookie("refresh_token", refresh_token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.redirect("/success");
-   } catch (error) {
+  } catch (error) {
     console.log(error);
-   }
+  }
 };
 
 export const success = (req, res) => {
-  console.log(req.user);
-};
-
-export const addInfoSignUp = async (req, res) => {
-  const { email, password, username, repeatPassword, photo } = req.body;
-
-  const user = {
-    email: email,
-    displayName: username,
-  };
-
-  try {
-    const selectResult = await SelectUserNoGoogle(email);
-    if (selectResult) {
-      return res.render("additionalSignUpInfo", {
-        msg: "This Account is Already Created",
-        profile: user,
-      });
-    } else {
-      if (password !== repeatPassword) {
-        return res.render("additionalSignUpInfo", {
-          msg: "Password do not matched!!!!",
-          profile: user,
-        });
-      }
-      let hashedPassword = await bcrypt.hash(password, 8);
-      const newUser = {
-        email: email,
-        username: username,
-        password: hashedPassword,
-        photo: photo,
-      };
-      const insertResult = await createUser("tblNoGoogleUser", newUser);
-      return res.redirect("/");
-    }
-  } catch (error) {
-    console.log(error);
-    return res.render("additionalSignUpInfo", {
-      msg: "Something went wrong. Please try again.",
-      profile: user,
-    });
-  }
+  const user = req.user;
+  return res.render("Home", { profile: user });
 };
 
 //Register Without APIs
 
 export const register = async (req, res) => {
-  const { email, username, password, repeatPassword } = req.body;
+  const { username, password, repeatPassword } = req.body;
+
+  if(username.length < 5) return res.render("register", {msg: "username is too short"});
 
   try {
-    const selectResult = await SelectUserNoGoogle(email);
+    const selectResult = await selectUser(username);
     if (selectResult) {
       return res.render("register", {
-        msg: `${email} is All ready created`,
+        msg: `${username} is All ready created`,
       });
-    } else {
-      const user = {
-        email: email,
-        username: username,
-      };
-      if (password != repeatPassword) {
-        return res.render("register", {
-          msg: "Password do not match",
-          profile: user,
-        });
-      }
-      let hashedPassword = await bcrypt.hash(password, 8);
-      const newUser = {
-        email: email,
-        password: hashedPassword,
-        username: username,
-      };
-      const insertResult = await createUser("tblNoGoogleUser", newUser);
-      console.log("Inserted success ID: ", insertResult.insertId);
-      return res.redirect("/");
     }
+    const user = {
+      username: username,
+    };
+    if (password != repeatPassword) {
+      return res.render("register", {
+        msg: "Password do not match",
+        profile: user,
+      });
+    } else if (password.length < 5) {
+      return res.render("register", {
+        msg: "Password is too short!!!!",
+        profile: user,
+      });
+    }
+    let hashedPassword = await bcrypt.hash(password, 8);
+    const newUser = {
+      displayName: username,
+      password: hashedPassword,
+    };
+    const insertResult = await createUser("tblusers", newUser);
+    console.log("Inserted success ID: ", insertResult.insertId);
+    return res.redirect("/");
   } catch (error) {
     console.log(error);
   }
@@ -110,24 +84,36 @@ export const register = async (req, res) => {
 
 //sign-in part
 export const logForm = async (req, res) => {
-
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    const result = await SelectUserNoGoogle(email);
-    if(result){
+    const result = await selectUser(username);
+    if (result) {
       let isMatched = await bcrypt.compare(password, result.password);
-      if(isMatched){
-        return res.render("Home", {profile: result});
+      if (!isMatched) {
+        return res.render("login", {
+        msg: "Password do not matched!!!!!",
+        username: result
+        });
       }
-      return res.render("login", {msg: "Password do not matched!!!!!", email: result});
+
+      const payload = {Id: result.Id, username: username};
+      const access_token = generate_access_token(payload);
+      const refresh_token = generate_refresh_token(payload);
+
+      res.cookie("access_token", access_token, {httpOnly: true, maxAge: 15 * 60 * 1000});
+      res.cookie("refresh_token", refresh_token, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000});
+
+      return res.redirect("/success");
     }
-    return res.render("login", { msg: `${email} is not registered`});
+    return res.render("login", { msg: `${username} is not registered` });
   } catch (error) {
     console.log(error);
   }
 };
 
 export const logout = (req, res) => {
+  res.clearCookie("access_token");
+  res.clearCookie("refresh_token");
   return res.redirect("/");
 };

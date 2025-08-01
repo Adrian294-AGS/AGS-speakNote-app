@@ -71,6 +71,10 @@
         border: 1px solid;
         border-color: dimgray;
       }
+
+      .subCard1 {
+        width: 70%;
+      }
     </style>
   </head>
   <body>
@@ -126,6 +130,7 @@
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  value="{{profile.username}}"
                 />
                 <button
                   class="btnSearch"
@@ -139,7 +144,7 @@
       
       <div class="main">
         <div class="card1">
-          <div class="container mt-5 w-50">
+          <div class="subCard1 container mt-5">
             <div class="card shadow rounded">
               <div class="card-header bg-primary text-white text-center">
                 <h4><i class="bi bi-music-note-beamed"></i> Audio Upload Form</h4>
@@ -181,7 +186,7 @@
           </div>
         </div>
         <div class="card2 p-2">
-          <div class="container mt-5 w-50 p-5" id="card2_border">
+          <div class="subCard1 container mt-5 p-5" id="card2_border">
             <h2 class="text-center mb-4">🎧 Audio Transcriptions</h2>
 
             {{#if transcriptions.length}}

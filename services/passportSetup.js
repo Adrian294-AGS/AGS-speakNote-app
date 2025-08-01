@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import dotenv from "dotenv";
-import { selectUser, createUser } from "../models/sql.js";
+import { SelectUserGoogle, createUser } from "../models/sql.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -16,7 +16,7 @@ passport.use(
     async function (request, accessToken, refreshToken, profile, done) {
       // check if the email is already inserted
       try {
-        const select_results = await selectUser(profile.id);
+        const select_results = await SelectUserGoogle(profile.id);
         if (select_results) {
           return done(null, select_results);
         }
@@ -26,8 +26,7 @@ passport.use(
           email: profile.emails[0].value,
           photo: profile.photos[0].value,
         };
-        const insert_results = await createUser("tbluser", newUser);
-        console.log(results);
+        const insert_results = await createUser("tblusers", newUser);
         newUser.id = insert_results.insertId;
         return done(null, newUser);
       } catch (error) {
