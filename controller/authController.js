@@ -16,7 +16,7 @@ export const signUp = (req, res) => {
 //Register using Google-oauth2
 export const googleCallback = (req, res) => {
   console.log(req.user);
-  const payload = { id: req.user.Id, username: req.user.email };
+  const payload = { id: req.user.Id, username: req.user.displayName };
   try {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
@@ -36,12 +36,18 @@ export const googleCallback = (req, res) => {
   }
 };
 
-export const success = (req, res) => {
+export const success = async (req, res) => {
   const user = req.user;
-  
+  try {
+    const select_results = await selectUser(user.username);
+    return res.render("Home", {profile: select_results});
+  } catch (error) {
+    console.log(error);
+    return res.render("login", {msg: "Something went wrong try again"});
+  }
 };
 
-//Register Without APIs
+//Register Without Google oauth2 APIs
 
 export const register = async (req, res) => {
   const { username, password, repeatPassword } = req.body;
@@ -93,7 +99,7 @@ export const logForm = async (req, res) => {
       if (!isMatched) {
         return res.render("login", {
         msg: "Password do not matched!!!!!",
-        username: result
+        username: result.displayName
         });
       }
 
@@ -106,7 +112,7 @@ export const logForm = async (req, res) => {
 
       return res.redirect("/success");
     }
-    return res.render("login", { msg: `${username} is not registered` });
+    return res.render("login", { msg: `${username} is not registered !!!!` });
   } catch (error) {
     console.log(error);
   }

@@ -18,8 +18,9 @@ router.get("/auth/google/callback", passport.authenticate('google',{session: fal
 
 router.post("/register", register);
 
-router.post("/signIn/home", logForm);
+router.post("/signIn", logForm);
 
 router.get("/logout", logout);
+
 
 export default router;

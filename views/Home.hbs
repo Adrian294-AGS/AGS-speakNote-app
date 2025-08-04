@@ -29,7 +29,7 @@
         color: green;
       }
 
-      #card2 {
+      .card2 {
         width: 100%;
         height: 50%;
       }
@@ -130,7 +130,7 @@
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  value="{{profile.username}}"
+                  value="{{profile.displayName}}"
                 />
                 <button
                   class="btnSearch"
@@ -151,7 +151,7 @@
                 <small>Upload audio files (MP3, WAV)</small>
               </div>
 
-              <form action="/upload" method="POST" enctype="multipart/form-data">
+              <form action="/home/upload" method="POST" enctype="multipart/form-data">
                 <div class="card-body text-center">
 
                   <label class="form-label fw-bold">Choose Audio Files to Upload</label>

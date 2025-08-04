@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
+    <title>Document</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -11,203 +11,133 @@
     />
     <link rel="stylesheet" href="index.css" />
     <style>
-      .btn {
-        max-width: 500px;
-        width: 100%;
-        height: 43px;
-        border: none;
+      .registerBtn { border: none; background-color: green; height: 10%; }
+      .registerBtn:hover { background-color: rgb(3, 107, 3); }
+      .nav-link:hover {
         background-color: green;
         color: white;
       }
-
-      .btn:hover {
-        background-color: rgb(2, 97, 2);
-        color: white;
-      }
-
-      .btnSearch {
-        width: 110px;
-        background-color: green;
-        border: none;
-        color: white;
-        border-radius: 5px;
-      }
-
-      .btnSearch:hover {
-        background-color: rgb(2, 97, 2);
-      }
-
+      
     </style>
   </head>
   <body>
     <section class="layout">
       <div class="header">
-        <nav class="navbar navbar-expand-lg container">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><h1 class="AGS-LOGO">AGS</h1></a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="#"
-                  >Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-              <form class="d-flex" role="search">
-                <input
-                  class="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button
-                  class="btnSearch btn-outline-success"
-                  type="submit"
-                >Search</button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </div>
+        <div class="headCard1 mt-2 container" >
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid gap-2">
+              <!-- Brand -->
+              <a class="navbar-brand fw-bold"style="color: green;"><h3>AGS</h3></a>
 
+              <!-- Toggler (for mobile view) -->
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <!-- Navbar Links and Items -->
+              <div class="collapse navbar-collapse" id="navbarContent">
+
+                <!-- Left-side Links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2 p-3">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link shadow-lg rounded"
+                      href="#"
+                    >Register</a>
+                  </li>
+                   <li class="nav-item">
+                    <a
+                      class="nav-link rounded"
+                      href="/"
+                    >Log-in</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link rounded" href="#">About</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+
+        </div>
+      </div>
       <div class="main">
         <div class="card1">
-          <div class="card text-black container">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+          <div class="row">
+            <div
+              class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 mt-4 mx-auto"
+              id="cardCol1"
+            >
+              <div class="subCard1 shadow-lg p-4 rounded">
 
-                  <p
-                    class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"
-                    style="color: green;"
-                  >Sign up</p>
+                <h3
+                  class="fw-bold text-center mb-4"
+                  style="color: green;"
+                >REGISTER</h3>
 
-                  <form class="mx-1 mx-md-4" action="/register" method="post">
+                <form action="/register" method="post">
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                      <div
-                        data-mdb-input-init
-                        class="form-outline flex-fill mb-0"
-                      >
-                        <input
-                          type="text"
-                          id="form3Example3c"
-                          class="form-control"
-                          name="username"
-                          value="{{profile.username}}"
-                          required
-                        />
-                        <label class="form-label" for="form3Example3c">Your
-                          Username</label>
-                      </div>
-                    </div>
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="username"
+                      id="username"
+                      placeholder="your Username"
+                      required
+                    />
+                  </div>
 
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                      <div
-                        data-mdb-input-init
-                        class="form-outline flex-fill mb-0"
-                      >
-                        <input
-                          type="password"
-                          id="form3Example4c"
-                          class="form-control"
-                          name="password"
-                          required
-                        />
-                        <label
-                          class="form-label"
-                          for="form3Example4c"
-                        >Password</label>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                      <div
-                        data-mdb-input-init
-                        class="form-outline flex-fill mb-0"
-                      >
-                        <input
-                          type="password"
-                          id="form3Example4cd"
-                          class="form-control"
-                          name="repeatPassword"
-                          required
-                        />
-                        <label class="form-label" for="form3Example4cd">Repeat
-                          your password</label>
-                      </div>
-                    </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      id="password"
+                      placeholder="your password"
+                      required
+                    />
+                  </div>
 
-                    {{#if msg}}
-                      <div class="Alert alert-danger">{{msg}}</div>
-                    {{/if}}
-                      <button
-                        type="submit"
-                        data-mdb-button-init
-                        data-mdb-ripple-init
-                        class="btn align-items-center text-center justify-content-center fw-bold"
-                      >Register</button>
-                  </form>
-                </div>
-                <div
-                  class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"
-                >
+                  <div class="mb-3">
+                    <label for="RepeatPassword" class="form-label">Repeat
+                      Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="repeatPassword"
+                      id="RepeatPassword"
+                      placeholder="Repeat your password"
+                      required
+                    />
+                  </div>
 
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                    class="img-fluid"
-                    alt="Sample image"
-                  />
+                  <button
+                    type="submit"
+                    class="registerBtn text-center w-100 text-white mt-2 rounded"
+                  >Register</button>
+                </form>
 
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer" id="footer">Footer</div>
       </div>
-
     </section>
 
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
   </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-    crossorigin="anonymous"
-  ></script>
 </html>
