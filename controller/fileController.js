@@ -1,5 +1,5 @@
 import path from "path";
-import { exec, spawn } from "child_process";
+import { spawn } from "child_process";
 import fs from "fs";
 import { convertToWav } from "../Middlewares/convertToWav.js";
 
