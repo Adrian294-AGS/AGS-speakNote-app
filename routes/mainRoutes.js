@@ -10,7 +10,7 @@ router.get("/", login);
 
 router.get("/signUp", signUp);
 
-router.get("/success", jwt_authenticate, success);
+router.get("/home", jwt_authenticate, success);
 
 router.get("/auth/google", passport.authenticate('google',{scope:['profile','email']}));
 

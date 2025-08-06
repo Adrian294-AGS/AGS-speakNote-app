@@ -30,7 +30,7 @@ export const googleCallback = (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("/success");
+    res.redirect("/home");
   } catch (error) {
     console.log(error);
   }
@@ -103,14 +103,14 @@ export const logForm = async (req, res) => {
         });
       }
 
-      const payload = {Id: result.Id, username: username};
+      const payload = {id: result.Id, username: username};
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
 
       res.cookie("access_token", access_token, {httpOnly: true, maxAge: 15 * 60 * 1000});
       res.cookie("refresh_token", refresh_token, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000});
 
-      return res.redirect("/success");
+      return res.redirect("/home");
     }
     return res.render("login", { msg: `${username} is not registered !!!!` });
   } catch (error) {

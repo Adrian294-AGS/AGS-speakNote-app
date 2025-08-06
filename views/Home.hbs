@@ -70,6 +70,7 @@
       #card2_border {
         border: 1px solid;
         border-color: dimgray;
+        height: 90%;
       }
 
       .subCard1 {
@@ -126,7 +127,7 @@
               </ul>
               <form class="d-flex" role="search">
                 <input
-                  class="form-control me-2"
+                  class="form-control me-2 text-center"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
@@ -151,7 +152,7 @@
                 <small>Upload audio files (MP3, WAV)</small>
               </div>
 
-              <form action="/home/upload" method="POST" enctype="multipart/form-data">
+              <form action="/home/transcriptions" method="POST" enctype="multipart/form-data">
                 <div class="card-body text-center">
 
                   <label class="form-label fw-bold">Choose Audio Files to Upload</label>
@@ -192,9 +193,9 @@
             <h2 class="text-center mb-4">🎧 Audio Transcriptions</h2>
 
             {{#if transcriptions}}
-              <div class="row row-cols-1 row-cols-md-2 g-4 overflow-auto" style="max-height: 200px;">
+              <div class="row row-cols-1 row-cols-md-2 g-4 overflow-auto align-items-center" style="height: 100%;">
                   <div class="col">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm mx-auto">
                       <div class="card-header bg-primary text-white">
                         <i class="bi bi-music-note"></i> {{transcriptions.wav_file}}
                       </div>
