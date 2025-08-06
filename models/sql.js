@@ -14,3 +14,14 @@ export const SelectUserGoogle = async (params) => {
     const [results] = await db.query("SELECT * FROM tblusers WHERE googleId = ?", [params]);
     return results[0];
 };
+
+export const selectAudio = async (params) => {
+    const [result] = await db.query("SELECT * FROM tblaudio WHERE Id = ?", [params]);
+    return result[0];
+}
+
+export const selectUserForAudio = async (params) => {
+    const [results] = await db.query("SELECT * FROM tblusers WHERE Id = ?", [params]);
+    return results[0];
+}
+

@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { selectUser, createUser } from "../models/sql.js";
+import { selectUser, createUser, selectUserForAudio } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
@@ -39,7 +39,7 @@ export const googleCallback = (req, res) => {
 export const success = async (req, res) => {
   const user = req.user;
   try {
-    const select_results = await selectUser(user.username);
+    const select_results = await selectUserForAudio(user.id);
     return res.render("Home", {profile: select_results});
   } catch (error) {
     console.log(error);
