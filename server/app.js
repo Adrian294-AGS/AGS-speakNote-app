@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import router from "../routes/mainRoutes.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-import uploadRouter from "../routes/uploadRoutes.js";
+import subRouter from "../routes/subRoutes.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -21,7 +21,7 @@ app.set("view engine", "hbs");
 app.use(passport.initialize());
 
 app.use("/", router);
-app.use("/home", uploadRouter);
+app.use("/home", subRouter);
 
 app.listen(Port, () => {
   console.log("server started at http://localhost:5000");

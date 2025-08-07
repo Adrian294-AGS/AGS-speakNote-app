@@ -1,5 +1,5 @@
 import express from "express";
-import { login, googleCallback, success, register, signUp, logout, logForm } from "../controller/authController.js";
+import { login, googleCallback, success, register, signUp, logout, logForm} from "../controller/authController.js";
 import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
