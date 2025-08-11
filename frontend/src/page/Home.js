@@ -7,7 +7,7 @@ function Home() {
 
   const [formData, setFormData] = useState({
     username: "",
-    password: "",
+    password: ""
   });
 
   const [error, setError] = useState("");
@@ -26,6 +26,7 @@ function Home() {
       const res = await fetch("http://localhost:5000/signIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
@@ -35,8 +36,8 @@ function Home() {
         setFormData({ username: "", password: "" });
         return;
       }
-
-      navigate("/register")
+      alert(`Welcome ${data.user.username}`);
+      navigate("/main");
     } catch (err) {
       console.error(err);
       setFormData({ username: "", password: "" });
@@ -142,6 +143,7 @@ function Home() {
           />
         </svg>
         <a
+          href=""
           className="text-decoration-none text-white gap-3"
           style={{ marginLeft: "8px" }}
         >

@@ -4,6 +4,10 @@ import {
   generate_access_token,
   generate_refresh_token,
 } from "../Middlewares/generateToken.js";
+import jwt, { decode } from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const login = (req, res) => {
   res.render("login");
@@ -38,13 +42,13 @@ export const googleCallback = (req, res) => {
 
 export const success = async (req, res) => {
   const user = req.user;
-  try {
-    const select_results = await selectUserForAudio(user.id);
-    return res.render("Home", {profile: select_results});
-  } catch (error) {
-    console.log(error);
-    return res.render("login", {msg: "Something went wrong try again"});
-  }
+
+ try {
+  return res.status(200).json({success: true, user: user});
+ } catch (error) {
+  console.log(error);
+  return res.status(500).json({success: false, message: "Something went wrong!!!"});
+ }
 };
 
 //Register Without Google oauth2 APIs
@@ -122,5 +126,28 @@ export const logForm = async (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie("access_token");
   res.clearCookie("refresh_token");
-  return res.redirect("/");
+  return res.status(200).json({success: true, message: "successfully log-out"});
 };
+
+export const refreshToken = async (req, res) => {
+  const token = req.cookie.refresh_token;
+
+  if(!token){
+    return res.status(500).json({success: false, message: "Invalid Refresh Token!!!"});
+  }
+
+  try {
+    jwt.verify(token, process.env.refresh_token, async (error, user) => {
+      if(error){return res.status(500).json({success: false, message: "Token Expired"})};
+      const payload = {id: user.id, username: user.username};
+      const access_token = generate_access_token(payload);
+
+      res.cookie("access_token", access_token, {httpOnly: true, maxAge: 15 * 60 * 1000});
+
+      return res.redirect("/home");
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({success: false, message: "Something Went wrong!!!!"});
+  }
+}
