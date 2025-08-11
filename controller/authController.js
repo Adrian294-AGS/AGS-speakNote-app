@@ -92,15 +92,16 @@ export const register = async (req, res) => {
 export const logForm = async (req, res) => {
   const { username, password } = req.body;
 
+  if(!username || !password) {
+    return res.status(500).json({success: false, message: "Insert all field!!!"});
+  }
+
   try {
     const result = await selectUser(username);
     if (result) {
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
-        return res.render("login", {
-        msg: "Password do not matched!!!!!",
-        username: result.displayName
-        });
+        return res.status(500).json({success: false, message: "Password do not matched!!!"});
       }
 
       const payload = {id: result.Id, username: username};
@@ -112,7 +113,7 @@ export const logForm = async (req, res) => {
 
       return res.redirect("/home");
     }
-    return res.render("login", { msg: `${username} is not registered !!!!` });
+    return res.status(500).json({success: false, message: `${username} is not Registered!!!`});
   } catch (error) {
     console.log(error);
   }
