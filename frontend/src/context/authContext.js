@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -20,8 +20,31 @@ export const AuthProvider = ({ children }) => {
       return alert(`${data.message}`);
     }
   };
+
+  const refresh = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/auth/refresh", {
+        method: "GET",
+        credentials: "include"
+      });
+      const data = await res.json();
+      if (data.success) {
+        setAccessToken(data.access_token);
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ✅ Automatically refresh on page load
+  useEffect(() => {
+    refresh();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ accessToken, login, logout }}>
+    <AuthContext.Provider value={{ accessToken, login, logout, refresh }}>
       {children}
     </AuthContext.Provider>
   );

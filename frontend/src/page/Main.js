@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-
 
 function Main() {
   const [data, setData] = useState({
-    Id: 0,
-    username: ""
+    Id: null,
+    username: "",
   });
   const { accessToken } = useAuth();
-
   const { logout } = useAuth();
-
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -22,38 +19,43 @@ function Main() {
 
   const jwtAuth = async () => {
     try {
-      const res = await fetch("http://localhost:5000/protection",{
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+      const res = await fetch("http://localhost:5000/protection", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const result = await res.json();
+      if (!result.success) {
+        navigate("/");
+        return;
       }
-    });
 
-    const data = await res.json();
-    if(!data.success){
-      alert("Not Authorized!!!");
-      navigate("/");
-      return;
-    }
-
-    setData({Id: data.Id, username: data.username});
-
+      setData({ Id: result.Id, username: result.username });
     } catch (error) {
       console.log(error);
-      alert("ukitnam");
-      navigate("/");
     }
-  }
+  };
 
   useEffect(() => {
-    jwtAuth();
+    if (accessToken) {
+      jwtAuth();
+    }
   }, [accessToken]);
 
   return (
-    <div onClick={onLogout}>
-      {data.Id}
-      {data.username}
-    </div>
-  )
+    accessToken ? (
+      <div onClick={onLogout}>
+        {data.Id} {data.username}
+      </div>
+    ):(
+      <div>
+        <Link to={"/"}>
+          Log-in first
+        </Link>
+      </div>
+    )
+  );
 }
 
-export default Main
+export default Main;

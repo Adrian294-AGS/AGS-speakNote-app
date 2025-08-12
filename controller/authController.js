@@ -5,6 +5,7 @@ import {
   generate_refresh_token,
 } from "../Middlewares/generateToken.js";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -127,7 +128,7 @@ export const logout = (req, res) => {
 };
 
 export const refreshToken = async (req, res) => {
-  const token = req.cookie.refresh_token;
+  const token = req.cookies.refresh_token;
 
   if(!token){
     return res.status(500).json({success: false, message: "Invalid Refresh Token!!!"});
@@ -139,7 +140,7 @@ export const refreshToken = async (req, res) => {
       const payload = {id: user.id, username: user.username};
       const access_token = generate_access_token(payload);
 
-      return res.status(200).json({access_token, testing: false});
+      return res.status(200).json({access_token, success: true});
     })
   } catch (error) {
     console.log(error);

@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.get("/protection", jwt_authenticate);
 
+router.get("/auth/refresh", refreshToken);
+
 router.get("/home", jwt_authenticate, success);
 
 router.get("/auth/google", passport.authenticate('google',{scope:['profile','email']}));
@@ -20,7 +22,6 @@ router.post("/signIn", logForm);
 
 router.get("/logout", logout);
 
-router.get("/refresh", refreshToken);
 
 
 export default router;
