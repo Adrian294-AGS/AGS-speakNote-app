@@ -6,9 +6,7 @@ import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 
 const router = express.Router();
 
-router.get("/", login);
-
-router.get("/signUp", signUp);
+router.get("/protection", jwt_authenticate);
 
 router.get("/home", jwt_authenticate, success);
 

@@ -1,33 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../context/authContext";
 
 
 function Main() {
+  const [data, setData] = useState({
+    Id: 0,
+    username: ""
+  });
+  const { accessToken } = useAuth();
+
+  const { logout } = useAuth();
+
   const navigate = useNavigate();
 
-  const logout = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/logout",{
-        method: "GET",
-        credentials: "include"
-      });
+  const onLogout = () => {
+    logout();
+    navigate("/");
+    return;
+  };
 
-      const data = await res.json();
-      if(!data.success){
-        alert("log-out prolem");
-        return;
+  const jwtAuth = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/protection",{
+      headers: {
+        Authorization: `Bearer ${accessToken}`
       }
-      alert(`${data.message}`);
+    });
+
+    const data = await res.json();
+    if(!data.success){
+      alert("Not Authorized!!!");
       navigate("/");
+      return;
+    }
+
+    setData({Id: data.Id, username: data.username});
+
     } catch (error) {
       console.log(error);
+      alert("ukitnam");
+      navigate("/");
     }
   }
 
+  useEffect(() => {
+    jwtAuth();
+  }, [accessToken]);
 
   return (
-    <div onClick={logout}>
-      Log-out
+    <div onClick={onLogout}>
+      {data.Id}
+      {data.username}
     </div>
   )
 }

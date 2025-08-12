@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 function Home() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -36,7 +38,7 @@ function Home() {
         setFormData({ username: "", password: "" });
         return;
       }
-      alert(`Welcome ${data.user.username}`);
+      login(data.access_token);
       navigate("/main");
     } catch (err) {
       console.error(err);
