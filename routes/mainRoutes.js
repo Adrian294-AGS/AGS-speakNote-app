@@ -22,6 +22,4 @@ router.post("/signIn", logForm);
 
 router.get("/logout", logout);
 
-
-
 export default router;
