@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Register from "./page/Register";
 import Main from "./page/Main";
 
+
 function App() {
   return (
     <div className="layout" style={{height:"100vh"}}>

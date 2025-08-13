@@ -1,12 +1,8 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext,useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const login = (token) => {
-    setAccessToken(token);
-  };
 
   const logout = async () => {
     const res = await fetch("http://localhost:5000/logout", {
@@ -16,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
     const data = await res.json();
     if (data) {
-      setAccessToken(null);
+      localStorage.removeItem("token");
       return alert(`${data.message}`);
     }
   };
@@ -29,7 +25,7 @@ export const AuthProvider = ({ children }) => {
       });
       const data = await res.json();
       if (data.success) {
-        setAccessToken(data.access_token);
+        localStorage.setItem("token", data.access_token);
       } else {
         console.log(data.message);
       }
@@ -40,11 +36,11 @@ export const AuthProvider = ({ children }) => {
 
   // ✅ Automatically refresh on page load
   useEffect(() => {
-    refresh();
+   refresh();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ accessToken, login, logout, refresh }}>
+    <AuthContext.Provider value={{ logout, refresh }}>
       {children}
     </AuthContext.Provider>
   );

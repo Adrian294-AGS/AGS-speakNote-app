@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+
 
 function Home() {
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -20,6 +19,15 @@ function Home() {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      navigate("/main");
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +46,7 @@ function Home() {
         setFormData({ username: "", password: "" });
         return;
       }
-      login(data.access_token);
+      localStorage.setItem("token", data.access_token);
       navigate("/main");
     } catch (err) {
       console.error(err);
@@ -47,8 +55,8 @@ function Home() {
     }
   };
 
-  const googleSignin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+  const googleSignin = async () => {
+   window.location.href = "http://localhost:5000/auth/google";
   }
 
   return (
@@ -144,13 +152,9 @@ function Home() {
             d="M43.6 20.5h-1.9V20H24v8h11.3c-1.2 3.4-4.3 6.2-8.1 6.8v6.7h7.6c4.4-4.1 7-10.1 7-16.5 0-1.2-.1-2.1-.4-3.5z"
           />
         </svg>
-        <a
-          href=""
-          className="text-decoration-none text-white gap-3"
-          style={{ marginLeft: "8px" }}
-        >
+        
           <span>Sign in With Google</span>
-        </a>
+        
       </div>
     </div>
   );

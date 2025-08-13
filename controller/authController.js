@@ -17,7 +17,7 @@ export const signUp = (req, res) => {
   res.render("register");
 };
 
-//Register using Google-oauth2
+//Google-oauth2 callBack
 export const googleCallback = (req, res) => {
   console.log(req.user);
   const payload = { id: req.user.Id, username: req.user.displayName };
@@ -25,30 +25,15 @@ export const googleCallback = (req, res) => {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 
-    res.cookie("access_token", access_token, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000,
-    });
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("/testing");
+    return res.redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
   }
-};
-
-export const success = async (req, res) => {
-  const user = req.user;
-
- try {
-  return res.status(200).json({success: true, user: user});
- } catch (error) {
-  console.log(error);
-  return res.status(500).json({success: false, message: "Something went wrong!!!"});
- }
 };
 
 //Register Without Google oauth2 APIs
@@ -102,7 +87,9 @@ export const logForm = async (req, res) => {
 
   try {
     const result = await selectUser(username);
-    if (result) {
+    if(result.password == null){
+      return res.status(500).json({success: false, message: "Sign-in with Google"});
+    } else if (result) {
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
         return res.status(500).json({success: false, message: "Password do not matched!!!"});

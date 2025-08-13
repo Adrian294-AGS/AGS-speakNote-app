@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import LogInFirst from "../components/LogInFirst";
 
 function Main() {
+  const [accessToken] = useState(localStorage.getItem("token"));
+
   const [data, setData] = useState({
     Id: null,
     username: "",
   });
-  const { accessToken } = useAuth();
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   const onLogout = () => {
+    localStorage.removeItem("token");
     logout();
     navigate("/");
     return;
@@ -24,13 +27,11 @@ function Main() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
       const result = await res.json();
       if (!result.success) {
         navigate("/");
         return;
       }
-
       setData({ Id: result.Id, username: result.username });
     } catch (error) {
       console.log(error);
@@ -38,10 +39,10 @@ function Main() {
   };
 
   useEffect(() => {
-    if (accessToken) {
+    if(accessToken){
       jwtAuth();
-    }
-  }, [accessToken]);
+    } 
+  });
 
   return (
     accessToken ? (
@@ -50,9 +51,7 @@ function Main() {
       </div>
     ):(
       <div>
-        <Link to={"/"}>
-          Log-in first
-        </Link>
+       <LogInFirst />
       </div>
     )
   );
