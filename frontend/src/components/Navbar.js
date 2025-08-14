@@ -6,7 +6,7 @@ function Navbar() {
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container text-dark">
         <Link className="navbar-brand" to="/">
-          <h2 style={{color:"gre", fontWeight:"bold"}}>AGS</h2>
+          <h2 style={{color:"green", fontWeight:"bold"}}>AGS</h2>
         </Link>
         <button
           className="navbar-toggler"

@@ -41,27 +41,27 @@ export const googleCallback = (req, res) => {
 export const register = async (req, res) => {
   const { username, password, repeatPassword } = req.body;
 
-  if(username.length < 5) return res.render("register", {msg: "username is too short"});
+  if(username.length < 5) {
+    return res.status(500).json({success: false, message: "Username is too short!!!!", data: ""});
+  } else if(password.length < 5){
+    return res.status(500).json({success: false, message: "Password is too short and weak!!!!", data: username});
+  }
 
   try {
     const selectResult = await selectUser(username);
     if (selectResult) {
-      return res.render("register", {
-        msg: `${username} is All ready created`,
+      return res.status(500).json({
+        success: false,
+        message: `${username} is Already taken`,
+        data: ""
       });
     }
-    const user = {
-      username: username,
-    };
+   
     if (password != repeatPassword) {
-      return res.render("register", {
-        msg: "Password do not match",
-        profile: user,
-      });
-    } else if (password.length < 5) {
-      return res.render("register", {
-        msg: "Password is too short!!!!",
-        profile: user,
+      return res.status(500).json({
+        success: false,
+        message: "Password do not matched!!!!!",
+        data: username
       });
     }
     let hashedPassword = await bcrypt.hash(password, 8);
@@ -71,9 +71,13 @@ export const register = async (req, res) => {
     };
     const insertResult = await createUser("tblusers", newUser);
     console.log("Inserted success ID: ", insertResult.insertId);
-    return res.redirect("/");
+    return res.status(200).json({
+      success: true,
+      message: "Success Sign-Up"
+    });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ Error: `Error: ${error}`});
   }
 };
 
