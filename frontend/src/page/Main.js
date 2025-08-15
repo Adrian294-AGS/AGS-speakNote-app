@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import LogInFirst from "../components/LogInFirst";
 
@@ -12,7 +12,9 @@ function Main() {
     file: null
   });
 
-  const [fileData, setFileData] = useState([]);
+  const [transcriptions, setTranscription] = useState(null);
+  const [audioId, setAudioId] = useState(Number);
+  const [error, setError] = useState();
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -34,12 +36,36 @@ function Main() {
         },
         body: JSON.stringify(data)
       });
+      
+      const data = await res.json();
 
-
+      if(!data.success) {
+        setError(data.message || data.Error);
+        setData({file: null});
+        return;
+      }
+      setAudioId(data.Id);
     } catch (error) {
       console.log(error);
     }
   }
+
+  const fetchAudio = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/fetchAudio",{
+        method: "GET",
+        body: JSON.stringify(audioId)
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if(audioId){
+      fetchAudio();
+    }
+  }, [audioId]);
 
   const jwtAuth = async () => {
     try {
@@ -81,20 +107,11 @@ function Main() {
         </button>
       </form>
 
-      <h3 className="mt-4">Uploaded Files</h3>
+      <h3 className="mt-4">Transcriptions</h3>
       <ul>
-        {fileData &&
-          fileData.map((f) => (
-            <li key={f.Id}>
-              <a
-                href={`http://localhost:5000/${f.filepath}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {f.filename}
-              </a>{" "}
-            </li>
-          ))}
+        {transcriptions && (
+          transcriptions.result_text
+        )}
       </ul>
     </div>
   ) : (

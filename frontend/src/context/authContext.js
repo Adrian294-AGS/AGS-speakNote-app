@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   // ✅ Automatically refresh on page load
   useEffect(() => {
    refresh();
-  }, []);
+  });
 
   return (
     <AuthContext.Provider value={{ logout, refresh }}>
