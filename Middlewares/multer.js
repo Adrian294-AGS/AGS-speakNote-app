@@ -4,12 +4,12 @@ import fs from "fs";
 
 const file_path = path.resolve("upload");
 
-if(!fs.existsSync(file_path)){
-    fs.mkdir(file_path,{recursive:true});
+if (!fs.existsSync(file_path)) {
+    fs.mkdirSync(file_path, { recursive: true });
 }
 
 const storage = multer.diskStorage({
-    destination: (req, res, cb) => {
+    destination: (req, file, cb) => {
         cb(null, file_path);
     },
     filename: (req, file, cb) => {

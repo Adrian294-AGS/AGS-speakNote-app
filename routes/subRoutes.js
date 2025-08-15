@@ -4,6 +4,6 @@ import { uploadController } from "../controller/fileController.js";
 
 const subRouter = express.Router();
 
-subRouter.post("/transcriptions", upload.single("audioFiles"), uploadController);
+subRouter.post("/transcriptions", upload.single("file"), uploadController);
 
 export default subRouter;
