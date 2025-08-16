@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./page/Home";
-import Navbar from "./components/Navbar";
 import Register from "./page/Register";
 import Main from "./page/Main";
 
@@ -8,7 +7,6 @@ function App() {
   return (
     <div className="layout" style={{ height: "100vh",display: "flex", flexDirection: "column"  }}>
         <BrowserRouter>
-          <Navbar />
           <div className="container mt-2" style={{
             flex: 1,              
             overflowY: "auto",
