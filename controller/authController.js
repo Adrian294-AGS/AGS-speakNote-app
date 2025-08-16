@@ -41,10 +41,18 @@ export const googleCallback = (req, res) => {
 export const register = async (req, res) => {
   const { username, password, repeatPassword } = req.body;
 
-  if(username.length < 5) {
-    return res.status(500).json({success: false, message: "Username is too short!!!!", data: ""});
-  } else if(password.length < 5){
-    return res.status(500).json({success: false, message: "Password is too short and weak!!!!", data: username});
+  if (username.length < 5) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Username is too short!!!!", data: "" });
+  } else if (password.length < 5) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Password is too short and weak!!!!",
+        data: username,
+      });
   }
 
   try {
@@ -53,15 +61,15 @@ export const register = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: `${username} is Already taken`,
-        data: ""
+        data: "",
       });
     }
-   
+
     if (password != repeatPassword) {
       return res.status(500).json({
         success: false,
         message: "Password do not matched!!!!!",
-        data: username
+        data: username,
       });
     }
     let hashedPassword = await bcrypt.hash(password, 8);
@@ -73,11 +81,11 @@ export const register = async (req, res) => {
     console.log("Inserted success ID: ", insertResult.insertId);
     return res.status(200).json({
       success: true,
-      message: "Success Sign-Up"
+      message: "Success Sign-Up",
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ Error: `Error: ${error}`});
+    return res.status(500).json({ Error: `Error: ${error}` });
   }
 };
 
@@ -85,29 +93,42 @@ export const register = async (req, res) => {
 export const logForm = async (req, res) => {
   const { username, password } = req.body;
 
-  if(!username || !password) {
-    return res.status(500).json({success: false, message: "Insert all field!!!"});
+  if (!username || !password) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Insert all field!!!" });
   }
 
   try {
     const result = await selectUser(username);
-    if(result.password == null){
-      return res.status(500).json({success: false, message: "Sign-in with Google"});
-    } else if (result) {
+    if (result) {
+      if (!result.password) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Sign-in with Google" });
+      }
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
-        return res.status(500).json({success: false, message: "Password do not matched!!!"});
+        return res
+          .status(500)
+          .json({ success: false, message: "Wrong Password!!!!!" });
       }
 
-      const payload = {id: result.Id, username: username};
+      const payload = { id: result.Id, username: username };
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
 
-      res.cookie("refresh_token", refresh_token, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000});
+      res.cookie("refresh_token", refresh_token, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
 
-      return res.status(200).json({access_token, success: true});
+      return res.status(200).json({ access_token, success: true });
+    } else {
+      return res
+      .status(500)
+      .json({ success: false, message: `${username} is not Registered!!!` });
     }
-    return res.status(500).json({success: false, message: `${username} is not Registered!!!`});
   } catch (error) {
     console.log(error);
   }
@@ -115,26 +136,36 @@ export const logForm = async (req, res) => {
 
 export const logout = (req, res) => {
   res.clearCookie("refresh_token");
-  return res.status(200).json({success: true, message: "successfully log-out"});
+  return res
+    .status(200)
+    .json({ success: true, message: "successfully log-out" });
 };
 
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
 
-  if(!token){
-    return res.status(500).json({success: false, message: "Invalid Refresh Token!!!"});
+  if (!token) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Invalid Refresh Token!!!" });
   }
 
   try {
     jwt.verify(token, process.env.refresh_token, async (error, user) => {
-      if(error){return res.status(500).json({success: false, message: "Token Expired"})};
-      const payload = {id: user.id, username: user.username};
+      if (error) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Token Expired" });
+      }
+      const payload = { id: user.id, username: user.username };
       const access_token = generate_access_token(payload);
 
-      return res.status(200).json({access_token, success: true});
-    })
+      return res.status(200).json({ access_token, success: true });
+    });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({success: false, message: "Something Went wrong!!!!"});
+    return res
+      .status(500)
+      .json({ success: false, message: "Something Went wrong!!!!" });
   }
-}
+};

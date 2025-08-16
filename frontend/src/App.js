@@ -6,10 +6,14 @@ import Main from "./page/Main";
 
 function App() {
   return (
-    <div className="layout" style={{ height: "100vh" }}>
+    <div className="layout" style={{ height: "100vh",display: "flex", flexDirection: "column"  }}>
         <BrowserRouter>
           <Navbar />
-          <div className="container mt-4">
+          <div className="container mt-2" style={{
+            flex: 1,              
+            overflowY: "auto",
+            scrollbarWidth: "none"
+          }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />

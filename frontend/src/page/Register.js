@@ -46,7 +46,7 @@ function Register() {
 
   return (
     <div className="container-fluid min-vh-50 d-flex align-items-center justify-content-center">
-      <div className="row w-100 justify-content-center p-3">
+      <div className="row justify-content-center p-4"  style={{width: "250%"}}>
         <div
           className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 px-4"
           id="cardCol1"

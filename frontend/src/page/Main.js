@@ -17,7 +17,7 @@ function Main() {
 
   const [transcriptions, setTranscription] = useState(null);
   const [audioId, setAudioId] = useState(null);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -31,6 +31,12 @@ function Main() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if(!audioFile){
+      setError("No Audio Uploaded");
+      setLoading(false);
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -48,7 +54,7 @@ function Main() {
 
       if (!result.success) {
         setError(result.message || result.Error);
-        setAudioFile([]);
+        setAudioFile("");
         return;
       }
       setAudioId(result.Id);

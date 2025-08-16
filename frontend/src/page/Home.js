@@ -42,7 +42,7 @@ function Home() {
       const data = await res.json();
       if (!data.success) {
         setError(data.message);
-        setFormData({ username: "", password: "" });
+        setFormData({username: "", password: ""});
         return;
       }
       localStorage.setItem("token", data.access_token);
