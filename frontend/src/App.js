@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./page/Home";
 import Register from "./page/Register";
 import Main from "./page/Main";
+import History from "./page/History";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
               <Route path="/main" element={<Main />} />
+              <Route path="/history" element={<History />} />
             </Routes>
           </div>
         </BrowserRouter>

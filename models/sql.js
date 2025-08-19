@@ -25,3 +25,8 @@ export const selectUserForAudio = async (params) => {
     return results[0];
 }
 
+export const fetchAllAudio = async (params) => {
+    const [result] = await db.query("SELECT tblusers.Id, tblaudio.Id, wav_file, result_text, tblaudio.created_at from tblusers INNER JOIN tblaudio ON tblusers.Id = tblaudio.user_id WHERE tblusers.Id = ?", [params]);
+    return result;
+}
+

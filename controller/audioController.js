@@ -1,4 +1,4 @@
-import { selectAudio } from "../models/sql.js";
+import { selectAudio, fetchAllAudio } from "../models/sql.js";
 
 export const fetchAudio = async (req, res) => {
     const { Id } = req.params;
@@ -14,5 +14,15 @@ export const fetchAudio = async (req, res) => {
         console.log(error);
         return res.status(500).json({Error: `Error: ${error}`});
     }
+};
 
-}
+export const fetchAllAudio = async (req, res) => {
+    const {Id, username} = req.body;
+
+    try {
+        const fetchResult = await fetchAllAudio(Id);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({Error: `Error: ${error}`});
+    }
+};

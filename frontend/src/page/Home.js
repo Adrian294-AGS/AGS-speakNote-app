@@ -25,6 +25,7 @@ function Home() {
     const token = params.get("token");
     if (token) {
       localStorage.setItem("token", token);
+      localStorage.setItem("navbarOnChange", true);
       navigate("/main");
     }
   });

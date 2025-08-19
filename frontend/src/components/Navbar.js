@@ -34,13 +34,13 @@ function Navbar() {
                 {" "}
                 {/* or just remove ms-auto */}
                 <li className="nav-item">
-                  <Link className="nav-link" to="#">
-                    History
+                  <Link className="nav-link" to="/main">
+                    Home
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="#">
-                    Download
+                  <Link className="nav-link" to="/history">
+                    History
                   </Link>
                 </li>
                 <li className="nav-item">
