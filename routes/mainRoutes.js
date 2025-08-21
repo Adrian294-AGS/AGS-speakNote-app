@@ -3,7 +3,7 @@ import { login, googleCallback, register, signUp, logout, logForm, refreshToken}
 import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
-import { fetchAudio, fetchAllAudio } from "../controller/audioController.js";
+import { fetchAudio, fetchTranscription } from "../controller/audioController.js";
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.post("/register", register);
 
 router.get("/logout", logout);
 
-router.post("/fetchAllAudio", fetchAllAudio);
+router.get("/fetchAllAudio/:Id", fetchTranscription);
 
 router.get("/fetchAudio/:Id", fetchAudio);
 

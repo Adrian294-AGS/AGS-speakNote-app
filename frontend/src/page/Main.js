@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
+import Loading from "../components/Loading";
 
 function Main() {
-  const [accessToken] = useState(localStorage.getItem("token"));
+  const accessToken = localStorage.getItem("token");
 
   const [data, setData] = useState({
     Id: null,
@@ -126,15 +127,8 @@ function Main() {
     <div>
       <Navbar />
       {loading ? (
-      <div
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ height: "30vh", marginTop: "10%" }}
-      >
-        <div
-          className="spinner-border text-primary mb-3"
-          style={{ width: "4rem", height: "4rem" }}
-        ></div>
-        <h5 className="fw-bold text-primary">Uploading, please wait...</h5>
+      <div>
+        <Loading />
       </div>
     ) : (
       <div>
