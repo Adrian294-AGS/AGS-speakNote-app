@@ -105,6 +105,7 @@ function Main() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        credentials: "include"
       });
       const result = await res.json();
       if (!result.success) {

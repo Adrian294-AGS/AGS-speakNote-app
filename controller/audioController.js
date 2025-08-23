@@ -1,4 +1,4 @@
-import { selectAudio, fetchAllAudio } from "../models/sql.js";
+import { selectAudio, fetchAllAudio, audioDelete } from "../models/sql.js";
 
 export const fetchAudio = async (req, res) => {
     const { Id } = req.params;
@@ -28,5 +28,20 @@ export const fetchTranscription = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({Error: `Error: ${error}`});
+    }
+};
+
+export const deleteAudio = async (req, res) => {
+    const { Id } = req.params;
+
+    try {
+        const deleteResult = await audioDelete(Id);
+        if(deleteResult.affectedRows){
+            return res.status(200).json({success: true});
+        }
+        return res.status(404).json({success: false, message: `Id not Found`});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ERROR: `Error: ${error}`});
     }
 };
