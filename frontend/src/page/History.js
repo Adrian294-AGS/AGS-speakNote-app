@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
@@ -76,26 +76,38 @@ function History() {
     const transId = Id;
     try {
       const res = await fetch(`http://localhost:5000/deleteAudio/${transId}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       const data = await res.json();
 
-      if(!data.success){
+      if (!data.success) {
         setError(data.message);
         return;
       }
 
-      setChanges(prev => !prev);
-
+      setChanges((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleCopy = async (Id) => {
+    const transId = Id;
+    try {
+      const res = await fetch(`http://localhost:5000/copyText/${transId}`, {
+        method: "GET",
+      });
+      const data = await res.json();
 
-  }
+      if (!data) {
+        setError(data.message);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -164,7 +176,10 @@ function History() {
 
                         {/* Card Footer */}
                         <div className="card-footer bg-white d-flex flex-wrap gap-2 justify-content-end">
-                          <button className="btn btn-sm btn-outline-secondary" onClick={() => handleCopy(t.Id)}>
+                          <button
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={() => handleCopy(t.Id)}
+                          >
                             Copy text
                           </button>
                           <a className="btn btn-sm btn-primary" href="#">
@@ -172,7 +187,7 @@ function History() {
                           </a>
                           <button
                             className="btn btn-sm btn-danger"
-                            onClick={()=>handleDelete(t.Id)}
+                            onClick={() => handleDelete(t.Id)}
                           >
                             Delete
                           </button>
@@ -199,9 +214,11 @@ function History() {
                           You don’t have any converted audio yet. Upload an
                           audio file to get started with transcription.
                         </p>
-                        <button className="btn btn-primary mt-3">
-                          <i className="bi bi-upload me-2"></i> Upload Audio
-                        </button>
+                        <Link to={"/main"}>
+                          <button className="btn btn-primary mt-3">
+                            <i className="bi bi-upload me-2"></i> Upload Audio
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

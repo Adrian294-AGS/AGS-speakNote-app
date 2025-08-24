@@ -140,7 +140,7 @@ function Main() {
                 <div className="card-body p-4">
                   {/* Title */}
                   <h2 className="text-center fw-bold text-primary mb-4">
-                    🎵 Audio Upload
+                    🎙️ Audio Upload
                   </h2>
 
                   {/* Error Alert */}
