@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
@@ -9,6 +9,7 @@ function History() {
   const [profile, setProfile] = useState({
     Id: null,
     username: "",
+    photo: null
   });
   const navigate = useNavigate();
   const [transcription, setTranscription] = useState([]);
@@ -30,7 +31,7 @@ function History() {
         navigate("/");
         return;
       }
-      setProfile({ Id: result.Id, username: result.username });
+      setProfile({ Id: result.Id, username: result.username, photo: result.photo});
     } catch (error) {
       console.log(error);
     }
@@ -113,10 +114,10 @@ function History() {
     <div>
       {accessToken ? (
         <div>
-          <Navbar />
+          <Navbar username={profile.username} photo={profile.photo}/>
           <div className="container py-4">
             {/* Header */}
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-3 gap-3">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-1 gap-3">
               <div>
                 <h2 className="mb-0">Transcriptions</h2>
                 <small className="text-muted">
@@ -200,7 +201,7 @@ function History() {
                   <div className="container py-5 d-flex justify-content-center align-items-center">
                     <div
                       className="card shadow-sm border-0 text-center p-5"
-                      style={{ maxWidth: "500px", width: "100%" }}
+                      style={{ maxWidth: "500px", width: "100%"}}
                     >
                       <div className="card-body">
                         <div className="mb-4">

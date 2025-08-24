@@ -11,12 +11,11 @@ function Main() {
   const [data, setData] = useState({
     Id: null,
     username: "",
+    photo: null
   });
 
   const [loading, setLoading] = useState(false);
-
   const [audioFile, setAudioFile] = useState("");
-
   const [transcriptions, setTranscription] = useState(null);
   const [audioId, setAudioId] = useState(null);
   const [error, setError] = useState(null);
@@ -112,7 +111,7 @@ function Main() {
         navigate("/");
         return;
       }
-      setData({ Id: result.Id, username: result.username });
+      setData({ Id: result.Id, username: result.username, photo: result.photo});
     } catch (error) {
       console.log(error);
     }
@@ -126,7 +125,7 @@ function Main() {
 
   return accessToken ? (
     <div>
-      <Navbar />
+      <Navbar username={data.username} photo={data.photo}/>
       {loading ? (
       <div>
         <Loading />
@@ -142,7 +141,6 @@ function Main() {
                   <h2 className="text-center fw-bold text-primary mb-4">
                     🎙️ Audio Upload
                   </h2>
-
                   {/* Error Alert */}
                   {error && (
                     <div

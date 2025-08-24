@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ username, photo }) {
   const [condition, setCondition] = useState(false);
   const changeNavbar = localStorage.getItem("navbarOnChange");
 
@@ -30,9 +30,7 @@ function Navbar() {
         {condition ? (
           <div>
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto">
-                {" "}
-                {/* or just remove ms-auto */}
+              <ul className="navbar-nav me-auto gap-2">
                 <li className="nav-item">
                   <Link className="nav-link" to="/main">
                     Home
@@ -43,10 +41,30 @@ function Navbar() {
                     History
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="#">
-                    Profile
-                  </Link>
+                <li className="nav-item d-flex align-items-center gap-2">
+                  {/* Username */}
+                  <span style={{ color: "green", fontWeight: "bold" }}>
+                    {username}
+                  </span>
+
+                  {/* User photo OR icon */}
+                  {photo ? (
+                    <img
+                      src={photo}
+                      alt="User"
+                      className="rounded-circle me-2"
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <i
+                      className="bi bi-person-circle me-2"
+                      style={{ fontSize: "1.8rem", color: "gray" }}
+                    ></i>
+                  )}
                 </li>
               </ul>
             </div>
