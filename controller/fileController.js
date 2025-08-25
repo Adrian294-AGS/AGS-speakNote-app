@@ -2,7 +2,8 @@ import path from "path";
 import { spawn } from "child_process";
 import fs from "fs";
 import { convertToWav } from "../Middlewares/convertToWav.js";
-import { createUser, selectAudio, selectUser } from "../models/sql.js";
+import { createUser } from "../models/sql.js";
+import { generateToTxt } from "../Middlewares/fileConverter.js";
 
 export const uploadController = async (req, res) => {
   const audio = req.file;
@@ -29,11 +30,13 @@ export const uploadController = async (req, res) => {
     });
 
     py.on("close", async () => {
+      const txtFilePath = await generateToTxt(audio.originalname, result.trim());
       const insert_audio = {
         user_Id: Id,
         wav_file: wavFile,
         result_text: result.trim(),
-        display_name: username
+        display_name: username,
+        txt_file_path: txtFilePath
       }
       const insert_result = await createUser("tblaudio", insert_audio);
       fs.unlinkSync(inputPath);
