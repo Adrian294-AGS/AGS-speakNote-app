@@ -114,7 +114,7 @@ function History() {
     <div>
       {accessToken ? (
         <div>
-          <Navbar username={profile.username} photo={profile.photo}/>
+          <Navbar username={profile.username} photo={profile.photo} Id={profile.Id} />
           <div className="container py-4">
             {/* Header */}
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-1 gap-3">
@@ -183,8 +183,8 @@ function History() {
                           >
                             Copy text
                           </button>
-                          <a className="btn btn-sm btn-primary" href="#">
-                            Download audio
+                          <a className="btn btn-sm btn-primary" href={`http://localhost:5000/${t.txt_file_path}`} download>
+                            PDF
                           </a>
                           <button
                             className="btn btn-sm btn-danger"

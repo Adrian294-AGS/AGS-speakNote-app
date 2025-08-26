@@ -1,5 +1,22 @@
-import {writeFileSync} from "fs";
+import {writeFileSync, createWriteStream, readFileSync} from "fs";
 import path from "path";
+import PDFDocument from "pdfkit";
+
+const generateToPdf = async (txtPath, pdfPath) => {
+    const doc = new PDFDocument();
+    const writeStream = createWriteStream(pdfPath);
+    doc.pipe(writeStream);
+    const content = readFileSync(txtPath, "utf-8");
+    doc.font("Times-Roman").fontSize(12).text(content, {
+        width: 410,
+        align: "justify"
+    });
+
+    doc.end();
+    writeStream.on("finish", () => {
+        console.log(`PDF created: ${pdfPath}`);
+    });
+};
 
 export const generateToTxt = async (audioName, content) => {
     const file = `${audioName}.pdf`;
@@ -7,7 +24,8 @@ export const generateToTxt = async (audioName, content) => {
 
     try {
         writeFileSync(file_path, content);
-        return file_path;
+        generateToPdf(file_path, file_path);
+        return file;
     } catch (error) {
         console.log(error);
     }

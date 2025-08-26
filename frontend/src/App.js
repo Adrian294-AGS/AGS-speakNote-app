@@ -3,6 +3,7 @@ import Home from "./page/Home";
 import Register from "./page/Register";
 import Main from "./page/Main";
 import History from "./page/History";
+import Profile from "./page/Profile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/main" element={<Main />} />
               <Route path="/history" element={<History />} />
+              <Route path="/profile/:Id" element={<Profile />} />
             </Routes>
           </div>
         </BrowserRouter>

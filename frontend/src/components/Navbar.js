@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar({ username, photo }) {
+function Navbar({ username, photo, Id }) {
   const [condition, setCondition] = useState(false);
   const changeNavbar = localStorage.getItem("navbarOnChange");
 
@@ -13,24 +13,31 @@ function Navbar({ username, photo }) {
   });
 
   return (
-    <nav className="navbar navbar-expand-lg">
-      <div className="container text-dark">
-        <Link className="navbar-brand" to="/">
-          <h2 style={{ color: "green", fontWeight: "bold" }}>AGS</h2>
+   <nav className="navbar navbar-expand-lg bg-light shadow-sm">
+      <div className="container">
+        {/* Brand */}
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+          <h2 className="m-0 fw-bold text-success">AGS</h2>
         </Link>
+
+        {/* Toggler */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {condition ? (
-          <div>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto gap-2">
+        {/* Navbar Links */}
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto align-items-center gap-3">
+            {condition ? (
+              <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/main">
                     Home
@@ -41,38 +48,35 @@ function Navbar({ username, photo }) {
                     History
                   </Link>
                 </li>
+                {/* Profile */}
                 <li className="nav-item d-flex align-items-center gap-2">
-                  {/* Username */}
-                  <span style={{ color: "green", fontWeight: "bold" }}>
-                    {username}
-                  </span>
-
-                  {/* User photo OR icon */}
-                  {photo ? (
-                    <img
-                      src={photo}
-                      alt="User"
-                      className="rounded-circle me-2"
-                      style={{
-                        width: "35px",
-                        height: "35px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <i
-                      className="bi bi-person-circle me-2"
-                      style={{ fontSize: "1.8rem", color: "gray" }}
-                    ></i>
-                  )}
+                  <Link
+                    to={`/profile/${Id}`}
+                    className="d-flex align-items-center text-decoration-none gap-2"
+                  >
+                    <span className="fw-bold text-success">{username}</span>
+                    {photo ? (
+                      <img
+                        src={photo}
+                        alt="User"
+                        className="rounded-circle border"
+                        style={{
+                          width: "35px",
+                          height: "35px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <i
+                        className="bi bi-person-circle"
+                        style={{ fontSize: "1.8rem", color: "gray" }}
+                      ></i>
+                    )}
+                  </Link>
                 </li>
-              </ul>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto">
+              </>
+            ) : (
+              <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/">
                     Log-In
@@ -88,10 +92,10 @@ function Navbar({ username, photo }) {
                     About
                   </Link>
                 </li>
-              </ul>
-            </div>
-          </div>
-        )}
+              </>
+            )}
+          </ul>
+        </div>
       </div>
     </nav>
   );
