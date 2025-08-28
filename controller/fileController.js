@@ -8,7 +8,7 @@ import { generateToTxt } from "../Middlewares/fileConverter.js";
 export const uploadController = async (req, res) => {
   const audio = req.file;
   const inputPath = path.resolve(audio.path);
-  const wavFile = `${audio.originalname}.wav`;
+  const wavFile = `${audio.filename}.wav`;
   const wavPath = path.resolve("upload", wavFile);
   const ffmpegPath = "C:/ffmpeg/ffmpeg-7.1.1-essentials_build/bin/ffmpeg.exe";
   const {Id, username} = req.body;
@@ -30,7 +30,7 @@ export const uploadController = async (req, res) => {
     });
 
     py.on("close", async () => {
-      const txtFilePath = await generateToTxt(audio.originalname, result.trim());
+      const txtFilePath = await generateToTxt(audio.filename, result.trim());
       const insert_audio = {
         user_Id: Id,
         wav_file: wavFile,

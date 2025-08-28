@@ -52,7 +52,7 @@ export const copyText = async (req, res) => {
 
     try {
         const selectResult = await selectAudio(Id);
-        if(!selectAudio){
+        if(!selectResult){
             return res.status(404).json({success: false, message: `Id not found`});
         }
         clipboard.writeSync(selectResult.result_text);

@@ -7,7 +7,7 @@ dotenv.config({path: "./.env"});
 export const jwt_authenticate = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    if(!token) {return res.status(500).json({success: false})};
+    if(!token) {return res.status(500).json({success: false, message: "Access token expired"})};
     try {
         jwt.verify(token, process.env.access_token, async (error, User) => {
             if(error){return console.log(error)};

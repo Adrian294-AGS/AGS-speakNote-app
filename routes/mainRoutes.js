@@ -1,9 +1,10 @@
 import express from "express";
-import { login, googleCallback, register, signUp, logout, logForm, refreshToken} from "../controller/authController.js";
+import {googleCallback, register, logout, logForm, refreshToken} from "../controller/authController.js";
 import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
+import { fetchUser } from "../controller/userController.js";
 
 const router = express.Router();
 
@@ -20,6 +21,8 @@ router.post("/signIn", logForm);
 router.post("/register", register);
 
 router.get("/logout", logout);
+
+router.get("/fetchUsers/:Id", fetchUser);
 
 router.get("/fetchAllAudio/:Id", fetchTranscription);
 

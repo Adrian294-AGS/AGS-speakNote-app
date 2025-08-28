@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
@@ -9,7 +9,7 @@ function History() {
   const [profile, setProfile] = useState({
     Id: null,
     username: "",
-    photo: null
+    photo: null,
   });
   const navigate = useNavigate();
   const [transcription, setTranscription] = useState([]);
@@ -31,7 +31,11 @@ function History() {
         navigate("/");
         return;
       }
-      setProfile({ Id: result.Id, username: result.username, photo: result.photo});
+      setProfile({
+        Id: result.Id,
+        username: result.username,
+        photo: result.photo,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +118,11 @@ function History() {
     <div>
       {accessToken ? (
         <div>
-          <Navbar username={profile.username} photo={profile.photo} Id={profile.Id} />
+          <Navbar
+            username={profile.username}
+            photo={profile.photo}
+            Id={profile.Id}
+          />
           <div className="container py-4">
             {/* Header */}
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-1 gap-3">
@@ -124,6 +132,20 @@ function History() {
                   Audio name • Transcription • Date
                 </small>
               </div>
+              {error && (
+                <div
+                  className="alert alert-danger alert-dismissible fade show text-center"
+                  role="alert"
+                >
+                  {error}
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                  ></button>
+                </div>
+              )}
               <div className="d-flex flex-column flex-sm-row gap-2 w-100 w-md-auto">
                 <input
                   type="search"
@@ -170,9 +192,6 @@ function History() {
                           >
                             {t.result_text}
                           </p>
-                          <button className="btn btn-sm btn-outline-primary">
-                            Read more
-                          </button>
                         </div>
 
                         {/* Card Footer */}
@@ -183,7 +202,11 @@ function History() {
                           >
                             Copy text
                           </button>
-                          <a className="btn btn-sm btn-primary" href={`http://localhost:5000/${t.txt_file_path}`} download>
+                          <a
+                            className="btn btn-sm btn-primary"
+                            href={`http://localhost:5000/${t.txt_file_path}`}
+                            download
+                          >
                             PDF
                           </a>
                           <button
@@ -201,7 +224,7 @@ function History() {
                   <div className="container py-5 d-flex justify-content-center align-items-center">
                     <div
                       className="card shadow-sm border-0 text-center p-5"
-                      style={{ maxWidth: "500px", width: "100%"}}
+                      style={{ maxWidth: "500px", width: "100%" }}
                     >
                       <div className="card-body">
                         <div className="mb-4">
