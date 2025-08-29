@@ -8,10 +8,12 @@ function Profile() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("token");
   const [error, setError] = useState(null);
+  const [loop, setLoop] = useState(false);
   const [profile, setProfile] = useState({
     Id: null,
     username: "",
     photo: null,
+    email: ""
   });
 
   const jwtAuth = async () => {
@@ -32,6 +34,7 @@ function Profile() {
         navigate("/");
         return;
       }
+      setLoop(prev => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -39,11 +42,21 @@ function Profile() {
 
   const fetchUser = async () => {
     try {
-      
+      const res = await fetch(`http://localhost:5000/fetchUsers/${Id}`, {
+        method: "GET"
+      });
+
+      const data = await res.json();
+      if(!data.success){
+        setError(data.message);
+        setProfile({Id: null, username: "", photo: null, email: ""});
+        return;
+      };
+      setProfile({Id: data.Id, username: data.username, photo: data.photo, email: data.email});
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     if (accessToken) {
@@ -51,12 +64,19 @@ function Profile() {
     }
   });
 
+  useEffect(() => {
+    if(loop){
+      fetchUser(); 
+    }
+  }, [loop]);
+
   return (
     <div>
       {accessToken ? (
         <div>
           <Navbar />
           <div className="container mt-3">
+           
             {/* Profile Header */}
             <div className="card shadow-sm border-0 rounded-3">
               {/* Cover Photo */}
@@ -111,8 +131,8 @@ function Profile() {
 
                 {/* User Info */}
                 <div className="flex-grow-1 text-center text-md-start">
-                  <h2 className="mb-1">John Doe</h2>
-                  <p className="text-muted mb-2">@johndoe</p>
+                  <h2 className="mb-1">{profile.username}</h2>
+                  <p className="text-muted mb-2">{profile.email}</p>
                   <p className="mb-3">
                     Full Stack Developer • Coffee Lover ☕ • React & Node
                     Enthusiast
