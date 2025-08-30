@@ -8,13 +8,16 @@ function Profile() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("token");
   const [error, setError] = useState(null);
-  const [loop, setLoop] = useState(false);
   const [profile, setProfile] = useState({
     Id: null,
     username: "",
     photo: null,
-    email: ""
+    email: "",
+    coverPhoto: null
   });
+  const [loop, setLoop] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [ profileCover, setProfileCover] = useState(null);
 
   const jwtAuth = async () => {
     try {
@@ -43,16 +46,30 @@ function Profile() {
   const fetchUser = async () => {
     try {
       const res = await fetch(`http://localhost:5000/fetchUsers/${Id}`, {
-        method: "GET"
+        method: "GET",
       });
 
       const data = await res.json();
-      if(!data.success){
+      if (!data.success) {
         setError(data.message);
-        setProfile({Id: null, username: "", photo: null, email: ""});
         return;
-      };
-      setProfile({Id: data.Id, username: data.username, photo: data.photo, email: data.email});
+      }
+      setProfile({
+        ...profile,
+        Id: data.Id,
+        username: data.username,
+        photo: data.photo,
+        email: data.email
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const coverPhoto = async (e) => {
+    try {
+      setPhotoPreview(URL.createObjectURL(e.target.files[0]));
+      setProfileCover(e.target.files[0]);
     } catch (error) {
       console.log(error);
     }
@@ -65,8 +82,8 @@ function Profile() {
   });
 
   useEffect(() => {
-    if(loop){
-      fetchUser(); 
+    if (loop) {
+      fetchUser();
     }
   }, [loop]);
 
@@ -76,7 +93,6 @@ function Profile() {
         <div>
           <Navbar />
           <div className="container mt-3">
-           
             {/* Profile Header */}
             <div className="card shadow-sm border-0 rounded-3">
               {/* Cover Photo */}
@@ -86,7 +102,9 @@ function Profile() {
               >
                 {profile.photo ? (
                   <img
-                    src={profile.photo || `http://localhost:5000/${profile.photo}`}
+                    src={
+                      profile.photo || `http://localhost:5000/${profile.photo}`
+                    }
                     alt="Cover"
                     className="w-100 h-100"
                     style={{
@@ -112,7 +130,10 @@ function Profile() {
                 >
                   {profile.photo ? (
                     <img
-                      src={profile.photo || `http://localhost:5000/${profile.photo}`}
+                      src={
+                        profile.photo ||
+                        `http://localhost:5000/${profile.photo}`
+                      }
                       alt="Profile"
                       className="rounded-circle"
                       style={{
@@ -138,12 +159,53 @@ function Profile() {
                     Enthusiast
                   </p>
 
-                  {/* Buttons */}
-                  <div className="d-flex justify-content-center justify-content-md-start gap-2">
+                  {/* Buttons + Upload */}
+                  <div className="d-flex flex-column flex-md-row align-items-center gap-2">
                     <button className="btn btn-primary">Edit Profile</button>
-                    <button className="btn btn-outline-secondary">
-                      Upload Photo
-                    </button>
+
+                    {/* Upload Image */}
+                    <div>
+                      {photoPreview ? (
+                       <div>
+                         <img
+                          src={photoPreview}
+                          alt="Preview"
+                          className="img-thumbnail mb-3"
+                          style={{
+                            width: "200px",
+                            height: "200px",
+                            objectFit: "cover",
+                          }}
+                        />
+                        <button className="btn btn-primary">upload</button>
+                       </div>
+                      ) : (
+                        <div
+                          className="d-flex align-items-center justify-content-center border rounded mb-3"
+                          style={{
+                            width: "200px",
+                            height: "200px",
+                            background: "#f8f9fa",
+                          }}
+                        >
+                          <span className="text-muted">No image selected</span>
+                        </div>
+                      )}
+                      <label
+                        htmlFor="formFile"
+                        className="btn btn-outline-secondary mb-0"
+                      >
+                        Upload Photo
+                      </label>
+                      <input
+                        type="file"
+                        id="formFile"
+                        accept="image/*"
+                        className="d-none"
+                        name="coverPhoto"
+                        onChange={coverPhoto}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

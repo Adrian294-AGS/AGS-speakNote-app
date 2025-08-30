@@ -130,6 +130,7 @@ export const logForm = async (req, res) => {
       .json({ success: false, message: `${username} is not Registered!!!` });
     }
   } catch (error) {
+    return res.status(500).json({success: false, message: `Backend Error: ${error}`});
     console.log(error);
   }
 };
