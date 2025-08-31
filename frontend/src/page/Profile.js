@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
 
@@ -13,6 +13,7 @@ function Profile() {
     username: "",
     photo: null,
     email: "",
+    userInfo: "",
     coverPhoto: null
   });
   const [loop, setLoop] = useState(false);
@@ -55,11 +56,12 @@ function Profile() {
         return;
       }
       setProfile({
-        ...profile,
         Id: data.Id,
         username: data.username,
         photo: data.photo,
-        email: data.email
+        email: data.email,
+        coverPhoto: data.user_cover_photo,
+        userInfo: data.user_info
       });
     } catch (error) {
       console.log(error);
@@ -161,7 +163,9 @@ function Profile() {
 
                   {/* Buttons + Upload */}
                   <div className="d-flex flex-column flex-md-row align-items-center gap-2">
-                    <button className="btn btn-primary">Edit Profile</button>
+                    <Link to={"/editProfile"}>
+                      <button className="btn btn-primary">Edit Profile</button>
+                    </Link>
 
                     {/* Upload Image */}
                     <div>
