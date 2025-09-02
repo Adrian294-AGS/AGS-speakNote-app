@@ -34,7 +34,7 @@ export const fetchTranscription = async (req, res) => {
 
 export const deleteAudio = async (req, res) => {
     const { Id } = req.params;
-
+    console.log(Id);
     try {
         const deleteResult = await audioDelete(Id);
         if(deleteResult.affectedRows){
@@ -49,7 +49,6 @@ export const deleteAudio = async (req, res) => {
 
 export const copyText = async (req, res) => {
     const { Id } = req.params;
-
     try {
         const selectResult = await selectAudio(Id);
         if(!selectResult){

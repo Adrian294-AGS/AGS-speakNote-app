@@ -68,15 +68,6 @@ function Profile() {
     }
   };
 
-  const coverPhoto = async (e) => {
-    try {
-      setPhotoPreview(URL.createObjectURL(e.target.files[0]));
-      setProfileCover(e.target.files[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (accessToken) {
       jwtAuth();
@@ -207,7 +198,7 @@ function Profile() {
                         accept="image/*"
                         className="d-none"
                         name="coverPhoto"
-                        onChange={coverPhoto}
+                       
                       />
                     </div>
                   </div>

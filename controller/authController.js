@@ -72,7 +72,7 @@ export const register = async (req, res) => {
         data: username,
       });
     }
-    let hashedPassword = await bcrypt.hash(password, 8);
+    let hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
       displayName: username,
       password: hashedPassword,
@@ -113,8 +113,7 @@ export const logForm = async (req, res) => {
           .status(500)
           .json({ success: false, message: "Wrong Password!!!!!" });
       }
-
-      const payload = { id: result.Id, username: username };
+      const payload = { id: result.UID, username: username };
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
 

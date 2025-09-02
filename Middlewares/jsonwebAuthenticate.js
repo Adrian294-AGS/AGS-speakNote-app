@@ -12,10 +12,7 @@ export const jwt_authenticate = (req, res, next) => {
         jwt.verify(token, process.env.access_token, async (error, User) => {
             if(error){return console.log(error)};
             const data = await selectUserForAudio(User.id);
-            if(!data.photo){
-                return  res.status(200).json({success: true, Id: data.Id, username: data.displayName, photo: null});
-            }
-            res.status(200).json({success: true, Id: data.Id, username: data.displayName, photo: data.photo});
+            res.status(200).json({success: true, Id: data.UID, username: data.displayName, photo: data.photo});
             next();
         })
     } catch (error) {

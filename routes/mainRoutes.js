@@ -4,7 +4,7 @@ import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
-import { fetchUser } from "../controller/userController.js";
+import { fetchUserProfile } from "../controller/userController.js";
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.post("/register", register);
 
 router.get("/logout", logout);
 
-router.get("/fetchUsers/:Id", fetchUser);
+router.get("/fetchUsers/:Id", fetchUserProfile);
 
 router.get("/fetchAllAudio/:Id", fetchTranscription);
 

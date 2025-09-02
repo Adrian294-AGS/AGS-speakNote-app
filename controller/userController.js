@@ -1,11 +1,11 @@
-import {  } from "../models/sql.js";
+import { fetchUser } from "../models/sql.js";
 
-export const fetchUser = async (req, res) => {
+export const fetchUserProfile = async (req, res) => {
   const { Id } = req.params;
 
   try {
-    const userData = await fetchProfile(Id);
-    if (!userData.Id) {
+    const userData = await fetchUser(Id);
+    if (!userData.UID) {
       return res
         .status(404)
         .json({ success: false, message: "User Not Found" });
@@ -14,7 +14,7 @@ export const fetchUser = async (req, res) => {
       .status(200)
       .json({
         success: true,
-        Id: userData.Id,
+        Id: userData.UID,
         username: userData.displayName,
         email: userData.email,
         photo: userData.photo,

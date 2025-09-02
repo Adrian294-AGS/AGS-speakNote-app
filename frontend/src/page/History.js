@@ -104,8 +104,7 @@ function History() {
         method: "GET",
       });
       const data = await res.json();
-
-      if (!data) {
+      if (!data.success) {
         setError(data.message);
         return;
       }
@@ -198,7 +197,7 @@ function History() {
                         <div className="card-footer bg-white d-flex flex-wrap gap-2 justify-content-end">
                           <button
                             className="btn btn-sm btn-outline-secondary"
-                            onClick={() => handleCopy(t.Id)}
+                            onClick={() => handleCopy(t.AID)}
                           >
                             Copy text
                           </button>
@@ -211,7 +210,7 @@ function History() {
                           </a>
                           <button
                             className="btn btn-sm btn-danger"
-                            onClick={() => handleDelete(t.Id)}
+                            onClick={() => handleDelete(t.AID)}
                           >
                             Delete
                           </button>

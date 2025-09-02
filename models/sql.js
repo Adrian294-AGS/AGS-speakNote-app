@@ -35,4 +35,9 @@ export const audioDelete = async (params) => {
     return result;
 };
 
+export const fetchUser = async (params) => {
+    const [result] = await db.query("SELECT * FROM tblusers WHERE UID = ?", [params]);
+    return result[0];
+};
+
 
