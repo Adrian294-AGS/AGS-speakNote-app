@@ -20,7 +20,7 @@ export const signUp = (req, res) => {
 //Google-oauth2 callBack
 export const googleCallback = (req, res) => {
   console.log(req.user);
-  const payload = { id: req.user.Id, username: req.user.displayName };
+  const payload = { id: req.user.UID, username: req.user.displayName };
   try {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
