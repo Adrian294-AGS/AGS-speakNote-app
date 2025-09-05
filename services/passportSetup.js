@@ -27,7 +27,7 @@ passport.use(
           photo: profile.photos[0].value,
         };
         const insert_results = await createUser("tblusers", newUser);
-        newUser.Id = insert_results.insertId;
+        newUser.UID = insert_results.insertId;
         return done(null, newUser);
       } catch (error) {
         return done(error);

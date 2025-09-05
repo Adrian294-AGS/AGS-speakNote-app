@@ -5,6 +5,7 @@ export const fetchUserProfile = async (req, res) => {
 
   try {
     const userData = await fetchUser(Id);
+   
     if (!userData.UID) {
       return res
         .status(404)
@@ -18,8 +19,7 @@ export const fetchUserProfile = async (req, res) => {
         username: userData.displayName,
         email: userData.email,
         photo: userData.photo,
-        user_info: userData.user_info,
-        user_cover_photo: userData.user_cover_photo
+        user_info: userData.user_info
       });
   } catch (error) {
     return res.status(500).json({ success: false, message: `ERROR: ${error}` });

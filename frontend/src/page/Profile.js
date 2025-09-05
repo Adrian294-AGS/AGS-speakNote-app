@@ -83,14 +83,14 @@ function Profile() {
           <Navbar />
           <div className="container mt-3">
             {/* Profile Header */}
-            <div className="card shadow-sm border-0 rounded-3">
+            <div className="container card shadow-sm border-0 rounded-3">
               {/* Profile Info Section */}
               <div className="card-body">
-                <div className="row align-items-center text-center text-md-start">
+                <div className="row align-items-center">
                   {/* Profile Picture */}
-                  <div className="col-12 col-md-4 d-flex justify-content-center justify-content-md-start">
+                  <div className="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
                     <div
-                      className="rounded-circle border border-3 border-white bg-light d-flex justify-content-center align-items-center"
+                      className="rounded-circle border border-3 border-white bg-light d-flex justify-content-center align-items-center shadow-sm"
                       style={{
                         width: "180px",
                         height: "180px",
@@ -98,10 +98,7 @@ function Profile() {
                     >
                       {profile.photo ? (
                         <img
-                          src={
-                            profile.photo ||
-                            `http://localhost:5000/${profile.photo}`
-                          }
+                          src={ profile.photo || `http://localhost:5000/${profile.photo}` }
                           alt="Profile"
                           className="rounded-circle img-fluid"
                           style={{
@@ -120,17 +117,15 @@ function Profile() {
                   </div>
 
                   {/* User Info */}
-                  <div className="col-12 col-md-8 mt-4 mt-md-0">
+                  <div className="col-12 col-md-8 text-center text-md-start">
                     <h2 className="mb-1">{profile.username}</h2>
                     <p className="text-muted mb-2">{profile.email}</p>
-                    <p className="mb-3">
-                      {profile.userInfo}
-                    </p>
+                    <p className="mb-3">{profile.userInfo}</p>
 
-                    {/* Buttons + Upload */}
-                    <div className="d-flex flex-column flex-sm-row align-items-center gap-2">
-                      <Link to={"/editProfile"}>
-                        <button className="btn btn-primary w-100 w-sm-auto">
+                    {/* Buttons */}
+                    <div className="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                      <Link to="/editProfile">
+                        <button className="btn btn-primary">
                           Edit Profile
                         </button>
                       </Link>
