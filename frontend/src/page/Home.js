@@ -28,7 +28,7 @@ function Home() {
       localStorage.setItem("navbarOnChange", true);
       navigate("/main");
     }
-  });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

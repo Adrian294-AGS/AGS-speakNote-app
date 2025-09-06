@@ -10,7 +10,7 @@ function Navbar({ username, photo, Id }) {
       setCondition(true);
       return;
     }
-  });
+  }, []);
 
   return (
    <nav className="navbar navbar-expand-lg bg-light shadow-sm">

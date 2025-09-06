@@ -121,7 +121,7 @@ function Main() {
     if (accessToken) {
       jwtAuth();
     }
-  });
+  }, []);
 
   return accessToken ? (
     <div>

@@ -68,7 +68,7 @@ function Profile() {
     if (accessToken) {
       jwtAuth();
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (loop) {

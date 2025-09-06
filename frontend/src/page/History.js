@@ -75,7 +75,7 @@ function History() {
     if (accessToken) {
       jwtAuth();
     }
-  });
+  }, []);
 
   const handleDelete = async (Id) => {
     const transId = Id;
