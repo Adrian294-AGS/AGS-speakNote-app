@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { selectUser, createUser, selectUserForAudio } from "../models/sql.js";
+import { selectUser, createUser} from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,

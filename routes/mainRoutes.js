@@ -4,11 +4,14 @@ import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
-import { fetchUserProfile } from "../controller/userController.js";
+import { fetchUserProfile, getProfileInfo } from "../controller/userController.js";
+import { cache } from "../Middlewares/redisCached.js";
 
 const router = express.Router();
 
 router.get("/protection", jwt_authenticate);
+
+router.get("/getProfileInfo/:Id", cache, getProfileInfo);
 
 router.get("/auth/refresh", refreshToken);
 
