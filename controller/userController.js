@@ -28,11 +28,19 @@ export const fetchUserProfile = async (req, res) => {
 };
 
 export const getProfileInfo = async (req, res) => {
-  client.connect();
+  
   const { Id } = req.params;
   try {
     const user = await fetchUser(Id);
     if (!user.UID) throw error;
+
+    const userData = {
+      username: user.displayName,
+      photo: user.photo
+    };
+
+    client.setEx(`user:${Id}`, 3600, JSON.stringify(userData));
+
     return res
       .status(200)
       .json({ success: true, username: user.displayName, photo: user.photo });

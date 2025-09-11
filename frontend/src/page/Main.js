@@ -111,11 +111,30 @@ function Main() {
         navigate("/");
         return;
       }
-      setData({ Id: result.Id, username: result.username, photo: result.photo});
+      getProfileInfo(result.Id);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getProfileInfo = async (params) => {
+    const Id = params;
+    try {
+      const res = await fetch(`http://localhost:5000/getProfileInfo/${Id}`, {
+        method: "GET"
+      });
+
+      const profile = await res.json();
+
+      if(profile.success){
+        setData({...data, username: profile.username, photo: profile.photo});
+        return;
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (accessToken) {

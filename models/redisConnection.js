@@ -5,4 +5,6 @@ dotenv.config();
 const redisPort = process.env.Redis_port || 6379;
 const client = redis.createClient(redisPort);
 
+await client.connect();
+
 export default client;
