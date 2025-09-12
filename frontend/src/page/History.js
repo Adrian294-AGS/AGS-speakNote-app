@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
+import { getProfileInfo } from "../../../controller/userController";
 
 function History() {
   const [accessToken] = useState(localStorage.getItem("token"));
@@ -31,11 +32,7 @@ function History() {
         navigate("/");
         return;
       }
-      setProfile({
-        Id: result.Id,
-        username: result.username,
-        photo: result.photo,
-      });
+      getProfileInfo()
     } catch (error) {
       console.log(error);
     }

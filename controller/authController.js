@@ -6,6 +6,7 @@ import {
 } from "../Middlewares/generateToken.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import client from "../models/redisConnection.js";
 
 dotenv.config();
 
@@ -134,11 +135,16 @@ export const logForm = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("refresh_token");
-  return res
-    .status(200)
-    .json({ success: true, message: "successfully log-out" });
+export const logout = async (req, res) => {
+  try {
+    await client.flushAll();
+    res.clearCookie("refresh_token");
+    return res
+      .status(200)
+      .json({ success: true, message: "successfully log-out" });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const refreshToken = async (req, res) => {

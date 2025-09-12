@@ -127,7 +127,7 @@ function Main() {
       const profile = await res.json();
 
       if(profile.success){
-        setData({...data, username: profile.username, photo: profile.photo});
+        setData({Id: params, username: profile.username, photo: profile.photo});
         return;
       }
 

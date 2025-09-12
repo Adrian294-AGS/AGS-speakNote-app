@@ -5,7 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
-    const res = await fetch("http://localhost:5000/logout", {
+    const res = await fetch(`http://localhost:5000/logout`, {
       method: "GET",
       credentials: "include",
     });

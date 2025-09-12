@@ -1,4 +1,3 @@
-import { error } from "console";
 import { fetchUser } from "../models/sql.js";
 import client from "../models/redisConnection.js";
 
@@ -8,7 +7,7 @@ export const fetchUserProfile = async (req, res) => {
   try {
     const userData = await fetchUser(Id);
 
-    if (!userData.UID) {
+    if (!userData) {
       return res
         .status(404)
         .json({ success: false, message: "User Not Found" });
@@ -22,18 +21,16 @@ export const fetchUserProfile = async (req, res) => {
       user_info: userData.user_info,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: `ERROR: ${error}` });
     console.log(error);
+    return res.status(500).json({ success: false, message: `ERROR: ${error}` });
   }
 };
 
 export const getProfileInfo = async (req, res) => {
-  
   const { Id } = req.params;
   try {
     const user = await fetchUser(Id);
-    if (!user.UID) throw error;
-
+    if (!user) return res.status(404).json({success: false, messsage: "Id not found"});
     const userData = {
       username: user.displayName,
       photo: user.photo
