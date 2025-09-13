@@ -130,7 +130,6 @@ function Main() {
         setData({Id: params, username: profile.username, photo: profile.photo});
         return;
       }
-
     } catch (error) {
       console.log(error);
     }

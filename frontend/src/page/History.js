@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
-import { getProfileInfo } from "../../../controller/userController";
 
 function History() {
   const [accessToken] = useState(localStorage.getItem("token"));
@@ -32,11 +31,32 @@ function History() {
         navigate("/");
         return;
       }
-      getProfileInfo()
+      getProfileInfo(result.Id);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getProfileInfo = async (params) => {
+    const Id = params;
+    try {
+      const res = await fetch(`http://localhost:5000/getProfileInfo/${params}`, {
+        method: "GET"
+      });
+      
+      const data = await res.json();
+
+      if(!data.success){
+        setError(data.message);
+        return;
+      }
+
+      setProfile({Id: params, username: data.username, photo: data.photo});
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const fetchAudio = async () => {
     try {
@@ -64,7 +84,6 @@ function History() {
     if (profile.Id) {
       setLoading(true);
       fetchAudio();
-      return;
     }
   }, [profile.Id, changes]);
 

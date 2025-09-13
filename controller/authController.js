@@ -7,6 +7,7 @@ import {
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import client from "../models/redisConnection.js";
+import { passwordStrength } from "check-password-strength";
 
 dotenv.config();
 
