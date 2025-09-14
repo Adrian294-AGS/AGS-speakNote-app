@@ -43,16 +43,18 @@ export const googleCallback = (req, res) => {
 export const register = async (req, res) => {
   const { username, password, repeatPassword } = req.body;
 
+  const isPasswordValid = passwordStrength(password).value;
+
   if (username.length < 5) {
     return res
       .status(500)
       .json({ success: false, message: "Username is too short!!!!", data: "" });
-  } else if (password.length < 5) {
+  } else if (isPasswordValid == "Too weak") {
     return res
       .status(500)
       .json({
         success: false,
-        message: "Password is too short and weak!!!!",
+        message: "Password is too weak!!!!",
         data: username,
       });
   }
@@ -137,8 +139,10 @@ export const logForm = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
+  const { Id } = req.params;
+
   try {
-    await client.flushAll();
+    await client.del(`user:${Id}`);
     res.clearCookie("refresh_token");
     return res
       .status(200)

@@ -23,7 +23,7 @@ router.post("/signIn", logForm);
 
 router.post("/register", register);
 
-router.get("/logout", logout);
+router.get("/logout/:Id", logout);
 
 router.get("/fetchUsers/:Id", fetchUserProfile);
 

@@ -25,7 +25,7 @@ function Main() {
   const onLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("navbarOnChange");
-    logout();
+    logout(data.Id);
     navigate("/");
     return;
   };
