@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { selectUser, createUser} from "../models/sql.js";
+import { selectUser, createUser } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
@@ -50,13 +50,11 @@ export const register = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Username is too short!!!!", data: "" });
   } else if (isPasswordValid == "Too weak") {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Password is too weak!!!!",
-        data: username,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Password is too weak!!!!",
+      data: username,
+    });
   }
 
   try {
@@ -129,11 +127,13 @@ export const logForm = async (req, res) => {
       return res.status(200).json({ access_token, success: true });
     } else {
       return res
-      .status(500)
-      .json({ success: false, message: `${username} is not Registered!!!` });
+        .status(500)
+        .json({ success: false, message: `${username} is not Registered!!!` });
     }
   } catch (error) {
-    return res.status(500).json({success: false, message: `Backend Error: ${error}`});
+    return res
+      .status(500)
+      .json({ success: false, message: `Backend Error: ${error}` });
     console.log(error);
   }
 };
@@ -178,5 +178,24 @@ export const refreshToken = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Something Went wrong!!!!" });
+  }
+};
+
+export const facebookCallback = async (req, res) => {
+  console.log(req.user);
+  const payload = { id: req.user.UID, username: req.user.displayName };
+
+  try {
+    const access_token = generate_access_token(payload);
+    const refresh_token = generate_refresh_token(payload);
+
+    res.cookie("refresh_token", refresh_token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.redirect(`http://localhost:3000/?token=${access_token}`);
+  } catch (error) {
+    return res.status(500);
   }
 };

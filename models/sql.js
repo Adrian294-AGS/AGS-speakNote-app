@@ -35,4 +35,9 @@ export const fetchUser = async (params) => {
     return result[0];
 };
 
+export const selectFacebookId = async (params) => {
+    const [result] = await db.query("SELECT * FROM tblusers WHERE faceBookId = ?", [params]);
+    return result[0];
+};
+
 

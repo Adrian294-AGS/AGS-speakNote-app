@@ -1,11 +1,12 @@
 import express from "express";
-import {googleCallback, register, logout, logForm, refreshToken} from "../controller/authController.js";
+import {googleCallback, register, logout, logForm, refreshToken, facebookCallback} from "../controller/authController.js";
 import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
 import { fetchUserProfile, getProfileInfo } from "../controller/userController.js";
 import { cache } from "../Middlewares/redisCached.js";
+import "../services/facebookAuth.js"
 
 const router = express.Router();
 
@@ -18,6 +19,10 @@ router.get("/auth/refresh", refreshToken);
 router.get("/auth/google", passport.authenticate('google',{scope:['profile','email']}));
 
 router.get("/auth/google/callback", passport.authenticate('google',{session: false}), googleCallback);
+
+router.get("/auth/facebook", passport.authenticate('facebook',{scope:['email']}));
+
+router.get("/auth/facebook/callback", passport.authenticate('facebook', {session: false}), facebookCallback);
 
 router.post("/signIn", logForm);
 
