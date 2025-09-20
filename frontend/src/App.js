@@ -4,6 +4,7 @@ import Register from "./page/Register";
 import Main from "./page/Main";
 import History from "./page/History";
 import Profile from "./page/Profile";
+import About from ".components/About"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/main" element={<Main />} />
               <Route path="/history" element={<History />} />
               <Route path="/profile/:Id" element={<Profile />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </div>
         </BrowserRouter>
