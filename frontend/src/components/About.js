@@ -1,159 +1,228 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function about() {
+function About() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <div className="about-page container py-5">
-        {/* Hero */}
-        <header className="row align-items-center mb-5">
-          <div className="col-lg-7">
-            <h1 className="display-5 fw-bold">About Our Platform</h1>
-            <p className="lead text-muted">
-              We create reliable, maintainable, and secure software so teams can
-              focus on what matters: shipping value.
+      {/* Back Button */}
+      <div className="p-3">
+        <button
+          className="btn btn-outline-success d-flex align-items-center shadow-sm px-3 text-align-center"
+          onClick={() => navigate(-1)} // go back
+        >
+          <span className="me-2" style={{ fontSize: "1.2rem" }}>
+            ←
+          </span>
+          Back
+        </button>
+      </div>
+      <div className="container mt-4">
+        {/* Hero Section */}
+        <div className="text-center mb-5">
+          <img
+            src="/1328396.png"
+            alt="profile"
+            className="rounded-circle shadow img-fluid"
+            style={{ maxWidth: "150px", height: "auto", objectFit: "cover" }}
+          />
+          <h1 className="mt-3">Hi, I'm Adrian 👋</h1>
+          <p className="text-muted">Solo Programmer | Fullstack Developer</p>
+        </div>
+
+        {/* About Me Section */}
+        <div className="row align-items-center mb-5">
+          <div className="col-md-6 mb-4 mb-md-0">
+            <h2>About Me</h2>
+            <p>
+              I'm a passionate programmer who loves building modern web apps. I
+              specialize in <strong>React, Node.js, Express, and MySQL</strong>.
+              My focus is on creating clean, scalable, and efficient solutions.
+              I enjoy solving problems, learning new tools, and experimenting
+              with technologies.
             </p>
-            <div className="d-flex gap-2 flex-wrap">
-              <a href="#mission" className="btn btn-primary btn-lg">
-                Our Mission
-              </a>
-              <a href="#team" className="btn btn-outline-secondary btn-lg">
-                Meet the Team
-              </a>
-            </div>
           </div>
-          <div className="col-lg-5 text-center d-none d-lg-block">
+          <div className="col-md-6 text-center">
             <img
-              src="https://via.placeholder.com/420x300"
-              alt="About illustration"
+              src="https://via.placeholder.com/400x250"
+              alt="coding"
               className="img-fluid rounded shadow"
+              style={{ maxHeight: "250px", objectFit: "cover" }}
             />
           </div>
-        </header>
+        </div>
 
-        {/* Mission / Vision */}
-        <section id="mission" className="row align-items-center mb-5">
-          <div className="col-md-6">
-            <h2 className="h3">Our Mission</h2>
-            <p className="text-muted">
-              To empower developers and teams with tools and patterns that
-              reduce friction, improve performance, and increase developer
-              happiness. We believe well-crafted tooling and clear processes
-              unlock human potential.
-            </p>
-            <ul className="list-unstyled">
-              <li>• Reliable infrastructure and developer workflows</li>
-              <li>• High-quality developer documentation</li>
-              <li>• Practical security-by-default</li>
-            </ul>
-          </div>
-          <div className="col-md-6">
-            <div className="card border-0 shadow-sm">
-              <div className="card-body">
-                <h3 className="h5">Quick Facts</h3>
-                <div className="row text-center mt-3">
-                  <div className="col-4">
-                    <div className="fs-3 fw-bold">8k+</div>
-                    <div className="text-muted">Users</div>
-                  </div>
-                  <div className="col-4">
-                    <div className="fs-3 fw-bold">120+</div>
-                    <div className="text-muted">Projects</div>
-                  </div>
-                  <div className="col-4">
-                    <div className="fs-3 fw-bold">24/7</div>
-                    <div className="text-muted">Support</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Skills Section */}
+        <div className="mb-5">
+          <h2 className="text-center mb-4">Skills & Tools</h2>
+          <div className="row text-center">
+            <div className="col-6 col-md-4 col-lg-3 mb-3">
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex align-items-center justify-content-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 256 288"
+                    width="50"
+                    height="50"
+                    role="img"
+                  >
+                    <title>Node.js Logo</title>
+                    <path
+                      fill="#539E43"
+                      d="M128 0l128 74v140l-128 74L0 214V74z"
+                    />
+                  </svg>
 
-        {/* Values */}
-        <section className="mb-5">
-          <h2 className="h4 mb-3">Our Values</h2>
-          <div className="row g-3">
-            <div className="col-md-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">Quality First</h5>
-                  <p className="card-text text-muted">
-                    We prioritize correctness, tests, and maintainability over
-                    quick hacks.
-                  </p>
+                  <h6 className="mb-0">Node.js</h6>
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">Empathy</h5>
-                  <p className="card-text text-muted">
-                    We listen to users and teammates; product decisions are
-                    people-first.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">Pragmatism</h5>
-                  <p className="card-text text-muted">
-                    Ship value quickly and iterate—balance idealism with
-                    real-world constraints.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+            {/* Express.js*/}
+            <div className="col-6 col-md-4 col-lg-3 mb-3">
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex align-items-center justify-content-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="60"
+                    height="60"
+                    viewBox="0 0 512 128"
+                    role="img"
+                  >
+                    <title>Express.js</title>
+                    <text
+                      x="0"
+                      y="96"
+                      font-family="Helvetica, Arial, sans-serif"
+                      font-size="96"
+                      fill="#000"
+                    >
+                      express
+                    </text>
+                  </svg>
 
-        {/* Team */}
-        <section id="team" className="mb-5">
-          <h2 className="h4 mb-3">Meet the Team</h2>
-          <div className="row g-4">
-            {team.map((member) => (
-              <div key={member.id} className="col-md-4">
-                <div className="card h-100 border-0 shadow-sm">
+                  <h6 className="mb-0">Express.js</h6>
+                </div>
+              </div>
+            </div>
+            {/* MySQL*/}
+            <div className="col-6 col-md-4 col-lg-3 mb-3">
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex align-items-center justify-content-center gap-3">
                   <img
-                    src={member.img}
-                    className="card-img-top"
-                    alt={member.name}
+                    src="/MySQL-logo.png"
+                    width={"50"}
+                    height={50}
+                    alt="MySQL"
                   />
-                  <div className="card-body">
-                    <h5 className="card-title mb-1">{member.name}</h5>
-                    <div className="text-muted small mb-2">{member.role}</div>
-                    <p className="card-text text-muted">{member.bio}</p>
-                    <div className="d-flex gap-2">
-                      <a href="#" className="btn btn-sm btn-outline-primary">
-                        Contact
-                      </a>
-                      <a href="#" className="btn btn-sm btn-outline-secondary">
-                        View Profile
-                      </a>
-                    </div>
-                  </div>
+                  <h6 className="mb-0">MySQL</h6>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
+            {/* GIT*/}
+            <div className="col-6 col-md-4 col-lg-3 mb-3">
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex align-items-center justify-content-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 97 97"
+                    width="50"
+                    height="50"
+                    role="img"
+                    aria-label="Git Logo"
+                  >
+                    <title>Git Logo</title>
+                    <path
+                      fill="#F05033"
+                      d="M92.71 44.408L52.594 4.29a8.87 8.87 0 00-12.55 0l-12.49 12.49 15.82 15.82a6.51 6.51 0 018.53 8.46l15.25 15.25a6.513 6.513 0 11-4.62 4.62L47.28 45.67v29.07a6.51 6.51 0 11-6.17-1.77V45.63a6.51 6.51 0 01-3.45-8.51L21.25 21.25 4.29 38.21a8.87 8.87 0 000 12.55l40.116 40.118a8.87 8.87 0 0012.55 0l35.754-35.754a8.87 8.87 0 000-12.55z"
+                    />
+                  </svg>
 
-        {/* CTA Footer */}
-        <footer className="pt-4 mt-5 border-top text-center">
-          <h3 className="h5">Want to work with us?</h3>
-          <p className="text-muted">
-            We’re hiring engineers, designers, and product people. Reach out and
-            let’s build something great.
+                  <h6 className="mb-0">Git</h6>
+                </div>
+              </div>
+            </div>
+            {/* React */}
+            <div className="col-6 col-md-4 col-lg-3 mb-3">
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex align-items-center justify-content-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 256 256"
+                    width="50"
+                    height="50"
+                    role="img"
+                    aria-label="React Logo"
+                  >
+                    <title>React Logo</title>
+                    <circle cx="128" cy="128" r="24" fill="#61DAFB" />
+                    <g stroke="#61DAFB" stroke-width="16" fill="none">
+                      <ellipse
+                        rx="108"
+                        ry="44"
+                        cx="128"
+                        cy="128"
+                        transform="rotate(0 128 128)"
+                      />
+                      <ellipse
+                        rx="108"
+                        ry="44"
+                        cx="128"
+                        cy="128"
+                        transform="rotate(60 128 128)"
+                      />
+                      <ellipse
+                        rx="108"
+                        ry="44"
+                        cx="128"
+                        cy="128"
+                        transform="rotate(120 128 128)"
+                      />
+                    </g>
+                  </svg>
+
+                  <h6 className="mb-0">React</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Section */}
+        <div className="text-center mb-5">
+          <h2>Get In Touch</h2>
+          <p>
+            Want to collaborate or just say hi? Reach me on my socials or send
+            me an email.
           </p>
-          <a href="#" className="btn btn-primary btn-lg">
-            Join the Team
-          </a>
-        </footer>
+          <div className="d-flex flex-wrap justify-content-center gap-2">
+            <a
+              href="mailto:your@email.com"
+              className="btn btn-primary shadow-sm"
+            >
+              📧 Email Me
+            </a>
+            <a
+              href="https://github.com/yourgithub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dark shadow-sm"
+            >
+              💻 GitHub
+            </a>
+            <a
+              href="https://linkedin.com/in/yourlinkedin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-info shadow-sm"
+            >
+              🔗 LinkedIn
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default about;
+export default About;

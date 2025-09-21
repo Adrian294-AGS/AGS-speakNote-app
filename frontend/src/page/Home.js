@@ -169,7 +169,7 @@ function Home() {
           {/* Facebook button */}
           <div
             className="d-flex justify-content-center align-items-center rounded p-2 text-white gap-2 w-100 mt-3"
-            style={{ cursor: "pointer", backgroundColor: "#1877F2", minHeight: "45px" }}
+            style={{ cursor: "pointer", backgroundColor: "green", minHeight: "45px" }}
             onClick={facebookSignIn}
           >
             <svg

@@ -89,7 +89,7 @@ function Navbar({ username, photo, Id }) {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/about">
-                    About
+                    About Me
                   </Link>
                 </li>
               </>

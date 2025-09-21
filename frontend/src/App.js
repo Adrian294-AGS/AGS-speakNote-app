@@ -4,7 +4,7 @@ import Register from "./page/Register";
 import Main from "./page/Main";
 import History from "./page/History";
 import Profile from "./page/Profile";
-import About from ".components/About"
+import About from "./components/About";
 
 function App() {
   return (
