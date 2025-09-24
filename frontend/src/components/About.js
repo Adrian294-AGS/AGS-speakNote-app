@@ -24,8 +24,12 @@ function About() {
           <img
             src="/1328396.png"
             alt="profile"
-            className="rounded-circle shadow img-fluid"
-            style={{ maxWidth: "150px", height: "auto", objectFit: "cover" }}
+            className="rounded-circle shadow"
+            style={{
+              width: "150px", // same width and height
+              height: "150px",
+              objectFit: "cover", // crop instead of stretch
+            }}
           />
           <h1 className="mt-3">Hi, I'm Adrian 👋</h1>
           <p className="text-muted">Solo Programmer | Fullstack Developer</p>

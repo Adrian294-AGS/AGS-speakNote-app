@@ -180,8 +180,8 @@ function History() {
             ) : (
               <div className="row g-3">
                 {transcription && transcription.length > 0 ? (
-                  transcription.map((t) => (
-                    <div className="col-12 col-md-6 col-lg-4">
+                  transcription.map((t, idx) => (
+                    <div key={idx} className="col-12 col-md-6 col-lg-4">
                       <div className="card shadow-sm border-0 h-100">
                         {/* Card Header */}
                         <div className="card-header bg-light d-flex justify-content-between align-items-center">
@@ -221,6 +221,7 @@ function History() {
                             className="btn btn-sm btn-primary"
                             href={`http://localhost:5000/${t.txt_file_path}`}
                             download
+                            target="blank"
                           >
                             PDF
                           </a>
