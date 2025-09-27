@@ -15,8 +15,8 @@ passport.use(
       passReqToCallback: true,
     },
     async (request, accessToken, refreshToken, profile, done) => {
-      const result = await selectFacebookId(profile.id);
       try {
+        const result = await selectFacebookId(profile.id);
         if (result) {
           return done(null, result);
         }

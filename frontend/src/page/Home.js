@@ -63,7 +63,7 @@ function Home() {
 
   const facebookSignIn = () => {
     window.location.href = "http://localhost:5000/auth/facebook";
-  }
+  };
 
   return (
     <div>

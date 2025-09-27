@@ -15,7 +15,6 @@ app.use(express.json());
 app.use(express.static("upload"));
 app.use(cookieParser());
 
-
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true

@@ -68,7 +68,7 @@ export const register = async (req, res) => {
     }
 
     if (password != repeatPassword) {
-      return res.status(500).json({
+      return res.status(401).json({
         success: false,
         message: "Password do not matched!!!!!",
         data: username,
@@ -112,7 +112,7 @@ export const logForm = async (req, res) => {
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
         return res
-          .status(500)
+          .status(401)
           .json({ success: false, message: "Wrong Password!!!!!" });
       }
       const payload = { id: result.UID, username: username };

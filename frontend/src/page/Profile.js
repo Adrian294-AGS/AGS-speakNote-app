@@ -121,15 +121,6 @@ function Profile() {
                     <h2 className="mb-1">{profile.username}</h2>
                     <p className="text-muted mb-2">{profile.email}</p>
                     <p className="mb-3">{profile.userInfo}</p>
-
-                    {/* Buttons */}
-                    <div className="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
-                      <Link to="/editProfile">
-                        <button className="btn btn-primary">
-                          Edit Profile
-                        </button>
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>
