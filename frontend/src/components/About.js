@@ -195,27 +195,76 @@ function About() {
         {/* Contact Section */}
         <div className="text-center mb-5">
           <h2>Get In Touch</h2>
-          <p>
-            Want to collaborate or just say hi? Reach me on my socials or send
-            me an email.
-          </p>
+          <p>Want to collaborate or just say hi? Reach me on my socials.</p>
           <div className="d-flex flex-wrap justify-content-center gap-2">
+            {/* Facebook */}
             <a
-              href="mailto:your@email.com"
-              className="btn btn-primary shadow-sm"
+              href="https://www.facebook.com/adrian.santiago.135263"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary shadow-sm d-flex align-items-center gap-1"
             >
-              📧 Email Me
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                role="img"
+                aria-label="Facebook logo"
+              >
+                <rect width="24" height="24" rx="4" fill="#1877F2" />
+                <path
+                  fill="#FFFFFF"
+                  d="M15.12 8.5h-1.3c-.34 0-.8.17-.8.86v1.02h2.07l-.27 2.1h-1.8V19h-2.18v-6.52h-1.8v-2.1h1.8V9.03c0-1.55.94-2.62 2.45-2.62.7 0 1.3.05 1.47.07v1.99z"
+                />
+              </svg>
+              Facebook
             </a>
+
+            {/* Instagram */}
             <a
-              href="https://github.com/yourgithub"
+              href="https://www.instagram.com/adriansantiago167/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-danger shadow-sm d-flex align-items-center gap-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                role="img"
+                aria-label="Instagram logo"
+              >
+                <linearGradient id="IGgradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#feda75" />
+                  <stop offset="25%" stopColor="#fa7e1e" />
+                  <stop offset="50%" stopColor="#d62976" />
+                  <stop offset="75%" stopColor="#962fbf" />
+                  <stop offset="100%" stopColor="#4f5bd5" />
+                </linearGradient>
+                <rect width="24" height="24" rx="5" fill="url(#IGgradient)" />
+                <path
+                  fill="#fff"
+                  d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm4.6-8.8a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"
+                />
+              </svg>
+              Instagram
+            </a>
+
+            {/* GitHub */}
+            <a
+              href="https://github.com/Adrian294-AGS"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-dark shadow-sm"
             >
               💻 GitHub
             </a>
+
+            {/* LinkedIn */}
             <a
-              href="https://linkedin.com/in/yourlinkedin"
+              href="https://www.linkedin.com/in/adrian-santiago-2856a5376/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-info shadow-sm"

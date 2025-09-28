@@ -40,7 +40,7 @@ export const uploadController = async (req, res) => {
       }
       const insert_result = await createUser("tblaudio", insert_audio);
       fs.unlinkSync(inputPath);
-      return res.status(200).json({success: true, Id: insert_result.insertId});
+      return res.status(201).json({success: true, Id: insert_result.insertId});
     });
   } catch (error) {
     console.log(error);

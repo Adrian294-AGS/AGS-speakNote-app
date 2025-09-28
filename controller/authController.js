@@ -11,14 +11,6 @@ import { passwordStrength } from "check-password-strength";
 
 dotenv.config();
 
-export const login = (req, res) => {
-  res.render("login");
-};
-
-export const signUp = (req, res) => {
-  res.render("register");
-};
-
 //Google-oauth2 callBack
 export const googleCallback = (req, res) => {
   console.log(req.user);
@@ -47,10 +39,10 @@ export const register = async (req, res) => {
 
   if (username.length < 5) {
     return res
-      .status(500)
+      .status(400)
       .json({ success: false, message: "Username is too short!!!!", data: "" });
   } else if (isPasswordValid == "Too weak") {
-    return res.status(500).json({
+    return res.status(400).json({
       success: false,
       message: "Password is too weak!!!!",
       data: username,
@@ -60,7 +52,7 @@ export const register = async (req, res) => {
   try {
     const selectResult = await selectUser(username);
     if (selectResult) {
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
         message: `${username} is Already taken`,
         data: "",
@@ -68,7 +60,7 @@ export const register = async (req, res) => {
     }
 
     if (password != repeatPassword) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: "Password do not matched!!!!!",
         data: username,
@@ -81,7 +73,7 @@ export const register = async (req, res) => {
     };
     const insertResult = await createUser("tblusers", newUser);
     console.log("Inserted success ID: ", insertResult.insertId);
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Success Sign-Up",
     });
@@ -97,7 +89,7 @@ export const logForm = async (req, res) => {
 
   if (!username || !password) {
     return res
-      .status(500)
+      .status(400)
       .json({ success: false, message: "Insert all field!!!" });
   }
 
@@ -106,7 +98,7 @@ export const logForm = async (req, res) => {
     if (result) {
       if (!result.password) {
         return res
-          .status(500)
+          .status(200)
           .json({ success: false, message: "Sign-in with Google" });
       }
       let isMatched = await bcrypt.compare(password, result.password);
@@ -127,7 +119,7 @@ export const logForm = async (req, res) => {
       return res.status(200).json({ access_token, success: true });
     } else {
       return res
-        .status(500)
+        .status(400)
         .json({ success: false, message: `${username} is not Registered!!!` });
     }
   } catch (error) {
@@ -157,7 +149,7 @@ export const refreshToken = async (req, res) => {
 
   if (!token) {
     return res
-      .status(500)
+      .status(403)
       .json({ success: false, message: "Invalid Refresh Token!!!" });
   }
 
@@ -194,7 +186,7 @@ export const facebookCallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.redirect(`http://localhost:3000/?token=${access_token}`);
+    return res.status(301).redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
     return res.status(500);
   }
