@@ -14,7 +14,6 @@ passport.use(
       passReqToCallback: true,
     },
     async function (request, accessToken, refreshToken, profile, done) {
-      // check if the email is already inserted
       try {
         const select_results = await SelectUserGoogle(profile.id);
         if (select_results) {

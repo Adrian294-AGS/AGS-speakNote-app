@@ -39,19 +39,19 @@ function Navbar({ username, photo, Id }) {
             {condition ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/main">
+                  <Link className="nav-link" to="/home">
                     Home
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/history">
+                  <Link className="nav-link" to="/home/transcription">
                     Transcription
                   </Link>
                 </li>
                 {/* Profile */}
                 <li className="nav-item d-flex align-items-center gap-2">
                   <Link
-                    to={`/profile/${Id}`}
+                    to={`/home/profile/${Id}`}
                     className="d-flex align-items-center text-decoration-none gap-2"
                   >
                     <span className="fw-bold text-success">{username}</span>
