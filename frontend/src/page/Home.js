@@ -49,7 +49,7 @@ function Home() {
       }
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("navbarOnChange", true);
-      navigate("/main");
+      navigate("/home");
     } catch (err) {
       console.error(err);
       setFormData({ username: "", password: "" });

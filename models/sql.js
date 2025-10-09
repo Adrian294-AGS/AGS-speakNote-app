@@ -40,4 +40,9 @@ export const selectFacebookId = async (params) => {
     return result[0];
 };
 
+export const update = async (tblName, set, tblId) => {
+    const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
+    return result;
+};
+
 

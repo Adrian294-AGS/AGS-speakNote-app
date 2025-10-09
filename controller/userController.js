@@ -1,4 +1,4 @@
-import { fetchUser } from "../models/sql.js";
+import { fetchUser, update } from "../models/sql.js";
 import client from "../models/redisConnection.js";
 
 export const fetchUserProfile = async (req, res) => {
@@ -46,10 +46,21 @@ export const getProfileInfo = async (req, res) => {
   }
 };
 
-const userUpdate = async (req, res) => {
+export const userUpdate = async (req, res) => {
   const { Id, userInfo} = req.body;
+  const photo  = req.file;
 
-  if(!userInfo || !Id){
-    return res.status(400).json({success: false, })
+  try {
+    const set = {
+      photo: photo.filename,
+      user_info: userInfo
+    }
+    const result = await update("tblusers", set, Id);
+    if(result.affectedRows){
+      return res.status(200);
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500);
   }
 }

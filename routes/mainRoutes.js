@@ -4,9 +4,10 @@ import "../services/passportSetup.js";
 import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
-import { fetchUserProfile, getProfileInfo } from "../controller/userController.js";
+import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
+import upload from "../Middlewares/multer.js";
 
 const router = express.Router();
 
@@ -39,5 +40,7 @@ router.get("/fetchAudio/:Id", fetchAudio);
 router.delete("/deleteAudio/:Id", deleteAudio);
 
 router.get("/copyText/:Id", copyText);
+
+router.put("/update", upload.single("photo"), userUpdate);
 
 export default router;
