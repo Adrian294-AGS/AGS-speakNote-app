@@ -41,6 +41,6 @@ router.delete("/deleteAudio/:Id", deleteAudio);
 
 router.get("/copyText/:Id", copyText);
 
-router.put("/update", upload.single("photo"), userUpdate);
+router.put("/update/:Id", upload.single("photo"), userUpdate);
 
 export default router;

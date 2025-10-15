@@ -33,7 +33,8 @@ export const getProfileInfo = async (req, res) => {
     if (!user.UID) return res.status(404).json({success: false, messsage: "Id not found"});
     const userData = {
       username: user.displayName,
-      photo: user.photo
+      photo: user.photo,
+      user_info: user.user_info
     };
 
     client.setEx(`user:${Id}`, 3600, JSON.stringify(userData));
@@ -47,17 +48,20 @@ export const getProfileInfo = async (req, res) => {
 };
 
 export const userUpdate = async (req, res) => {
-  const { Id, userInfo} = req.body;
-  const photo  = req.file;
+  const {userInfo} = req.body;
+  const { Id } = req.params;
+  const photo = req.file ? req.file.filename : null;
+  const newPhoto = `${photo}.png`;
+  console.log(photo);
 
   try {
     const set = {
-      photo: photo.filename,
+      photo: newPhoto,
       user_info: userInfo
     }
     const result = await update("tblusers", set, Id);
     if(result.affectedRows){
-      return res.status(200);
+      return res.status(200).json({success: true});
     }
   } catch (error) {
     console.log(error);

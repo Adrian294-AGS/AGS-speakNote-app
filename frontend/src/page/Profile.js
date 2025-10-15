@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
-import e from "express";
 
 function Profile() {
   const { Id } = useParams();
@@ -14,7 +13,7 @@ function Profile() {
     username: "",
     photo: null,
     email: "",
-    userInfo: "",
+    userInfo: "insert info",
   });
   const [loop, setLoop] = useState(false);
 
@@ -72,11 +71,24 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("userInfo", profile.userInfo);
+    if (profile.photo instanceof File) {
+    formData.append("photo", profile.photo);
+  }
+
     try {
-      const res = await fetch("http://localhost:5000/update", {
+      const res = await fetch(`http://localhost:5000/update/${Id}`, {
         method: "PUT",
-        body: JSON.stringify(profile)
+        body: formData
       });
+
+      const data = await res.json();
+      if(!data.success){
+        return alert("Fail to Update");
+      }
+      alert("Success Update");
+      setLoop((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -90,9 +102,7 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    if (loop) {
-      fetchUser();
-    }
+    fetchUser();
   }, [loop]);
 
   return (

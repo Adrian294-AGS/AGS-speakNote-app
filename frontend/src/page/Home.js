@@ -26,7 +26,7 @@ function Home() {
     if (token) {
       localStorage.setItem("token", token);
       localStorage.setItem("navbarOnChange", true);
-      navigate("/main");
+      navigate("/home");
     }
   }, []);
 
