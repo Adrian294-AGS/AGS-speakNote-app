@@ -8,14 +8,16 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import client from "../models/redisConnection.js";
 import { passwordStrength } from "check-password-strength";
+import { photoMove } from "../Middlewares/photoMv.js";
 
 dotenv.config();
 
 //Google-oauth2 callBack
-export const googleCallback = (req, res) => {
+export const googleCallback = async (req, res) => {
   console.log(req.user);
   const payload = { id: req.user.UID, username: req.user.displayName };
   try {
+    await photoMove(req.user.photo);
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 

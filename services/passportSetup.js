@@ -15,6 +15,7 @@ passport.use(
     },
     async function (request, accessToken, refreshToken, profile, done) {
       try {
+        console.log(profile);
         const select_results = await SelectUserGoogle(profile.id);
         if (select_results) {
           return done(null, select_results);

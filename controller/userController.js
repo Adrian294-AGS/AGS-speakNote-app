@@ -50,13 +50,11 @@ export const getProfileInfo = async (req, res) => {
 export const userUpdate = async (req, res) => {
   const {userInfo} = req.body;
   const { Id } = req.params;
-  const photo = req.file ? req.file.filename : null;
-  const newPhoto = `${photo}.png`;
-  console.log(photo);
-
+  const photo = req.file;
+  console.log(req.file);
   try {
     const set = {
-      photo: newPhoto,
+      photo: photo.filename,
       user_info: userInfo
     }
     const result = await update("tblusers", set, Id);

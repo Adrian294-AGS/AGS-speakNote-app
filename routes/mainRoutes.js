@@ -8,6 +8,7 @@ import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/user
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
 import upload from "../Middlewares/multer.js";
+import uploadPhoto from "../Middlewares/multerPhoto.js";
 
 const router = express.Router();
 
@@ -41,6 +42,6 @@ router.delete("/deleteAudio/:Id", deleteAudio);
 
 router.get("/copyText/:Id", copyText);
 
-router.put("/update/:Id", upload.single("photo"), userUpdate);
+router.put("/update/:Id", uploadPhoto.single("photo"), userUpdate);
 
 export default router;

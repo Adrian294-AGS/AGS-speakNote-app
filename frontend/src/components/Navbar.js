@@ -57,7 +57,7 @@ function Navbar({ username, photo, Id }) {
                     <span className="fw-bold text-success">{username}</span>
                     {photo ? (
                       <img
-                        src={photo || `http://localhost:5000/${photo}`}
+                        src={`http://localhost:5000/photo/${photo}`}
                         alt="User"
                         className="rounded-circle border"
                         style={{

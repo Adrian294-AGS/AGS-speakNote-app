@@ -29,5 +29,8 @@
     "passport-google-oauth2": "^0.2.0",
     "pdfkit": "^0.17.1",
     "redis": "^5.8.2"
+  },
+  "devDependencies": {
+    "node-fetch": "^3.3.2"
   }
 }

@@ -124,8 +124,7 @@ function Profile() {
                     {profile.photo ? (
                       <img
                         src={
-                          profile.photo ||
-                          `http://localhost:5000/${profile.photo}`
+                          `http://localhost:5000/photo/${profile.photo}` || profile.photo
                         }
                         alt="Profile"
                         className="rounded-circle img-fluid"
