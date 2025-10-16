@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import dotenv from "dotenv";
 import { SelectUserGoogle, createUser } from "../models/sql.js";
+import { photoMove } from "../Middlewares/photoMv.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -20,11 +21,12 @@ passport.use(
         if (select_results) {
           return done(null, select_results);
         }
+        const photo = await photoMove(profile.photos[0].value);
         const newUser = {
           googleId: profile.id,
           displayName: profile.displayName,
           email: profile.emails[0].value,
-          photo: profile.photos[0].value,
+          photo: photo
         };
         const insert_results = await createUser("tblusers", newUser);
         newUser.UID = insert_results.insertId;

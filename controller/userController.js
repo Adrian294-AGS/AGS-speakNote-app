@@ -30,11 +30,12 @@ export const getProfileInfo = async (req, res) => {
   const { Id } = req.params;
   try {
     const user = await fetchUser(Id);
-    if (!user.UID) return res.status(404).json({success: false, messsage: "Id not found"});
+    if (!user.UID)
+      return res.status(404).json({ success: false, messsage: "Id not found" });
     const userData = {
       username: user.displayName,
       photo: user.photo,
-      user_info: user.user_info
+      user_info: user.user_info,
     };
 
     client.setEx(`user:${Id}`, 3600, JSON.stringify(userData));
@@ -48,21 +49,37 @@ export const getProfileInfo = async (req, res) => {
 };
 
 export const userUpdate = async (req, res) => {
-  const {userInfo} = req.body;
+  const { userInfo } = req.body;
   const { Id } = req.params;
-  const photo = req.file;
-  console.log(req.file);
+  const photo = req.file || null;
+  let set;
+
   try {
-    const set = {
-      photo: photo.filename,
-      user_info: userInfo
+    if (!photo) {
+      set = { user_info: userInfo };
+      const result = await update("tblusers", set, Id);
+      if (result.affectedRows) {
+        const user = await fetchUser(Id);
+        const newUser = {
+          username: user.displayName,
+          photo: user.photo,
+          user_info: user.user_info,
+        }
+        await client.del(`user:${Id}`);
+        await client.setEx(`user:${Id}`, 3600, JSON.stringify(newUser));
+        return res.status(200).json({ success: true });
+      }
+    } else {
+      set = { photo: photo.filename, user_info: userInfo };
+      const result = await update("tblusers", set, Id);
+      if (result.affectedRows) {
+        await client.del(`user:${Id}`);
+        return res.status(200).json({ success: true });
+      }
     }
-    const result = await update("tblusers", set, Id);
-    if(result.affectedRows){
-      return res.status(200).json({success: true});
-    }
+    
   } catch (error) {
     console.log(error);
     return res.status(500);
   }
-}
+};

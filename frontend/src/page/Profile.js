@@ -8,6 +8,7 @@ function Profile() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("token");
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     Id: null,
     username: "",
@@ -74,8 +75,8 @@ function Profile() {
     const formData = new FormData();
     formData.append("userInfo", profile.userInfo);
     if (profile.photo instanceof File) {
-    formData.append("photo", profile.photo);
-  }
+      formData.append("photo", profile.photo);
+    }
 
     try {
       const res = await fetch(`http://localhost:5000/update/${Id}`, {
@@ -89,6 +90,7 @@ function Profile() {
       }
       alert("Success Update");
       setLoop((prev) => !prev);
+      setIsEditing((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -111,98 +113,109 @@ function Profile() {
         <div>
           <Navbar />
           <div className="container mt-3">
-          {/* Profile Header */}
-          <div className="container card shadow-sm border-0 rounded-3">
-            <div className="card-body">
-              <div className="row align-items-center">
-                {/* Profile Picture */}
-                <div className="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
-                  <div
-                    className="rounded-circle border border-3 border-white bg-light d-flex justify-content-center align-items-center shadow-sm"
-                    style={{ width: "180px", height: "180px" }}
-                  >
-                    {profile.photo ? (
-                      <img
-                        src={
-                          `http://localhost:5000/photo/${profile.photo}` || profile.photo
-                        }
-                        alt="Profile"
-                        className="rounded-circle img-fluid"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    ) : (
-                      <i
-                        className="bi bi-person-circle text-secondary"
-                        style={{ fontSize: "5rem" }}
-                      ></i>
-                    )}
-                  </div>
-                </div>
-
-                {/* User Info */}
-                <div className="col-12 col-md-8 text-center text-md-start">
-                  <h2 className="mb-1">{profile.username}</h2>
-                  <p className="text-muted mb-2">{profile.email}</p>
-                  <p className="mb-3">{profile.userInfo}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Edit Section */}
-          <div className="container mt-4">
-            <div className="card border-0 shadow-sm rounded-3">
-              <div className="card-header bg-primary text-white">
-                <h5 className="mb-0">Edit Profile</h5>
-              </div>
+            {/* Profile Header */}
+            <div className="container card shadow-sm border-0 rounded-3">
               <div className="card-body">
-                <form onSubmit={handleSubmit}>
-                  {/* About / Info */}
-                  <div className="mb-3">
-                    <label className="form-label fw-semibold">About</label>
-                    <textarea
-                      name="userInfo"
-                      className="form-control"
-                      rows="3"
-                      value={profile.userInfo}
-                      onChange={handleChange}
-                    ></textarea>
+                <div className="row align-items-center">
+                  {/* Profile Picture */}
+                  <div className="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
+                    <div
+                      className="rounded-circle border border-3 border-white bg-light d-flex justify-content-center align-items-center shadow-sm"
+                      style={{ width: "180px", height: "180px" }}
+                    >
+                      {profile.photo ? (
+                        <img
+                          src={`http://localhost:5000/photo/${profile.photo}`}
+                          alt="Profile"
+                          className="rounded-circle img-fluid"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <i
+                          className="bi bi-person-circle text-secondary"
+                          style={{ fontSize: "5rem" }}
+                        ></i>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Upload Photo */}
-                  <div className="mb-3">
-                    <label className="form-label fw-semibold">
-                      Profile Photo
-                    </label>
-                    <input
-                      type="file"
-                      name="photo"
-                      accept="image/*"
-                      className="form-control"
-                      onChange={(e) => {setProfile({...profile, photo: e.target.files[0]})}}
-                    />
-                  </div>
+                  {/* User Info */}
+                  <div className="col-12 col-md-8 text-center text-md-start">
+                    <h2 className="mb-1">{profile.username}</h2>
+                    <p className="text-muted mb-2">{profile.email}</p>
+                    <p className="mb-3">{profile.userInfo || "Insert Info"}</p>
 
-                  {/* Buttons */}
-                  <div className="d-flex justify-content-end gap-2">
-                    <button type="reset" className="btn btn-outline-secondary">
-                      Cancel
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                      Save Changes
+                    {/* Edit Button */}
+                    <button
+                      className="btn btn-outline-primary mt-2"
+                      onClick={() => setIsEditing((prev) => !prev)} // 👈 toggle form
+                    >
+                      {isEditing ? "Close Edit" : "Edit Profile"}
                     </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
+
+            {/* Edit Section - only visible when isEditing = true */}
+            {isEditing && (
+              <div className="container mt-4">
+                <div className="card border-0 shadow-sm rounded-3">
+                  <div className="card-header bg-primary text-white">
+                    <h5 className="mb-0">Edit Profile</h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      {/* About / Info */}
+                      <div className="mb-3">
+                        <label className="form-label fw-semibold">About</label>
+                        <textarea
+                          name="userInfo"
+                          className="form-control"
+                          rows="3"
+                          value={profile.userInfo}
+                          onChange={handleChange}
+                        ></textarea>
+                      </div>
+
+                      {/* Upload Photo */}
+                      <div className="mb-3">
+                        <label className="form-label fw-semibold">Profile Photo</label>
+                        <input
+                          type="file"
+                          name="photo"
+                          accept="image/*"
+                          className="form-control"
+                          onChange={(e) =>
+                            setProfile({ ...profile, photo: e.target.files[0] })
+                          }
+                        />
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="d-flex justify-content-end gap-2">
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
+                          onClick={() => setIsEditing(false)} // 👈 close form
+                        >
+                          Cancel
+                        </button>
+                        <button type="submit" className="btn btn-primary">
+                          Save Changes
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        </div>
-        
       ) : (
         <div>
           <LogInFirst />

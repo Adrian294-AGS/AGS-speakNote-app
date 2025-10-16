@@ -7,7 +7,6 @@ import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../contro
 import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
-import upload from "../Middlewares/multer.js";
 import uploadPhoto from "../Middlewares/multerPhoto.js";
 
 const router = express.Router();
