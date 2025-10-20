@@ -17,4 +17,4 @@ function LogInFirst() {
   )
 }
 
-export default LogInFirst
+export default LogInFirst;

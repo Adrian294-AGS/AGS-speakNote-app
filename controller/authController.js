@@ -26,7 +26,7 @@ export const googleCallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.redirect(`http://localhost:3000/?token=${access_token}`);
+    return res.status(302).redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
   }
