@@ -1,5 +1,5 @@
-#AGS-SpeakNotes
-##🧠 What is it?
+# AGS-SpeakNotes
+## 🧠 What is it?
 
 AGS-SpeakNotes is a smart note-taking app that listens, understands, and organizes your thoughts — literally.
 It allows users to record short voice notes, which are then transcribed into text and automatically structured into clean, readable, and organized written notes.
@@ -8,7 +8,7 @@ Instead of writing things down manually, you can just speak your mind, and the a
 
 Think of it as your personal voice assistant for note-taking, but smarter and more natural.
 
-##💬 Example
+## 💬 Example
 
 You say something like:
 
@@ -17,7 +17,7 @@ You say something like:
 In just seconds, AGS-SpeakNotes transforms that into an organized, labeled note — like a relationship insight or reflection — ready to be saved, searched, and revisited later.
 It’s like turning random thoughts into structured wisdom. SHEESH! 🔥
 
-##🚀 Why it’s awesome
+## 🚀 Why it’s awesome
 
 🎙️ Record instantly — capture your ideas anytime, hands-free.
 
@@ -29,7 +29,7 @@ It’s like turning random thoughts into structured wisdom. SHEESH! 🔥
 
 💡 Search and recall — easily find past notes based on keywords or emotions.
 
-##💭 Vision
+## 💭 Vision
 
 AGS-SpeakNotes isn’t just another recorder app — it’s your voice-powered second brain.
 Whether you’re journaling, brainstorming ideas, or just venting your thoughts, the app helps you capture raw emotion and turn it into something meaningful, structured, and memorable.
