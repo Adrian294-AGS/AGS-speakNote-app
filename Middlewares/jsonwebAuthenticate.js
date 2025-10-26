@@ -11,8 +11,7 @@ export const jwt_authenticate = (req, res, next) => {
     try {
         jwt.verify(token, process.env.access_token, async (error, User) => {
             if(error){return console.log(error)};
-            const data = await fetchUser(User.id);
-            res.status(200).json({success: true, Id: data.UID});
+            res.status(200).json({success: true, Id: User.id});
             next();
         })
     } catch (error) {

@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
 
-export const photoMove = async(filePath) => {
+export const photoMove = async(file) => {
     const uploadDir = path.resolve("upload/photo");
     try {
-        const res = await fetch(filePath);
+        const res = await fetch(file);
         const buffer = await res.arrayBuffer();
 
-        const fileName = `${Date.now()}-${filePath}.png`;
+        const fileName = `${Date.now()}-${file}.png`;
         const filePath = path.join(uploadDir, fileName);
 
         fs.writeFileSync(filePath, Buffer.from(buffer));

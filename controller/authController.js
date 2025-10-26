@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { selectUser, createUser } from "../models/sql.js";
+import { verifyUser, createUser } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
@@ -8,16 +8,14 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import client from "../models/redisConnection.js";
 import { passwordStrength } from "check-password-strength";
-import { photoMove } from "../Middlewares/photoMv.js";
 
 dotenv.config();
 
 //Google-oauth2 callBack
 export const googleCallback = async (req, res) => {
   console.log(req.user);
-  const payload = { id: req.user.UID, username: req.user.displayName };
+  const payload = { id: req.user.UID, username: req.user.display_name};
   try {
-    await photoMove(req.user.photo);
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 
@@ -34,56 +32,56 @@ export const googleCallback = async (req, res) => {
 
 //Register Without Google oauth2 APIs
 
-export const register = async (req, res) => {
-  const { username, password, repeatPassword } = req.body;
+// export const register = async (req, res) => {
+//   const { username, password, repeatPassword } = req.body;
 
-  const isPasswordValid = passwordStrength(password).value;
+//   const isPasswordValid = passwordStrength(password).value;
 
-  if (username.length < 5) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Username is too short!!!!", data: "" });
-  } else if (isPasswordValid == "Too weak") {
-    return res.status(400).json({
-      success: false,
-      message: "Password is too weak!!!!",
-      data: username,
-    });
-  }
+//   if (username.length < 5) {
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "Username is too short!!!!", data: "" });
+//   } else if (isPasswordValid == "Too weak") {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Password is too weak!!!!",
+//       data: username,
+//     });
+//   }
 
-  try {
-    const selectResult = await selectUser(username);
-    if (selectResult) {
-      return res.status(400).json({
-        success: false,
-        message: `${username} is Already taken`,
-        data: "",
-      });
-    }
+//   try {
+//     const selectResult = await verifyUser(username);
+//     if (selectResult.display_name) {
+//       return res.status(400).json({
+//         success: false,
+//         message: `${username} is Already taken`,
+//         data: "",
+//       });
+//     }
 
-    if (password != repeatPassword) {
-      return res.status(400).json({
-        success: false,
-        message: "Password do not matched!!!!!",
-        data: username,
-      });
-    }
-    let hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = {
-      displayName: username,
-      password: hashedPassword,
-    };
-    const insertResult = await createUser("tblusers", newUser);
-    console.log("Inserted success ID: ", insertResult.insertId);
-    return res.status(201).json({
-      success: true,
-      message: "Success Sign-Up",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ Error: `Error: ${error}` });
-  }
-};
+//     if (password != repeatPassword) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Password do not matched!!!!!",
+//         data: username,
+//       });
+//     }
+//     let hashedPassword = await bcrypt.hash(password, 10);
+//     const newUser = {
+//       display_name: username,
+//       password: hashedPassword,
+//     };
+//     const insertResult = await createUser("tbl_users", newUser);
+//     console.log("Inserted success ID: ", insertResult.insertId);
+//     return res.status(201).json({
+//       success: true,
+//       message: "Success Sign-Up",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ Error: `Error: ${error}` });
+//   }
+// };
 
 //sign-in part
 export const logForm = async (req, res) => {
@@ -178,7 +176,7 @@ export const refreshToken = async (req, res) => {
 
 export const facebookCallback = async (req, res) => {
   console.log(req.user);
-  const payload = { id: req.user.UID, username: req.user.displayName };
+  const payload = { id: req.user.UID, username: req.user.display_name };
 
   try {
     const access_token = generate_access_token(payload);
@@ -191,6 +189,7 @@ export const facebookCallback = async (req, res) => {
 
     return res.status(301).redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
+    console.log(error);
     return res.status(500);
   }
 };

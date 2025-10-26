@@ -23,13 +23,19 @@ passport.use(
         }
         const photo = await photoMove(profile.photos[0].value);
         const newUser = {
-          googleId: profile.id,
-          displayName: profile.displayName,
+          display_name: profile.displayName,
           email: profile.emails[0].value,
+          password: "google",
           photo: photo
         };
-        const insert_results = await createUser("tblusers", newUser);
+        const insert_results = await createUser("tbl_users", newUser);
         newUser.UID = insert_results.insertId;
+        const userAccount = {
+          UID: insert_results.insertId,
+          provider: "google",
+          providerr_id: profile.id
+        }
+        await createUser("tbl_user_account", userAccount);
         return done(null, newUser);
       } catch (error) {
         return done(error);

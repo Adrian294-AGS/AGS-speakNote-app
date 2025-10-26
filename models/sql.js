@@ -5,13 +5,13 @@ export const createUser = async (table, input) => {
     return results;
 };
 
-export async function selectUser (params) {
-    const [results] = await db.query("SELECT * FROM tblusers WHERE displayName = ?", [params]);
+export async function verifyUser (params) {
+    const [results] = await db.query("SELECT display_name FROM tbl_users WHERE display_name = ?", [params]);
     return results[0];
 };
 
 export const SelectUserGoogle = async (params) => {
-    const [results] = await db.query("SELECT * FROM tblusers WHERE googleId = ?", [params]);
+    const [results] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
     return results[0];
 };
 
@@ -36,7 +36,7 @@ export const fetchUser = async (params) => {
 };
 
 export const selectFacebookId = async (params) => {
-    const [result] = await db.query("SELECT * FROM tblusers WHERE faceBookId = ?", [params]);
+    const [result] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
     return result[0];
 };
 
@@ -44,5 +44,3 @@ export const update = async (tblName, set, tblId) => {
     const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
     return result;
 };
-
-

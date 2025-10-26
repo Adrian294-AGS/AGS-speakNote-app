@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as facebookStrategy } from "passport-facebook";
 import dotenv from "dotenv";
 import { selectFacebookId, createUser } from "../models/sql.js";
+import { photoMove } from "../Middlewares/photoMv.js";
 
 dotenv.config();
 
@@ -20,14 +21,21 @@ passport.use(
         if (result) {
           return done(null, result);
         }
+        const photo_path = await photoMove(profile.photos[0].value);
         const newUser = {
-          faceBookId: profile.id,
-          displayName: profile.displayName,
+          display_name: profile.displayName,
           email: profile.emails[0].value,
-          photo: profile.photos[0].value,
+          password: "Facebook",
+          photo: photo_path,
         };
         const insertUser = await createUser("tblusers", newUser);
         newUser.UID = insertUser.insertId;
+        const userAccount = {
+          UID: insertUser.insertId,
+          provider: "facebook",
+          providerr_id: profile.id
+        }
+        await createUser("tbl_user_account", userAccount);
         return done(null, newUser);
       } catch (error) {
         return done(error);
