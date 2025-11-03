@@ -15,6 +15,18 @@ export const SelectUserGoogle = async (params) => {
     return results[0];
 };
 
+export const selectFacebookId = async (params) => {
+    const [result] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
+    return result[0];
+};
+
+export const loginUser = async (params) => {
+    const [result] = await db.query("SELECT A.display_name, A.password, B.provider FROM tbl_users AS A JOIN tbl_user_account As B ON A.UID = B.UID WHERE UID = ?", [params]);
+    return result[0];
+}
+
+//////
+
 export const selectAudio = async (params) => {
     const [result] = await db.query("SELECT * FROM tblaudio WHERE AID = ?", [params]);
     return result[0];
@@ -32,11 +44,6 @@ export const audioDelete = async (params) => {
 
 export const fetchUser = async (params) => {
     const [result] = await db.query("SELECT * FROM tblusers WHERE UID = ?", [params]);
-    return result[0];
-};
-
-export const selectFacebookId = async (params) => {
-    const [result] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
     return result[0];
 };
 

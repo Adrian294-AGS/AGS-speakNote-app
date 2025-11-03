@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { verifyUser, createUser } from "../models/sql.js";
+import { verifyUser, createUser, loginUser } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
@@ -30,7 +30,7 @@ export const googleCallback = async (req, res) => {
   }
 };
 
-//Register Without Google oauth2 APIs
+// Register Without Google oauth2 APIs
 
 // export const register = async (req, res) => {
 //   const { username, password, repeatPassword } = req.body;
@@ -95,12 +95,15 @@ export const logForm = async (req, res) => {
 
   try {
     const result = await selectUser(username);
-    if (result) {
-      if (!result.password) {
-        return res
-          .status(200)
-          .json({ success: false, message: "Sign-in with Google" });
-      }
+
+    if(result.provider == "google"){
+      return res.status(204).json({success: false, message: "your account was already Sign-in with Google."});
+    } else if(result.provider == "facebook"){
+      return res.status(204).json({success: false, message: "your account was already Sign-in with Facebook"});
+    }
+
+    if (result.display_name) {
+      // dito ako nag tapos
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
         return res

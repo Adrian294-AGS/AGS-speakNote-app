@@ -25,7 +25,6 @@ passport.use(
         const newUser = {
           display_name: profile.displayName,
           email: profile.emails[0].value,
-          password: "google",
           photo: photo
         };
         const insert_results = await createUser("tbl_users", newUser);

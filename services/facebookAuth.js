@@ -25,8 +25,7 @@ passport.use(
         const newUser = {
           display_name: profile.displayName,
           email: profile.emails[0].value,
-          password: "Facebook",
-          photo: photo_path,
+          photo: photo_path
         };
         const insertUser = await createUser("tblusers", newUser);
         newUser.UID = insertUser.insertId;
