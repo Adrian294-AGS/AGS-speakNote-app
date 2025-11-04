@@ -1,8 +1,10 @@
-import { createContext, useContext,useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
+  const [accessToken, setAccessToken] = useState(null);
 
   const logout = async (params) => {
     const res = await fetch(`http://localhost:5000/logout/${params}`, {
@@ -40,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ logout, refresh }}>
+    <AuthContext.Provider value={{ logout, refresh, accessToken, setAccessToken }}>
       {children}
     </AuthContext.Provider>
   );
