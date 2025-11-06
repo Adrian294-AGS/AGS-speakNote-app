@@ -32,56 +32,56 @@ export const googleCallback = async (req, res) => {
 
 // Register Without Google oauth2 APIs
 
-// export const register = async (req, res) => {
-//   const { username, password, repeatPassword } = req.body;
+export const register = async (req, res) => {
+  const { username, password, repeatPassword } = req.body;
 
-//   const isPasswordValid = passwordStrength(password).value;
+  const isPasswordValid = passwordStrength(password).value;
 
-//   if (username.length < 5) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Username is too short!!!!", data: "" });
-//   } else if (isPasswordValid == "Too weak") {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Password is too weak!!!!",
-//       data: username,
-//     });
-//   }
+  if (username.length < 5) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Username is too short!!!!", data: "" });
+  } else if (isPasswordValid == "Too weak") {
+    return res.status(400).json({
+      success: false,
+      message: "Password is too weak!!!!",
+      data: username,
+    });
+  }
 
-//   try {
-//     const selectResult = await verifyUser(username);
-//     if (selectResult.display_name) {
-//       return res.status(400).json({
-//         success: false,
-//         message: `${username} is Already taken`,
-//         data: "",
-//       });
-//     }
+  try {
+    const selectResult = await verifyUser(username);
+    if (selectResult.display_name) {
+      return res.status(400).json({
+        success: false,
+        message: `${username} is Already taken`,
+        data: "",
+      });
+    }
 
-//     if (password != repeatPassword) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Password do not matched!!!!!",
-//         data: username,
-//       });
-//     }
-//     let hashedPassword = await bcrypt.hash(password, 10);
-//     const newUser = {
-//       display_name: username,
-//       password: hashedPassword,
-//     };
-//     const insertResult = await createUser("tbl_users", newUser);
-//     console.log("Inserted success ID: ", insertResult.insertId);
-//     return res.status(201).json({
-//       success: true,
-//       message: "Success Sign-Up",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ Error: `Error: ${error}` });
-//   }
-// };
+    if (password != repeatPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Password do not matched!!!!!",
+        data: username,
+      });
+    }
+    let hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = {
+      display_name: username,
+      password: hashedPassword,
+    };
+    const insertResult = await createUser("tbl_users", newUser);
+    console.log("Inserted success ID: ", insertResult.insertId);
+    return res.status(201).json({
+      success: true,
+      message: "Success Sign-Up",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ Error: `Error: ${error}` });
+  }
+};
 
 //sign-in part
 export const logForm = async (req, res) => {
@@ -94,16 +94,15 @@ export const logForm = async (req, res) => {
   }
 
   try {
-    const result = await selectUser(username);
+    const result = await loginUser(username);
 
     if(result.provider == "google"){
-      return res.status(204).json({success: false, message: "your account was already Sign-in with Google."});
+      return res.status(204).json({success: false, message: "Continue with Google."});
     } else if(result.provider == "facebook"){
-      return res.status(204).json({success: false, message: "your account was already Sign-in with Facebook"});
+      return res.status(204).json({success: false, message: "Continue with Facebook"});
     }
 
     if (result.display_name) {
-      // dito ako nag tapos
       let isMatched = await bcrypt.compare(password, result.password);
       if (!isMatched) {
         return res
@@ -127,10 +126,7 @@ export const logForm = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ success: false, message: `Backend Error: ${error}` });
-    
+    return res.status(500);
   }
 };
 

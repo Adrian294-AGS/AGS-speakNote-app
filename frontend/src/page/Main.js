@@ -75,7 +75,6 @@ function Main() {
 
       if (!data.success) {
         setError(data.message);
-        setAudioId({ Id: null });
         return;
       }
 
@@ -84,7 +83,7 @@ function Main() {
         return;
       }
 
-      setTranscription(data.transcription);
+      setTranscription(data.preview);
       setLoading(false);
       setError(null);
     } catch (error) {

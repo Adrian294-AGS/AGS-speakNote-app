@@ -25,12 +25,12 @@ export const loginUser = async (params) => {
     return result[0];
 }
 
-//////
-
-export const selectAudio = async (params) => {
-    const [result] = await db.query("SELECT * FROM tblaudio WHERE AID = ?", [params]);
+export const selectResult = async (params) => {
+    const [result] = await db.query("SELECT result_text FROM tbl_audio WHERE audio_id = ?", [params]);
     return result[0];
 };
+
+////////////////////////////////////////////
 
 export const fetchAllAudio = async (params) => {
     const [result] = await db.query("SELECT tblusers.UID, tblaudio.AID, wav_file, result_text, txt_file_path, tblaudio.created_at from tblusers INNER JOIN tblaudio ON tblusers.UID = tblaudio.user_id WHERE tblusers.UID = ?", [params]);
