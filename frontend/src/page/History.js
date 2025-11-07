@@ -213,7 +213,7 @@ function History() {
                         <div className="card-footer bg-white d-flex flex-wrap gap-2 justify-content-end">
                           <button
                             className="btn btn-sm btn-outline-secondary"
-                            onClick={() => handleCopy(t.AID)}
+                            onClick={() => handleCopy(t.audio_id)}
                           >
                             Copy text
                           </button>
@@ -227,7 +227,7 @@ function History() {
                           </a>
                           <button
                             className="btn btn-sm btn-danger"
-                            onClick={() => handleDelete(t.AID)}
+                            onClick={() => handleDelete(t.audio_id)}
                           >
                             Delete
                           </button>

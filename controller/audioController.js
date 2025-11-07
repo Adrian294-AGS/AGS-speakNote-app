@@ -1,4 +1,4 @@
-import { selectResult, fetchAllAudio, audioDelete } from "../models/sql.js";
+import { fetchResultTxt, fetchAllAudio, audioDelete } from "../models/sql.js";
 import clipboard from "clipboardy";
 
 export const fetchAudio = async (req, res) => {
@@ -49,9 +49,9 @@ export const deleteAudio = async (req, res) => {
 export const copyText = async (req, res) => {
     const { Id } = req.params;
     try {
-        const selectResult = await selectAudio(Id);
-        if(!selectResult){
-            return res.status(404).json({success: false, message: `Id not found`});
+        const selectResult = await fetchResultTxt(Id);
+        if(!selectResult.result_text){
+            return res.status(404).json({success: false, message: `Transcription not found, can't copy`});
         }
         clipboard.writeSync(selectResult.result_text);
         return res.status(200).json({success: true});

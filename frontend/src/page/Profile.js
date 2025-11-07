@@ -10,7 +10,6 @@ function Profile() {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    Id: null,
     username: "",
     photo: null,
     email: "",
@@ -54,11 +53,10 @@ function Profile() {
         return;
       }
       setProfile({
-        Id: data.Id,
-        username: data.username,
-        photo: data.photo,
-        email: data.email,
-        userInfo: data.user_info,
+        username: data.userData.display_name,
+        photo: data.userData.photo,
+        email: data.userData.email,
+        userInfo: data.userData.iserInfo
       });
     } catch (error) {
       console.log(error);

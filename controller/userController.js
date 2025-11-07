@@ -14,18 +14,14 @@ export const fetchUserProfile = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      Id: userData.UID,
-      username: userData.displayName,
-      email: userData.email,
-      photo: userData.photo,
-      user_info: userData.user_info,
+      userData
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ success: false, message: `ERROR: ${error}` });
   }
 };
-
+/////////////////////// dito ako nag tapos
 export const getProfileInfo = async (req, res) => {
   const { Id } = req.params;
   try {

@@ -32,13 +32,12 @@ export const uploadController = async (req, res) => {
     py.on("close", async () => {
       const txtFilePath = await generateToTxt(audio.filename, result.trim());
       const insert_audio = {
-        user_Id: Id,
+        UID: Id,
         wav_file: wavFile,
         result_text: result.trim(),
-        display_name: username,
         txt_file_path: txtFilePath
       }
-      const insert_result = await createUser("tblaudio", insert_audio);
+      const insert_result = await createUser("tbl_audio", insert_audio);
       fs.unlinkSync(inputPath);
       return res.status(201).json({success: true, Id: insert_result.insertId});
     });

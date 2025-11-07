@@ -30,22 +30,29 @@ export const selectResult = async (params) => {
     return result[0];
 };
 
-////////////////////////////////////////////
-
 export const fetchAllAudio = async (params) => {
-    const [result] = await db.query("SELECT tblusers.UID, tblaudio.AID, wav_file, result_text, txt_file_path, tblaudio.created_at from tblusers INNER JOIN tblaudio ON tblusers.UID = tblaudio.user_id WHERE tblusers.UID = ?", [params]);
+    const [result] = await db.query("SELECT audio_id, wav_file, result_text, txt_file_path, tbl_audio.created_at from tbl_users INNER JOIN tbl_audio ON tbl_users.UID = tbl_audio.UID WHERE tbl_users.UID = ? ORDER BY tbl_audio.created_at DESC", [params]);
     return result;
 };
 
 export const audioDelete = async (params) => {
-    const [result] = await db.query("DELETE FROM tblaudio WHERE AID = ?", [params]);
+    const [result] = await db.query("DELETE FROM tbl_audio WHERE audio_id = ?", [params]);
     return result;
 };
 
-export const fetchUser = async (params) => {
-    const [result] = await db.query("SELECT * FROM tblusers WHERE UID = ?", [params]);
+export const fetchResultTxt = async (params) => {
+    const [result] = await db.query("SELECT result_text FROM tbl_audio WHERE audio_id = ?", [params]);
     return result[0];
 };
+
+export const fetchUser = async (params) => {
+    const [result] = await db.query("SELECT A.display_name, A.photo, A.email, B.userInfo FROM tbl_users AS A LEFT JOIN tbl_audio AS B ON A.UID = B.UID WHERE UID = ?", [params]);
+    return result[0];
+};
+
+////////////////////////////////////////////
+
+
 
 export const update = async (tblName, set, tblId) => {
     const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
