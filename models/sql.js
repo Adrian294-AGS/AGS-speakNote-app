@@ -21,9 +21,9 @@ export const selectFacebookId = async (params) => {
 };
 
 export const loginUser = async (params) => {
-    const [result] = await db.query("SELECT A.display_name, A.password, B.provider FROM tbl_users AS A JOIN tbl_user_account As B ON A.UID = B.UID WHERE UID = ?", [params]);
+    const [result] = await db.query("SELECT A.UID, A.display_name, A.password, B.provider FROM tbl_users AS A JOIN tbl_user_account As B ON A.UID = B.UID WHERE display_name = ?", [params]);
     return result[0];
-}
+};
 
 export const selectResult = async (params) => {
     const [result] = await db.query("SELECT result_text FROM tbl_audio WHERE audio_id = ?", [params]);
@@ -51,7 +51,6 @@ export const fetchUser = async (params) => {
 };
 
 ////////////////////////////////////////////
-
 
 
 export const update = async (tblName, set, tblId) => {

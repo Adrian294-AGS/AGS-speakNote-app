@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { verifyUser, createUser, loginUser } from "../models/sql.js";
+import { verifyUser, createUser, loginUser, fetchUser } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
@@ -95,6 +95,7 @@ export const logForm = async (req, res) => {
 
   try {
     const result = await loginUser(username);
+    
 
     if(result.provider == "google"){
       return res.status(204).json({success: false, message: "Continue with Google."});
@@ -109,6 +110,7 @@ export const logForm = async (req, res) => {
           .status(401)
           .json({ success: false, message: "Wrong Password!!!!!" });
       }
+      const userInfo = await fetchUser(result.UID);
       const payload = { id: result.UID, username: username };
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
@@ -117,6 +119,10 @@ export const logForm = async (req, res) => {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
+
+///////////////////// dito ako nag tapos
+      await client.setEx(`tokenId:${result.UID}`, 900, access_token);
+      await client.setEx(`user:${result.UID}`, 3600, JSON.stringify(userInfo));
 
       return res.status(200).json({ access_token, success: true });
     } else {
