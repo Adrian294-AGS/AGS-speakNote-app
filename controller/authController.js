@@ -95,8 +95,7 @@ export const logForm = async (req, res) => {
 
   try {
     const result = await loginUser(username);
-    
-
+  
     if(result.provider == "google"){
       return res.status(204).json({success: false, message: "Continue with Google."});
     } else if(result.provider == "facebook"){

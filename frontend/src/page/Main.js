@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 
 function Main() {
-  const accessToken = localStorage.getItem("token");
+  const { accessToken, setAccessToken, logout } = useAuth();
 
   const [data, setData] = useState({
     Id: null,
@@ -19,7 +19,6 @@ function Main() {
   const [transcriptions, setTranscription] = useState(null);
   const [audioId, setAudioId] = useState(null);
   const [error, setError] = useState(null);
-  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const onLogout = () => {

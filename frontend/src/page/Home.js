@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/authContext";
 
 function Home() {
   const navigate = useNavigate();
+  const { setAccessToken } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -24,7 +26,7 @@ function Home() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
     if (token) {
-      localStorage.setItem("token", token);
+      setAccessToken(token);
       localStorage.setItem("navbarOnChange", true);
       navigate("/home");
     }
@@ -47,7 +49,7 @@ function Home() {
         setFormData({ username: "", password: "" });
         return;
       }
-      localStorage.setItem("token", data.access_token);
+      setAccessToken(data.access_token);
       localStorage.setItem("navbarOnChange", true);
       navigate("/home");
     } catch (err) {
