@@ -120,7 +120,7 @@ export const logForm = async (req, res) => {
       });
 
 ///////////////////// dito ako nag tapos
-      await client.setEx(`tokenId:${result.UID}`, 900, access_token);
+      await client.setEx(`accessToken:${access_token}`, 900, access_token);
       await client.setEx(`user:${result.UID}`, 3600, JSON.stringify(userInfo));
 
       return res.status(200).json({ access_token, success: true });

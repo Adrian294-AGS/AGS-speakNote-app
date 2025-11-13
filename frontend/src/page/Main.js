@@ -107,6 +107,7 @@ function Main() {
       const result = await res.json();
       if (!result.success) {
         navigate("/");
+        setAccessToken(false);
         return;
       }
       getProfileInfo(result.Id);

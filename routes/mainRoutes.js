@@ -8,10 +8,11 @@ import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/user
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
 import uploadPhoto from "../Middlewares/multerPhoto.js";
+import { tokenCache } from "../Middlewares/tokenCache.js"; 
 
 const router = express.Router();
 
-router.get("/protection", jwt_authenticate);
+router.get("/protection", tokenCache, jwt_authenticate);
 
 router.get("/getProfileInfo/:Id", cache, getProfileInfo);
 

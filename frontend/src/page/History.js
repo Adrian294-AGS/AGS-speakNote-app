@@ -38,7 +38,6 @@ function History() {
   };
 
   const getProfileInfo = async (params) => {
-    const Id = params;
     try {
       const res = await fetch(`http://localhost:5000/getProfileInfo/${params}`, {
         method: "GET"
