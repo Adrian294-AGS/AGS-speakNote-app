@@ -96,7 +96,9 @@ export const logForm = async (req, res) => {
   try {
     const result = await loginUser(username);
   
-    if(result.provider == "google"){
+    if(!result){
+      return res.status(500).json({success: false, message: "Account dos not exist"});
+    } else if(result.provider == "google"){
       return res.status(204).json({success: false, message: "Continue with Google."});
     } else if(result.provider == "facebook"){
       return res.status(204).json({success: false, message: "Continue with Facebook"});
@@ -167,6 +169,7 @@ export const refreshToken = async (req, res) => {
       }
       const payload = { id: user.id, username: user.username };
       const access_token = generate_access_token(payload);
+      await client.setEx(`accessToken:${access_token}`, 900, access_token);
 
       return res.status(200).json({ access_token, success: true });
     });

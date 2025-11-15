@@ -22,6 +22,7 @@ passport.use(
           return done(null, select_results);
         }
         const photo = await photoMove(profile.photos[0].value);
+            console.log(photo);
         const newUser = {
           display_name: profile.displayName,
           email: profile.emails[0].value,
@@ -31,7 +32,7 @@ passport.use(
         newUser.UID = insert_results.insertId;
         const userAccount = {
           UID: insert_results.insertId,
-          provider: "google",
+          provider: profile.provider,
           providerr_id: profile.id
         }
         await createUser("tbl_user_account", userAccount);

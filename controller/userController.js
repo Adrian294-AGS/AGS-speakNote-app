@@ -26,12 +26,13 @@ export const getProfileInfo = async (req, res) => {
   const { Id } = req.params;
   try {
     const user = await fetchUser(Id);
-    if (!user.UID)
+    if (!user.UID){
       return res.status(404).json({ success: false, messsage: "Id not found" });
+    }
     const userData = {
       username: user.displayName,
       photo: user.photo,
-      user_info: user.user_info,
+      user_info: user.userInfo
     };
 
     client.setEx(`user:${Id}`, 3600, JSON.stringify(userData));

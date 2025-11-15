@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       });
       const data = await res.json();
       if (data.success) {
-        localStorage.setItem("token", data.access_token);
+        setAccessToken(data.access_token);
       } else {
         console.log(data.message);
       }

@@ -11,7 +11,7 @@ export async function verifyUser (params) {
 };
 
 export const SelectUserGoogle = async (params) => {
-    const [results] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
+    const [results] = await db.query("SELECT UID FROM tbl_user_account WHERE providerr_id = ?", [params]);
     return results[0];
 };
 
@@ -46,7 +46,7 @@ export const fetchResultTxt = async (params) => {
 };
 
 export const fetchUser = async (params) => {
-    const [result] = await db.query("SELECT A.display_name, A.photo, A.email, B.userInfo FROM tbl_users AS A LEFT JOIN tbl_audio AS B ON A.UID = B.UID WHERE UID = ?", [params]);
+    const [result] = await db.query("SELECT A.display_name, A.photo, A.email, B.userInfo FROM tbl_users AS A LEFT JOIN tbl_user_info AS B ON A.UID = B.UID WHERE UID = ?", [params]);
     return result[0];
 };
 

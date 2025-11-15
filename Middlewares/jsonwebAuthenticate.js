@@ -5,8 +5,7 @@ import { fetchUser } from "../models/sql.js";
 dotenv.config({path: "./.env"});
 
 export const jwt_authenticate = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const token = req.user;
     if(!token) {return res.status(401).json({success: false, message: "Access token expired"})};
     try {
         jwt.verify(token, process.env.access_token, async (error, User) => {
@@ -16,4 +15,4 @@ export const jwt_authenticate = (req, res, next) => {
     } catch (error) {
         console.log(error)
     }
-}
+};
