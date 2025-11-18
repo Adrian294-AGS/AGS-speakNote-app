@@ -5,7 +5,7 @@ export const createUser = async (table, input) => {
     return results;
 };
 
-export async function verifyUser (params) {
+export const verifyUser = async (params) => {
     const [results] = await db.query("SELECT display_name FROM tbl_users WHERE display_name = ?", [params]);
     return results[0];
 };
@@ -21,7 +21,7 @@ export const selectFacebookId = async (params) => {
 };
 
 export const loginUser = async (params) => {
-    const [result] = await db.query("SELECT A.UID, A.display_name, A.password, B.provider FROM tbl_users AS A JOIN tbl_user_account As B ON A.UID = B.UID WHERE display_name = ?", [params]);
+    const [result] = await db.query("SELECT A.UID, A.display_name, A.password, B.provider FROM tbl_users AS A LEFT JOIN tbl_user_account As B ON A.UID = B.UID WHERE display_name = ?", [params]);
     return result[0];
 };
 
@@ -46,7 +46,7 @@ export const fetchResultTxt = async (params) => {
 };
 
 export const fetchUser = async (params) => {
-    const [result] = await db.query("SELECT A.display_name, A.photo, A.email, B.userInfo FROM tbl_users AS A LEFT JOIN tbl_user_info AS B ON A.UID = B.UID WHERE UID = ?", [params]);
+    const [result] = await db.query("SELECT A.display_name, A.photo, A.email, B.userInfo FROM tbl_users AS A LEFT JOIN tbl_user_info AS B ON A.UID = B.UID WHERE A.UID = ?", [params]);
     return result[0];
 };
 

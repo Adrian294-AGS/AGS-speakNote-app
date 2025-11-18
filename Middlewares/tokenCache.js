@@ -5,11 +5,13 @@ export const tokenCache = async (req, res, next) => {
     const token = authHeader && authHeader.split(" ")[1];
     try {
         const result = await client.get(`accessToken:${token}`);
-        if(result != null){
-            req.user = result;
-            next();
+        const data = result;
+        console.log(data);
+        if(data !== null){
+            req.user = data;
+            return next();
         }
-        return res.status(200).json({success: false, message: "Token expired"});
+        return res.status(200).json({success: false, message: "Token expired11111"});
     } catch (error) {
         console.log(error);
     }

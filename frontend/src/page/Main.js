@@ -22,12 +22,15 @@ function Main() {
   const navigate = useNavigate();
 
   const onLogout = () => {
-    localStorage.removeItem("token");
     localStorage.removeItem("navbarOnChange");
     logout(data.Id);
     navigate("/");
     return;
   };
+
+  useEffect(() => {
+    jwtAuth();
+  }, [accessToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,8 +109,7 @@ function Main() {
       });
       const result = await res.json();
       if (!result.success) {
-        navigate("/");
-        setAccessToken(false);
+        alert(result.message);
         return;
       }
       getProfileInfo(result.Id);
@@ -124,21 +126,15 @@ function Main() {
       });
 
       const profile = await res.json();
-
       if(profile.success){
         setData({Id: params, username: profile.username, photo: profile.photo});
+        alert(profile.username);
         return;
       }
     } catch (error) {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    if (accessToken) {
-      jwtAuth();
-    }
-  }, []);
 
   return accessToken ? (
     <div>

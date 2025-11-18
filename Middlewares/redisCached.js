@@ -6,9 +6,10 @@ export const cache = async (req, res, next) => {
     const cached = await client.get(`user:${Id}`);
     const data = JSON.parse(cached);
     if (data != null) {
-      return res.status(200).json({ success: true, username: data.username, photo: data.photo});
+      console.log(data);
+      return res.status(200).json({ success: true, username: data.display_name, photo: data.photo});
     }
-    next();
+    return next();
   } catch (error) {
     console.log(error);
   }

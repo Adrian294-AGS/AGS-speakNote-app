@@ -51,7 +51,7 @@ export const register = async (req, res) => {
 
   try {
     const selectResult = await verifyUser(username);
-    if (selectResult.display_name) {
+    if (selectResult) {
       return res.status(400).json({
         success: false,
         message: `${username} is Already taken`,
@@ -139,9 +139,11 @@ export const logForm = async (req, res) => {
 
 export const logout = async (req, res) => {
   const { Id } = req.params;
+  const { accessToken } = req.body;
 
   try {
     await client.del(`user:${Id}`);
+    await client.del(`accessToken:${accessToken}`)
     res.clearCookie("refresh_token");
     return res
       .status(200)

@@ -25,6 +25,7 @@ export const fetchUserProfile = async (req, res) => {
 export const getProfileInfo = async (req, res) => {
   const { Id } = req.params;
   try {
+    console.log("dumaan ulit dito");
     const user = await fetchUser(Id);
     if (!user.UID){
       return res.status(404).json({ success: false, messsage: "Id not found" });

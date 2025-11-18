@@ -3,9 +3,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
+import { useAuth } from "../context/authContext";
 
 function History() {
-  const [accessToken] = useState(localStorage.getItem("token"));
+  const { accessToken } = useAuth();
   const [profile, setProfile] = useState({
     Id: null,
     username: "",

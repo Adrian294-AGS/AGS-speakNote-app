@@ -10,11 +10,11 @@ export const AuthProvider = ({ children }) => {
     const res = await fetch(`http://localhost:5000/logout/${params}`, {
       method: "GET",
       credentials: "include",
+      body: accessToken
     });
 
     const data = await res.json();
     if (data) {
-      localStorage.removeItem("token");
       return alert(`${data.message}`);
     }
   };

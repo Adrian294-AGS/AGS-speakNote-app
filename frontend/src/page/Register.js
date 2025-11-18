@@ -30,7 +30,7 @@ function Register() {
 
       const data = await res.json();
       if (!data.success) {
-        setFormData({ username: data.data, password: "", repeatPassword: "" });
+        setFormData({...formData, username: data.data});
         setError(data.message);
         return;
       }
