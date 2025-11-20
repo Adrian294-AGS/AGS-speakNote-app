@@ -122,7 +122,6 @@ export const logForm = async (req, res) => {
       });
 
 ///////////////////// dito ako nag tapos
-      await client.setEx(`accessToken:${access_token}`, 900, access_token);
       await client.setEx(`user:${result.UID}`, 3600, JSON.stringify(userInfo));
 
       return res.status(200).json({ access_token, success: true });
@@ -139,11 +138,9 @@ export const logForm = async (req, res) => {
 
 export const logout = async (req, res) => {
   const { Id } = req.params;
-  const { accessToken } = req.body;
 
   try {
     await client.del(`user:${Id}`);
-    await client.del(`accessToken:${accessToken}`)
     res.clearCookie("refresh_token");
     return res
       .status(200)
@@ -171,9 +168,8 @@ export const refreshToken = async (req, res) => {
       }
       const payload = { id: user.id, username: user.username };
       const access_token = generate_access_token(payload);
-      await client.setEx(`accessToken:${access_token}`, 900, access_token);
 
-      return res.status(200).json({ access_token, success: true });
+      return res.status(200).json({success: true, access_token});
     });
   } catch (error) {
     console.log(error);

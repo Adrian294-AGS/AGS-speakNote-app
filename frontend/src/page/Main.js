@@ -110,31 +110,15 @@ function Main() {
       const result = await res.json();
       if (!result.success) {
         alert(result.message);
+        setAccessToken(null);
         return;
       }
-      getProfileInfo(result.Id);
+      setData({Id: result.Id, username: result.username, photo: result.photo});
+      alert(result.username);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const getProfileInfo = async (params) => {
-    const Id = params;
-    try {
-      const res = await fetch(`http://localhost:5000/getProfileInfo/${Id}`, {
-        method: "GET"
-      });
-
-      const profile = await res.json();
-      if(profile.success){
-        setData({Id: params, username: profile.username, photo: profile.photo});
-        alert(profile.username);
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return accessToken ? (
     <div>

@@ -7,12 +7,11 @@ import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../contro
 import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
-import uploadPhoto from "../Middlewares/multerPhoto.js";
-import { tokenCache } from "../Middlewares/tokenCache.js"; 
+import uploadPhoto from "../Middlewares/multerPhoto.js"; 
 
 const router = express.Router();
 
-router.get("/protection", tokenCache, jwt_authenticate);
+router.get("/protection", jwt_authenticate, cache, getProfileInfo);
 
 router.get("/getProfileInfo/:Id", cache, getProfileInfo);
 

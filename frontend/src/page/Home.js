@@ -6,7 +6,7 @@ import { useAuth } from "../context/authContext";
 
 function Home() {
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",

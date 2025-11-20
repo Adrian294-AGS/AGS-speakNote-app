@@ -23,10 +23,10 @@ export const fetchUserProfile = async (req, res) => {
 };
 /////////////////////// dito ako nag tapos
 export const getProfileInfo = async (req, res) => {
-  const { Id } = req.params;
+  const UID = req.user;
   try {
     console.log("dumaan ulit dito");
-    const user = await fetchUser(Id);
+    const user = await fetchUser(UID);
     if (!user.UID){
       return res.status(404).json({ success: false, messsage: "Id not found" });
     }
@@ -36,10 +36,10 @@ export const getProfileInfo = async (req, res) => {
       user_info: user.userInfo
     };
 
-    client.setEx(`user:${Id}`, 3600, JSON.stringify(userData));
+    client.setEx(`user:${UID}`, 3600, JSON.stringify(userData));
     return res
       .status(200)
-      .json({ success: true, username: user.displayName, photo: user.photo });
+      .json({ success: true, Id: UID, username: user.displayName, photo: user.photo });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ success: false, message: `Server Error` });
