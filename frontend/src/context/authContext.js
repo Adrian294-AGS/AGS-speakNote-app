@@ -25,19 +25,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async(token) => {
+  const login = async () => {
     try {
       setLoading(true);
       const res = await fetch("http://localhost:5000/protection", {
         method: "GET",
         headers:{
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${accessToken}`
         },
         credentials: "include"
       });
       const result = await res.json();
       if(result){
-        setAccessToken(result.access_token);
+        alert("nag verify");
         setUser({Id: result.Id, username: result.username, photo: result.photo});
         setLoading(false);
       }
@@ -47,29 +47,40 @@ export const AuthProvider = ({ children }) => {
   }
 
   const refresh = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/auth/refresh", {
-        method: "GET",
-        credentials: "include"
-      });
-      const data = await res.json();
-      if (data.success) {
-        setAccessToken(data.access_token);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+    const res = await fetch("http://localhost:5000/auth/refresh", {
+      method: "GET",
+      credentials: "include",
+    });
 
-  // ✅ Automatically refresh on page load
+    const data = await res.json();
+
+    if (data.success) {
+      setAccessToken(data.access_token);
+      return true;
+    } else {
+      console.log(data.message);
+      setLoading(false);
+      return false
+    }
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    return false;
+  }
+};
+
+//eto nalang yung problema pag nag refresh yung page mawawala yung data
   useEffect(() => {
-   refresh();
-  }, []);
+    if(accessToken){
+      login();
+    }else if(refresh()){
+      login();
+    }
+  }, [accessToken]);
 
   return (
-    <AuthContext.Provider value={{ logout, refresh, accessToken, setAccessToken, login }}>
+    <AuthContext.Provider value={{ logout, refresh, accessToken, setAccessToken, login, user}}>
       {loading ? <Loading /> : children}
     </AuthContext.Provider>
   );

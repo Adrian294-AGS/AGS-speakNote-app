@@ -6,14 +6,7 @@ import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 
 function Main() {
-  const { accessToken, setAccessToken, logout } = useAuth();
-
-  const [data, setData] = useState({
-    Id: null,
-    username: "",
-    photo: null
-  });
-
+  const { accessToken, logout, user} = useAuth();
   const [loading, setLoading] = useState(false);
   const [audioFile, setAudioFile] = useState("");
   const [transcriptions, setTranscription] = useState(null);
@@ -23,14 +16,10 @@ function Main() {
 
   const onLogout = () => {
     localStorage.removeItem("navbarOnChange");
-    logout(data.Id);
+    logout(user.Id);
     navigate("/");
     return;
   };
-
-  useEffect(() => {
-    jwtAuth();
-  }, [accessToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,9 +34,9 @@ function Main() {
     try {
       const formData = new FormData();
 
-      formData.append("Id", data.Id);
+      formData.append("Id", user.Id);
       formData.append("file", audioFile);
-      formData.append("username", data.username);
+      formData.append("username", user.username);
 
       const res = await fetch("http://localhost:5000/home/transcriptions", {
         method: "POST",
@@ -99,30 +88,9 @@ function Main() {
     }
   }, [audioId]);
 
-  const jwtAuth = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/protection", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        credentials: "include"
-      });
-      const result = await res.json();
-      if (!result.success) {
-        alert(result.message);
-        setAccessToken(null);
-        return;
-      }
-      setData({Id: result.Id, username: result.username, photo: result.photo});
-      alert(result.username);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return accessToken ? (
     <div>
-      <Navbar username={data.username} photo={data.photo} Id={data.Id}/>
+      <Navbar username={user.username} photo={user.photo} Id={user.Id}/>
       {loading ? (
       <div>
         <Loading />

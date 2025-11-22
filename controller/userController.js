@@ -27,7 +27,7 @@ export const getProfileInfo = async (req, res) => {
   try {
     console.log("dumaan ulit dito");
     const user = await fetchUser(UID);
-    if (!user.UID){
+    if (!user){
       return res.status(404).json({ success: false, messsage: "Id not found" });
     }
     const userData = {
