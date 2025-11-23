@@ -97,8 +97,8 @@ function About() {
                     <text
                       x="0"
                       y="96"
-                      font-family="Helvetica, Arial, sans-serif"
-                      font-size="96"
+                      fontFamily="Helvetica, Arial, sans-serif"
+                      fontSize="96"
                       fill="#000"
                     >
                       express

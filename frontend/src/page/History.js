@@ -1,69 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LogInFirst from "../components/LogInFirst";
 import Loading from "../components/Loading";
 import { useAuth } from "../context/authContext";
 
 function History() {
-  const { accessToken } = useAuth();
-  const [profile, setProfile] = useState({
-    Id: null,
-    username: "",
-    photo: null,
-  });
-  const navigate = useNavigate();
+  const { accessToken, user } = useAuth();
   const [transcription, setTranscription] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [changes, setChanges] = useState(false);
 
-  const jwtAuth = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/protection", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        credentials: "include",
-      });
-      const result = await res.json();
-      if (!result.success) {
-        navigate("/");
-        return;
-      }
-      getProfileInfo(result.Id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getProfileInfo = async (params) => {
-    try {
-      const res = await fetch(`http://localhost:5000/getProfileInfo/${params}`, {
-        method: "GET"
-      });
-      
-      const data = await res.json();
-
-      if(!data.success){
-        setError(data.message);
-        return;
-      }
-
-      setProfile({Id: params, username: data.username, photo: data.photo});
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const fetchAudio = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/fetchAllAudio/${profile.Id}`,
+        `http://localhost:5000/fetchAllAudio`,
         {
           method: "GET",
+          headers:{
+            Authorization: `Bearer ${accessToken}`
+          },
+          credentials: "include"
         }
       );
 
@@ -81,17 +39,9 @@ function History() {
   };
 
   useEffect(() => {
-    if (profile.Id) {
-      setLoading(true);
-      fetchAudio();
-    }
-  }, [profile.Id, changes]);
-
-  useEffect(() => {
-    if (accessToken) {
-      jwtAuth();
-    }
-  }, []);
+    setLoading(true);
+    fetchAudio();
+  }, [changes]);
 
   const handleDelete = async (Id) => {
     const transId = Id;
@@ -134,9 +84,9 @@ function History() {
       {accessToken ? (
         <div>
           <Navbar
-            username={profile.username}
-            photo={profile.photo}
-            Id={profile.Id}
+            username={user.username}
+            photo={user.photo}
+            Id={user.Id}
           />
           <div className="container py-4">
             {/* Header */}

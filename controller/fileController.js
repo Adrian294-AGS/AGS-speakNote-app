@@ -11,7 +11,7 @@ export const uploadController = async (req, res) => {
   const wavFile = `${audio.filename}.wav`;
   const wavPath = path.resolve("upload", wavFile);
   const ffmpegPath = "C:/ffmpeg/ffmpeg-7.1.1-essentials_build/bin/ffmpeg.exe";
-  const {Id} = req.body;
+  const Id = req.user;
 
   if(!req.file) return res.status(500).json({success: false, message: "No file Uploaded"});
   

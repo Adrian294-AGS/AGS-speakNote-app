@@ -34,13 +34,15 @@ function Main() {
     try {
       const formData = new FormData();
 
-      formData.append("Id", user.Id);
       formData.append("file", audioFile);
-      formData.append("username", user.username);
 
       const res = await fetch("http://localhost:5000/home/transcriptions", {
         method: "POST",
-        body: formData,
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        },
+        credentials: "include",
+        body: formData
       });
 
       const result = await res.json();
@@ -60,6 +62,10 @@ function Main() {
     try {
       const res = await fetch(`http://localhost:5000/fetchAudio/${audioId}`, {
         method: "GET",
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        },
+        credentials: "include"
       });
 
       const data = await res.json();

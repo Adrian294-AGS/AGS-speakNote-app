@@ -18,7 +18,7 @@ export const fetchAudio = async (req, res) => {
 };
 
 export const fetchTranscription = async (req, res) => {
-    const {Id} = req.params;
+    const Id = req.user;
 
     try {
         const fetchResult = await fetchAllAudio(Id);

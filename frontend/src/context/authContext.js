@@ -57,25 +57,21 @@ export const AuthProvider = ({ children }) => {
 
     if (data.success) {
       setAccessToken(data.access_token);
-      return true;
     } else {
       console.log(data.message);
       setLoading(false);
-      return false
     }
   } catch (error) {
     console.log(error);
     setLoading(false);
-    return false;
   }
 };
 
-//eto nalang yung problema pag nag refresh yung page mawawala yung data
   useEffect(() => {
     if(accessToken){
       login();
-    }else if(refresh()){
-      login();
+    }else if(!accessToken){
+      refresh();
     }
   }, [accessToken]);
 

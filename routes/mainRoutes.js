@@ -33,9 +33,9 @@ router.get("/logout/:Id", logout);
 
 router.get("/fetchUsers/:Id", fetchUserProfile);
 
-router.get("/fetchAllAudio/:Id", fetchTranscription);
+router.get("/fetchAllAudio", jwt_authenticate, fetchTranscription);
 
-router.get("/fetchAudio/:Id", fetchAudio);
+router.get("/fetchAudio/:Id", jwt_authenticate, fetchAudio);
 
 router.delete("/deleteAudio/:Id", deleteAudio);
 
