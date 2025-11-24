@@ -31,16 +31,16 @@ router.post("/register", register);
 
 router.get("/logout/:Id", logout);
 
-router.get("/fetchUsers/:Id", fetchUserProfile);
+router.get("/fetchUsers", jwt_authenticate, fetchUserProfile);
 
 router.get("/fetchAllAudio", jwt_authenticate, fetchTranscription);
 
 router.get("/fetchAudio/:Id", jwt_authenticate, fetchAudio);
 
-router.delete("/deleteAudio/:Id", deleteAudio);
+router.delete("/deleteAudio/:Id", jwt_authenticate, deleteAudio);
 
-router.get("/copyText/:Id", copyText);
+router.get("/copyText/:Id", jwt_authenticate, copyText);
 
-router.put("/update/:Id", uploadPhoto.single("photo"), userUpdate);
+router.put("/update/:Id", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
 
 export default router;

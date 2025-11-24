@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/authContext";
 
 function Profile() {
-  const { Id } = useParams();
-  const navigate = useNavigate();
-  const accessToken = localStorage.getItem("token");
+  const { accessToken } = useAuth()
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
@@ -17,34 +15,14 @@ function Profile() {
   });
   const [loop, setLoop] = useState(false);
 
-  const jwtAuth = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/protection", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (!data.success) {
-        setError(data.message);
-        alert(error);
-        navigate("/");
-        return;
-      }
-      setLoop((prev) => !prev);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const fetchUser = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/fetchUsers/${Id}`, {
+      const res = await fetch(`http://localhost:5000/fetchUsers`, {
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        credentials: "include"
       });
 
       const data = await res.json();
@@ -56,7 +34,7 @@ function Profile() {
         username: data.userData.display_name,
         photo: data.userData.photo,
         email: data.userData.email,
-        userInfo: data.userData.iserInfo
+        userInfo: data.userData.userInfo
       });
     } catch (error) {
       console.log(error);
@@ -79,12 +57,17 @@ function Profile() {
     try {
       const res = await fetch(`http://localhost:5000/update/${Id}`, {
         method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        credentials: "include",
         body: formData
       });
 
       const data = await res.json();
       if(!data.success){
-        return alert("Fail to Update");
+        setError(data.message);
+        return;
       }
       alert("Success Update");
       setLoop((prev) => !prev);
@@ -94,12 +77,6 @@ function Profile() {
     }
 
   }
-
-  useEffect(() => {
-    if (accessToken) {
-      jwtAuth();
-    }
-  }, []);
 
   useEffect(() => {
     fetchUser();
@@ -167,6 +144,11 @@ function Profile() {
                     <h5 className="mb-0">Edit Profile</h5>
                   </div>
                   <div className="card-body">
+                     {error && (
+                        <div className="alert alert-danger" role="alert">
+                          {error}
+                        </div>
+                     )}
                     <form onSubmit={handleSubmit}>
                       {/* About / Info */}
                       <div className="mb-3">
