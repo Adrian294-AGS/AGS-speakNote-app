@@ -51,7 +51,7 @@ function Navbar({ username, photo, Id }) {
                 {/* Profile */}
                 <li className="nav-item d-flex align-items-center gap-2">
                   <Link
-                    to={`/home/profile/${Id}`}
+                    to={`/home/profile`}
                     className="d-flex align-items-center text-decoration-none gap-2"
                   >
                     <span className="fw-bold text-success">{username}</span>

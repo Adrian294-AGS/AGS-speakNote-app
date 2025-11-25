@@ -72,6 +72,11 @@ export const register = async (req, res) => {
       password: hashedPassword,
     };
     const insertResult = await createUser("tbl_users", newUser);
+    const userInfo = {
+      UID: insertResult.insertId,
+      userInfo: "Insert Info"
+    }
+    const insertInfo = await createUser("tbl_user_info", userInfo);
     console.log("Inserted success ID: ", insertResult.insertId);
     return res.status(201).json({
       success: true,

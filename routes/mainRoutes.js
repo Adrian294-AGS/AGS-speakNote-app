@@ -41,6 +41,6 @@ router.delete("/deleteAudio/:Id", jwt_authenticate, deleteAudio);
 
 router.get("/copyText/:Id", jwt_authenticate, copyText);
 
-router.put("/update/:Id", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
+router.put("/update", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
 
 export default router;

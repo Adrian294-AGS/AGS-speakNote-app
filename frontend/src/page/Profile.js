@@ -49,13 +49,13 @@ function Profile() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("userInfo", profile.userInfo);
+    formData.append("Info", profile.userInfo);
     if (profile.photo instanceof File) {
       formData.append("photo", profile.photo);
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/update/${Id}`, {
+      const res = await fetch(`http://localhost:5000/update`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -154,7 +154,7 @@ function Profile() {
                       <div className="mb-3">
                         <label className="form-label fw-semibold">About</label>
                         <textarea
-                          name="userInfo"
+                          name="Info"
                           className="form-control"
                           rows="3"
                           value={profile.userInfo}

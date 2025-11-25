@@ -7,8 +7,7 @@ export const AuthProvider = ({ children }) => {
 
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState({
-    Id: null,
-    username: null,
+    display_name: null,
     photo: null
   });
   const [loading, setLoading] = useState(false);
@@ -38,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       const result = await res.json();
       if(result){
         alert("nag verify");
-        setUser({Id: result.Id, username: result.username, photo: result.photo});
+        setUser({display_name: result.display_name, photo: result.photo});
         setLoading(false);
       }
     } catch (error) {

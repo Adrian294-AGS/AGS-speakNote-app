@@ -1,5 +1,6 @@
-import { fetchUser, update } from "../models/sql.js";
+import { fetchUser, update, selectUserInfo } from "../models/sql.js";
 import client from "../models/redisConnection.js";
+import { info } from "pdfkit";
 
 export const fetchUserProfile = async (req, res) => {
   const Id = req.user;
@@ -30,13 +31,7 @@ export const getProfileInfo = async (req, res) => {
     if (!user){
       return res.status(404).json({ success: false, messsage: "Id not found" });
     }
-    const userData = {
-      username: user.displayName,
-      photo: user.photo,
-      user_info: user.userInfo
-    };
-
-    client.setEx(`user:${UID}`, 3600, JSON.stringify(userData));
+    client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
     return res
       .status(200)
       .json({ success: true, Id: UID, username: user.displayName, photo: user.photo });
@@ -46,37 +41,39 @@ export const getProfileInfo = async (req, res) => {
   }
 };
 
+//////
 export const userUpdate = async (req, res) => {
-  const { userInfo } = req.body;
-  const { Id } = req.params;
+  const { Info } = req.body;
   const UID = req.user
   const photo = req.file || null;
-  let set;
 
   try {
+    const userInfoId = await selectUserInfo(UID);
     if (!photo) {
-      set = { user_info: userInfo };
-      const result = await update("tbl_user_info", set, Id);
+      let set = { userInfo: Info };
+      const result = await update("tbl_user_info", set, userInfoId.info_id);
       if (result.affectedRows) {
         const user = await fetchUser(Id);
-        const newUser = {
-          username: user.displayName,
-          photo: user.photo,
-          user_info: user.user_info,
-        }
-        await client.del(`user:${Id}`);
-        await client.setEx(`user:${Id}`, 3600, JSON.stringify(newUser));
+        await client.del(`user:${UID}`);
+        await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
         return res.status(200).json({ success: true });
       }
     } else {
-      set = { photo: photo.filename, user_info: userInfo };
-      const result = await update("tblusers", set, Id);
-      if (result.affectedRows) {
-        await client.del(`user:${Id}`);
+      let set1 = { 
+        photo: photo.filename
+      };
+      let set2 = {
+        userInfo: Info
+      };
+      const insertPhoto = await update("tbl_users", set1, UID);
+      const insertUserInfo = await update("tbl_user_info", set2, userInfoId.info_id);
+      if(insertUserInfo.affectedRows && insertPhoto.affectedRows){
+        const user = await fetchUser(Id);
+        await client.del(`user:${UID}`);
+        await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
         return res.status(200).json({ success: true });
       }
     }
-    
   } catch (error) {
     console.log(error);
     return res.status(500);

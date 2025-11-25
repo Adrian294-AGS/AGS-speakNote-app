@@ -57,3 +57,8 @@ export const update = async (tblName, set, tblId) => {
     const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
     return result;
 };
+
+export const selectUserInfo = async (params) => {
+    const [result] = await db.query("SELECT B.info_id FROM tbl_users AS A JOIN tbl_user_info AS B ON A.UID = B.UID WHERE A.UID = ?",[params]);
+    return result[0];
+}
