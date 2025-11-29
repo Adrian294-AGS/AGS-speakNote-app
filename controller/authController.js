@@ -125,8 +125,7 @@ export const logForm = async (req, res) => {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-
-///////////////////// dito ako nag tapos
+      
       await client.setEx(`user:${result.UID}`, 3600, JSON.stringify(userInfo));
 
       return res.status(200).json({ access_token, success: true });

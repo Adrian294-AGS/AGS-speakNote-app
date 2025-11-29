@@ -1,6 +1,5 @@
 import { fetchUser, update, selectUserInfo } from "../models/sql.js";
 import client from "../models/redisConnection.js";
-import { info } from "pdfkit";
 
 export const fetchUserProfile = async (req, res) => {
   const Id = req.user;
@@ -41,7 +40,6 @@ export const getProfileInfo = async (req, res) => {
   }
 };
 
-//////
 export const userUpdate = async (req, res) => {
   const { Info } = req.body;
   const UID = req.user
