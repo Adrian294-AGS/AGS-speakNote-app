@@ -96,7 +96,7 @@ function Main() {
 
   return accessToken ? (
     <div>
-      <Navbar username={user.username} photo={user.photo} Id={user.Id}/>
+      <Navbar username={user.username} photo={user.photo}/>
       {loading ? (
       <div>
         <Loading />

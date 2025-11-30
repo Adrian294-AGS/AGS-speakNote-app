@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import { useAuth } from "../context/authContext";
 
 function Profile() {
-  const { accessToken } = useAuth()
+  const { accessToken } = useAuth();
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({

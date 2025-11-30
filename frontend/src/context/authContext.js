@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
       });
       const result = await res.json();
       if(result){
-        alert("nag verify");
         setUser({display_name: result.display_name, photo: result.photo});
         setLoading(false);
       }

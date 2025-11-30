@@ -16,13 +16,13 @@ passport.use(
     },
     async function (request, accessToken, refreshToken, profile, done) {
       try {
-        console.log(profile);
-        const select_results = await SelectUserGoogle(profile.id);
-        if (select_results) {
+        const googleId = profile.id;
+        const select_results = await SelectUserGoogle(googleId);
+        console.log(googleId);
+        if (select_results) {   
           return done(null, select_results);
         }
         const photo = await photoMove(profile.photos[0].value);
-            console.log(photo);
         const newUser = {
           display_name: profile.displayName,
           email: profile.emails[0].value,
@@ -33,8 +33,9 @@ passport.use(
         const userAccount = {
           UID: insert_results.insertId,
           provider: profile.provider,
-          providerr_id: profile.id
+          providerr_id: googleId
         }
+        console.log(userAccount.providerr_id);
         await createUser("tbl_user_account", userAccount);
         return done(null, newUser);
       } catch (error) {

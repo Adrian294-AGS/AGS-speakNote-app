@@ -11,7 +11,7 @@ export const verifyUser = async (params) => {
 };
 
 export const SelectUserGoogle = async (params) => {
-    const [results] = await db.query("SELECT UID FROM tbl_user_account WHERE providerr_id = ?", [params]);
+    const [results] = await db.query("SELECT B.display_name, B.photo, A.UID FROM tbl_user_account AS A RIGHT JOIN tbl_users AS B ON A.UID = B.UID WHERE A.providerr_id = ?", [params]);
     return results[0];
 };
 

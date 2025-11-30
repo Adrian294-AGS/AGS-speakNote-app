@@ -140,6 +140,7 @@ export const logForm = async (req, res) => {
   }
 };
 
+// Log-out part
 export const logout = async (req, res) => {
   const { Id } = req.params;
 
@@ -154,6 +155,7 @@ export const logout = async (req, res) => {
   }
 };
 
+// Refresh token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
 
@@ -182,6 +184,8 @@ export const refreshToken = async (req, res) => {
       .json({ success: false, message: "Something Went wrong!!!!" });
   }
 };
+
+//Facebook-oauth2
 
 export const facebookCallback = async (req, res) => {
   console.log(req.user);
