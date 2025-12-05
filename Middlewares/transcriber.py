@@ -7,7 +7,7 @@ model = Model("C:/Users/LENOVO/Documents/myFirstProject/model")
 wf = wave.open(sys.argv[1], "rb")
 
 if wf.getnchannels() != 1 or wf.getsampwidth() != 2 or wf.getframerate() != 16000:
-    print("❌ Audio must be WAV: Mono, 16-bit, 16kHz", file=sys.stderr)
+    print("Audio must be WAV: Mono, 16-bit, 16kHz", file=sys.stderr)
     exit(1)
 
 rec = KaldiRecognizer(model, wf.getframerate())
@@ -23,7 +23,6 @@ while True:
         result = json.loads(rec.Result())
         final_result += result.get("text", "") + " "
 
-# Always include final result at the end
 final = json.loads(rec.FinalResult())
 final_result += final.get("text", "")
 

@@ -27,7 +27,7 @@ passport.use(
           email: profile.emails[0].value,
           photo: photo_path
         };
-        const insertUser = await createUser("tblusers", newUser);
+        const insertUser = await createUser("tbl_users", newUser);
         newUser.UID = insertUser.insertId;
         const userAccount = {
           UID: insertUser.insertId,

@@ -16,7 +16,7 @@ export const SelectUserGoogle = async (params) => {
 };
 
 export const selectFacebookId = async (params) => {
-    const [result] = await db.query("SELECT UID, display_name FROM tbl_user_account WHERE providerr_id = ?", [params]);
+    const [result] = await db.query("SELECT B.display_name, B.photo, A.UID FROM tbl_user_account AS A RIGHT JOIN tbl_users AS B ON A.UID = B.UID WHERE A.providerr_id = ?", [params]);
     return result[0];
 };
 
@@ -51,7 +51,6 @@ export const fetchUser = async (params) => {
 };
 
 ////////////////////////////////////////////
-
 
 export const update = async (tblName, set, tblId) => {
     const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
