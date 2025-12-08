@@ -74,12 +74,6 @@ function Main() {
         setError(data.message);
         return;
       }
-
-      if (data.Error) {
-        console.log(data.Error);
-        return;
-      }
-
       setTranscription(data.preview);
       setLoading(false);
       setError(null);
@@ -163,7 +157,7 @@ function Main() {
                       style={{ minHeight: "100px" }}
                     >
                       {transcriptions ? (
-                        <p className="mb-0">{transcriptions.result_text}</p>
+                        <p className="mb-0">{transcriptions}</p>
                       ) : (
                         <p className="text-muted">No transcription yet.</p>
                       )}

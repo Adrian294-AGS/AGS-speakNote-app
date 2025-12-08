@@ -11,7 +11,7 @@ function Profile() {
     username: "",
     photo: null,
     email: "",
-    userInfo: "insert info",
+    userInfo: ""
   });
   const [loop, setLoop] = useState(false);
 
@@ -154,7 +154,7 @@ function Profile() {
                       <div className="mb-3">
                         <label className="form-label fw-semibold">About</label>
                         <textarea
-                          name="Info"
+                          name="userInfo"
                           className="form-control"
                           rows="3"
                           value={profile.userInfo}

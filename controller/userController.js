@@ -1,4 +1,4 @@
-import { fetchUser, update, selectUserInfo } from "../models/sql.js";
+import { fetchUser, updateUsers, selectUserInfo, updateUsersInfo } from "../models/sql.js";
 import client from "../models/redisConnection.js";
 import { valueCheker } from "../Middlewares/valueChecker.js";
 
@@ -53,12 +53,25 @@ export const userUpdate = async (req, res) => {
 
   try {
     const userInfoId = await selectUserInfo(UID);
-
     let set = { photo: photo, userInfo: Info};
     const verifiedSet = await valueCheker(set);
-    const result = await update("tbl_user_info", verifiedSet, userInfoId.info_id);
-    if (result.affectedRows) {
-      const user = await fetchUser(Id);
+    
+    if(verifiedSet.photo && verifiedSet.userInfo){
+      await updateUsers({photo: verifiedSet.photo.filename}, UID);
+      await updateUsersInfo({userInfo: verifiedSet.userInfo}, userInfoId);
+      const user = await fetchUser(UID);
+      await client.del(`user:${UID}`);
+      await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
+      return res.status(200).json({ success: true });
+    } else if(verifiedSet.photo != null){
+      await updateUsers({photo: verifiedSet.photo.filename}, UID);
+      const user = await fetchUser(UID);
+      await client.del(`user:${UID}`);
+      await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
+      return res.status(200).json({ success: true });
+    } else {
+      await updateUsersInfo({userInfo: verifiedSet.userInfo}, userInfoId);
+      const user = await fetchUser(UID);
       await client.del(`user:${UID}`);
       await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
       return res.status(200).json({ success: true });

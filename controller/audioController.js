@@ -1,15 +1,15 @@
-import { fetchResultTxt, fetchAllAudio, audioDelete } from "../models/sql.js";
+import { fetchResultTxt, fetchAllAudio, audioDelete, selectResult } from "../models/sql.js";
 import clipboard from "clipboardy";
 
 export const fetchAudio = async (req, res) => {
     const { Id } = req.params;
 
     try {
-        const selectResult = await selectResult(Id);
-        if(!selectResult){
+        const select_Result = await selectResult(Id);
+        if(!select_Result){
             return res.status(404).json({success: false, message: "This Audio does not sent properly"});
         }
-        return res.status(200).json({success: true, preview: selectResult});
+        return res.status(200).json({success: true, preview: select_Result.result_text});
         
     } catch (error) {
         console.log(error);

@@ -52,8 +52,13 @@ export const fetchUser = async (params) => {
 
 ////////////////////////////////////////////
 
-export const update = async (tblName, set, tblId) => {
-    const [result] = await db.query(`UPDATE ${tblName} SET ? WHERE UID = ?`, [set, tblId]);
+export const updateUsers = async (set, tblId) => {
+    const [result] = await db.query(`UPDATE tbl_users SET ? WHERE UID = ?`, [set, tblId]);
+    return result;
+};
+
+export const updateUsersInfo = async (set, tblId) => {
+    const [result] = await db.query(`UPDATE tbl_user_info SET ? WHERE info_id = ?`, [set, tblId]);
     return result;
 };
 
