@@ -1,6 +1,6 @@
 import { fetchUser, updateUsers, selectUserInfo, updateUsersInfo } from "../models/sql.js";
 import client from "../models/redisConnection.js";
-import { valueCheker } from "../Middlewares/valueChecker.js";
+import { valueCheker } from "../services/valueChecker.js";
 
 export const fetchUserProfile = async (req, res) => {
   const Id = req.user;

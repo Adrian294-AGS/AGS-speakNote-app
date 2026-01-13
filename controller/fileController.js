@@ -1,9 +1,9 @@
 import path from "path";
 import { spawn } from "child_process";
 import fs from "fs";
-import { convertToWav } from "../Middlewares/convertToWav.js";
+import { convertToWav } from "../services/convertToWav.js";
 import { createUser } from "../models/sql.js";
-import { generateToTxt } from "../Middlewares/fileConverter.js";
+import { generateToTxt } from "../services/fileConverter.js";
 
 export const uploadController = async (req, res) => {
   const audio = req.file;
@@ -18,7 +18,7 @@ export const uploadController = async (req, res) => {
   try {
     
     await convertToWav(inputPath, wavPath, ffmpegPath);
-    const py = spawn("python", ["./Middlewares/transcriber.py", wavPath]);
+    const py = spawn("python", ["./services/transcriber.py", wavPath]);
     let result = "";
 
     py.stdout.on("data", (data) => {

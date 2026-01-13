@@ -3,7 +3,7 @@ import { verifyUser, createUser, loginUser, fetchUser } from "../models/sql.js";
 import {
   generate_access_token,
   generate_refresh_token,
-} from "../Middlewares/generateToken.js";
+} from "../services/generateToken.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import client from "../models/redisConnection.js";
