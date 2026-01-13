@@ -63,6 +63,7 @@ export const updateUsersInfo = async (set, tblId) => {
 };
 
 export const selectUserInfo = async (params) => {
+    console.log(params);
     const [result] = await db.query("SELECT B.info_id FROM tbl_users AS A JOIN tbl_user_info AS B ON A.UID = B.UID WHERE A.UID = ?",[params]);
     return result[0];
 }

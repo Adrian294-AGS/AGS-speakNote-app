@@ -4,7 +4,6 @@ import { valueCheker } from "../services/valueChecker.js";
 
 export const fetchUserProfile = async (req, res) => {
   const Id = req.user;
-
   try {
     const userData = await fetchUser(Id);
 
@@ -53,12 +52,13 @@ export const userUpdate = async (req, res) => {
 
   try {
     const userInfoId = await selectUserInfo(UID);
+   
     let set = { photo: photo, userInfo: Info};
     const verifiedSet = await valueCheker(set);
-    
+
     if(verifiedSet.photo && verifiedSet.userInfo){
       await updateUsers({photo: verifiedSet.photo.filename}, UID);
-      await updateUsersInfo({userInfo: verifiedSet.userInfo}, userInfoId);
+      await updateUsersInfo({userInfo: verifiedSet.userInfo}, userInfoId.info_id);
       const user = await fetchUser(UID);
       await client.del(`user:${UID}`);
       await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
@@ -70,7 +70,7 @@ export const userUpdate = async (req, res) => {
       await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
       return res.status(200).json({ success: true });
     } else {
-      await updateUsersInfo({userInfo: verifiedSet.userInfo}, userInfoId);
+      await updateUsersInfo({userInfo: Info}, userInfoId.info_id);
       const user = await fetchUser(UID);
       await client.del(`user:${UID}`);
       await client.setEx(`user:${UID}`, 3600, JSON.stringify(user));
@@ -78,6 +78,6 @@ export const userUpdate = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500);
+    return res.status(500).json({ success: false, message: `Server Error` });
   }
 };

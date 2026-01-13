@@ -8,7 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState({
     display_name: null,
-    photo: null
+    photo: null,
+    Id: null
   });
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       });
       const result = await res.json();
       if(result){
-        setUser({display_name: result.display_name, photo: result.photo});
+        setUser({display_name: result.username, photo: result.photo, Id: result.Id});
         setLoading(false);
       }
     } catch (error) {

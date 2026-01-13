@@ -53,7 +53,6 @@ function Profile() {
     if (profile.photo instanceof File) {
       formData.append("photo", profile.photo);
     }
-
     try {
       const res = await fetch(`http://localhost:5000/update`, {
         method: "PUT",
@@ -79,8 +78,10 @@ function Profile() {
   }
 
   useEffect(() => {
-    fetchUser();
-  }, [loop]);
+    if (accessToken) {
+      fetchUser();
+    }
+  }, [loop, accessToken]);
 
   return (
     <div>

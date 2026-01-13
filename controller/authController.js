@@ -143,7 +143,7 @@ export const logForm = async (req, res) => {
 // Log-out part
 export const logout = async (req, res) => {
   const { Id } = req.params;
-
+  console.log(Id);
   try {
     await client.del(`user:${Id}`);
     res.clearCookie("refresh_token");

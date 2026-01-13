@@ -40,8 +40,10 @@ function History() {
 
   useEffect(() => {
     setLoading(true);
-    fetchAudio();
-  }, [changes]);
+    if (accessToken) {
+      fetchAudio();
+    }
+  }, [changes, accessToken]);
 
   const handleDelete = async (Id) => {
     const transId = Id;
@@ -92,7 +94,7 @@ function History() {
       {accessToken ? (
         <div>
           <Navbar
-            username={user.username}
+            username={user.display_name}
             photo={user.photo}
             Id={user.Id}
           />
