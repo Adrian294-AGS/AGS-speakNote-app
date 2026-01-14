@@ -35,6 +35,11 @@ passport.use(
           providerr_id: profile.id
         }
         await createUser("tbl_user_account", userAccount);
+        const userInfo = {
+          UID: insertUser.insertId,
+          userInfo: "Insert Info"
+        };
+        await createUser("tbl_user_info", userInfo);
         return done(null, newUser);
       } catch (error) {
         return done(error);

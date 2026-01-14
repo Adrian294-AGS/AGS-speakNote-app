@@ -18,7 +18,6 @@ passport.use(
       try {
         const googleId = profile.id;
         const select_results = await SelectUserGoogle(googleId);
-        console.log(googleId);
         if (select_results) {   
           return done(null, select_results);
         }
@@ -35,8 +34,12 @@ passport.use(
           provider: profile.provider,
           providerr_id: googleId
         }
-        console.log(userAccount.providerr_id);
         await createUser("tbl_user_account", userAccount);
+        const userInfo = {
+          UID: insert_results.insertId,
+          userInfo: "Insert Info"
+        };
+        await createUser("tbl_user_info", userInfo);
         return done(null, newUser);
       } catch (error) {
         return done(error);
