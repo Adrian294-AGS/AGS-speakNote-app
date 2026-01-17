@@ -5,9 +5,11 @@ import passport from "passport";
 import { jwt_authenticate } from "../Middlewares/jsonwebAuthenticate.js";
 import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../controller/audioController.js";
 import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
+import { record } from "../controller/recordController.js";
 import { cache } from "../Middlewares/redisCached.js";
 import "../services/facebookAuth.js"
 import uploadPhoto from "../Middlewares/multerPhoto.js"; 
+import audioRecord from "../Middlewares/audioRecord.js";
 
 const router = express.Router();
 
@@ -42,5 +44,7 @@ router.delete("/deleteAudio/:Id", jwt_authenticate, deleteAudio);
 router.get("/copyText/:Id", jwt_authenticate, copyText);
 
 router.put("/update", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
+
+router.post("/audioRecord", audioRecord.single("audio"), record);
 
 export default router;

@@ -1,22 +1,18 @@
 import multer from "multer";
 import path from "path";
-import fs from "fs";
+import { file } from "pdfkit";
 
-const file_path = path.resolve("upload");
-
-if (!fs.existsSync(file_path)) {
-    fs.mkdirSync(file_path, { recursive: true });
-}
+const uploadPath = path.resolve("upload/record");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, file_path);
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
         cb(null, `${file.originalname}-${Date.now()}`);
     }
 })
 
-const upload = multer({storage});
+const audioRecord = multer({storage});
 
-export default upload;
+export default audioRecord;

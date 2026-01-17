@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import LogInFirst from "../components/LogInFirst";
@@ -13,6 +13,11 @@ function Main() {
   const [audioId, setAudioId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const mediaRecorderRef = useRef(null);
+  const chunksRef = useRef([]);
+  const [recording, setRecording] = useState(false);
+  const [audioURL, setAudioURL] = useState(null);
+
 
   const onLogout = () => {
     localStorage.removeItem("navbarOnChange");
@@ -82,6 +87,50 @@ function Main() {
     }
   };
 
+const startRecording = () => {
+  const stream = navigator.mediaDevices.getUserMedia({ audio: true });
+
+  const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+  mediaRecorderRef.current = mediaRecorder;
+
+  mediaRecorder.ondataavailable = (e) => {
+    if (e.data.size > 0) {
+      chunksRef.current.push(e.data);
+    }
+  };
+
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(chunksRef.current, {type: "audio/webm"});
+    chunksRef.current = [];
+    setAudioURL(URL.createObjectURL(blob));
+
+    uploadAudio(blob);
+  }
+
+  mediaRecorder.start();
+  setRecording(true);
+}
+
+const stopRecording = () => {
+  mediaRecorderRef.current.stop();
+  setRecording(false);
+}
+
+const uploadAudio = async (blob) => {
+  const formData = new FormData();
+  formData.append("audio", blob, "recording.wbm");
+
+  try {
+    const res = await fetch("http://localhost:5000/audioRecord", {
+      method: "POST",
+      body: formData
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
   useEffect(() => {
     if (audioId) {
       fetchAudio();
@@ -89,103 +138,133 @@ function Main() {
   }, [audioId]);
 
   return accessToken ? (
-    <div>
-      <Navbar username={user.display_name} photo={user.photo}/>
-      {loading ? (
+  <div>
+    <Navbar username={user.display_name} photo={user.photo} />
+    {loading ? (
       <div>
         <Loading />
       </div>
     ) : (
-      <div>
-        <div className="container py-5">
-          <div className="row justify-content-center">
-            <div className="col-12 col-md-8 col-lg-6">
-              <div className="card mt-0 shadow-lg border-0 rounded-4">
-                <div className="card-body p-4">
-                  {/* Title */}
-                  <h2 className="text-center fw-bold text-primary mb-4">
-                    🎙️ Audio Upload
-                  </h2>
-                  {/* Error Alert */}
-                  {error && (
-                    <div
-                      className="alert alert-danger alert-dismissible fade show text-center"
-                      role="alert"
-                    >
-                      {error}
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="alert"
-                        aria-label="Close"
-                      ></button>
-                    </div>
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-6">
+            <div className="card mt-0 shadow-lg border-0 rounded-4">
+              <div className="card-body p-4">
+                {/* Title */}
+                <h2 className="text-center fw-bold text-primary mb-4">
+                  🎙️ Audio Upload & Recorder
+                </h2>
+
+                {/* Error Alert */}
+                {error && (
+                  <div
+                    className="alert alert-danger alert-dismissible fade show text-center"
+                    role="alert"
+                  >
+                    {error}
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="alert"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                )}
+
+                {/* Record Audio */}
+                <div className="text-center mb-4">
+                  <button
+                    className={`btn rounded-circle p-4 ${
+                      recording ? "btn-danger recording" : "btn-primary"
+                    }`}
+                    style={{ width: 90, height: 90 }}
+                    onClick={recording ? stopRecording : startRecording}
+                  >
+                    🎤
+                  </button>
+                  <p className="mt-2 text-muted">
+                    {recording ? "Recording..." : "Tap to record"}
+                  </p>
+                  {audioURL && (
+                    <audio className="mt-2 w-100" controls src={audioURL}></audio>
                   )}
+                </div>
 
-                  {/* Upload Form */}
-                  <form onSubmit={handleSubmit} className="mb-4">
-                    <div className="mb-3">
-                      <label className="form-label fw-semibold">
-                        Select Audio File
-                      </label>
-                      <input
-                        type="file"
-                        accept=".mp3,.wav"
-                        name="file"
-                        className="form-control"
-                        onChange={(e) => {
-                          setAudioFile(e.target.files[0]);
-                        }}
-                      />
-                      <small className="text-muted">
-                        Supported formats: MP3, WAV
-                      </small>
-                    </div>
-
-                    <div className="d-grid">
-                      <button className="btn btn-primary btn-lg" type="submit">
-                        ⬆️ Upload
-                      </button>
-                    </div>
-                  </form>
-
-                  {/* Transcriptions */}
-                  <div>
-                    <h4 className="fw-bold text-secondary">Transcriptions</h4>
-                    <div
-                      className="bg-light p-3 rounded border"
-                      style={{ minHeight: "100px" }}
-                    >
-                      {transcriptions ? (
-                        <p className="mb-0">{transcriptions}</p>
-                      ) : (
-                        <p className="text-muted">No transcription yet.</p>
-                      )}
-                    </div>
+                {/* Upload Form */}
+                <form onSubmit={handleSubmit} className="mb-4">
+                  <div className="mb-3">
+                    <label className="form-label fw-semibold">
+                      Select Audio File
+                    </label>
+                    <input
+                      type="file"
+                      accept=".mp3,.wav,.webm"
+                      name="file"
+                      className="form-control"
+                      onChange={(e) => {
+                        setAudioFile(e.target.files[0]);
+                      }}
+                    />
+                    <small className="text-muted">
+                      Supported formats: MP3, WAV, WEBM
+                    </small>
                   </div>
 
-                  {/* Logout */}
-                  <div className="text-center mt-4">
-                    <button
-                      onClick={onLogout}
-                      className="btn btn-outline-danger px-4"
-                    >
-                      🚪 Log-out
+                  <div className="d-grid">
+                    <button className="btn btn-primary btn-lg" type="submit">
+                      ⬆️ Upload
                     </button>
                   </div>
+                </form>
+
+                {/* Transcriptions */}
+                <div>
+                  <h4 className="fw-bold text-secondary">Transcriptions</h4>
+                  <div
+                    className="bg-light p-3 rounded border"
+                    style={{ minHeight: "100px" }}
+                  >
+                    {transcriptions ? (
+                      <p className="mb-0">{transcriptions}</p>
+                    ) : (
+                      <p className="text-muted">No transcription yet.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Logout */}
+                <div className="text-center mt-4">
+                  <button
+                    onClick={onLogout}
+                    className="btn btn-outline-danger px-4"
+                  >
+                    🚪 Log-out
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Recording animation */}
+        <style>{`
+          .recording {
+            animation: pulse 1.5s infinite;
+          }
+          @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220,53,69,.7); }
+            70% { box-shadow: 0 0 0 15px rgba(220,53,69,0); }
+            100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); }
+          }
+        `}</style>
       </div>
     )}
-    </div>
-  ) : (
-    <div>
-      <LogInFirst />
-    </div>
-  );
+  </div>
+) : (
+  <div>
+    <LogInFirst />
+  </div>
+);
 }
 
 export default Main;
