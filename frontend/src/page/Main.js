@@ -123,6 +123,10 @@ const uploadAudio = async (blob) => {
   try {
     const res = await fetch("http://localhost:5000/audioRecord", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      credentials: "include",
       body: formData
     });
 

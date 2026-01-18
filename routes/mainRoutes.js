@@ -45,6 +45,6 @@ router.get("/copyText/:Id", jwt_authenticate, copyText);
 
 router.put("/update", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
 
-router.post("/audioRecord", audioRecord.single("audio"), record);
+router.post("/audioRecord", audioRecord.single("audio"), jwt_authenticate, record);
 
 export default router;
