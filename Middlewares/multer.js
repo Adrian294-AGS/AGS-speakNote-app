@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const file_path = path.resolve("upload");
+const file_path = path.resolve("upload/record");
 
 if (!fs.existsSync(file_path)) {
     fs.mkdirSync(file_path, { recursive: true });

@@ -1,8 +1,8 @@
 import multer from "multer";
 import path from "path";
-import { file } from "pdfkit";
 
-const uploadPath = path.resolve("upload/record");
+
+const uploadPath = path.resolve("upload");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

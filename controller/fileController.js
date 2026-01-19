@@ -9,7 +9,7 @@ export const uploadController = async (req, res) => {
   const audio = req.file;
   const inputPath = path.resolve(audio.path);
   const wavFile = `${audio.filename}.wav`;
-  const wavPath = path.resolve("upload", wavFile);
+  const wavPath = path.resolve("upload/record", wavFile);
   const ffmpegPath = "C:/ffmpeg/ffmpeg-7.1.1-essentials_build/bin/ffmpeg.exe";
   const Id = req.user;
 

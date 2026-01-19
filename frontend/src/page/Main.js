@@ -87,11 +87,12 @@ function Main() {
     }
   };
 
-const startRecording = () => {
-  const stream = navigator.mediaDevices.getUserMedia({ audio: true });
+const startRecording = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
   const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
   mediaRecorderRef.current = mediaRecorder;
+  chunksRef.current = [];
 
   mediaRecorder.ondataavailable = (e) => {
     if (e.data.size > 0) {
@@ -129,7 +130,6 @@ const uploadAudio = async (blob) => {
       credentials: "include",
       body: formData
     });
-
   } catch (error) {
     console.log(error);
   }

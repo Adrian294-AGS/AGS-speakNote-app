@@ -5,4 +5,4 @@ export const valueCheker = async (set) => {
         }
     }
     return set;
-}
+};
