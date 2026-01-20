@@ -179,7 +179,7 @@ function History() {
                           </button>
                           <a
                             className="btn btn-sm btn-primary"
-                            href={`http://localhost:5000/${t.txt_file_path}`}
+                            href={`http://localhost:5000/PDF/${t.txt_file_path}`}
                             download
                             target="blank"
                           >

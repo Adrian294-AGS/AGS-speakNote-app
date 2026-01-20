@@ -18,7 +18,6 @@ function Main() {
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
 
-
   const onLogout = () => {
     localStorage.removeItem("navbarOnChange");
     logout(user.Id);
@@ -88,6 +87,7 @@ function Main() {
   };
 
 const startRecording = async () => {
+
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
   const mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
@@ -113,6 +113,7 @@ const startRecording = async () => {
 }
 
 const stopRecording = () => {
+  setLoading(true);
   mediaRecorderRef.current.stop();
   setRecording(false);
 }
@@ -122,7 +123,7 @@ const uploadAudio = async (blob) => {
   formData.append("audio", blob, "recording.wbm");
 
   try {
-    const res = await fetch("http://localhost:5000/audioRecord", {
+      const res = await fetch("http://localhost:5000/audioRecord", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -130,6 +131,12 @@ const uploadAudio = async (blob) => {
       credentials: "include",
       body: formData
     });
+    const result = await res.json();
+
+    if(result.success){
+      setAudioId(result.Id);
+    }
+    setLoading(false);
   } catch (error) {
     console.log(error);
   }
