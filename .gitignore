@@ -1,8 +1,8 @@
 #Dependencies
 .env
-/node_modules
+src/node_modules
 package-lock.json
-upload/
-model/
+src/upload
+src/model
 testing.js
 maintesting.js
