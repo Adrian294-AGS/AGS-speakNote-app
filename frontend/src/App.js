@@ -5,6 +5,7 @@ import Main from "./page/Main";
 import History from "./page/History";
 import Profile from "./page/Profile";
 import About from "./components/About";
+import Messenger from "./page/Messenger";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/home/transcription" element={<History />} />
               <Route path="/home/profile" element={<Profile />} />
               <Route path="/about" element={<About />} />
+              <Route path="/messsenger" element={<Messenger />} />
             </Routes>
           </div>
         </BrowserRouter>

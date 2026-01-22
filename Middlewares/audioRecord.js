@@ -1,8 +1,7 @@
 import multer from "multer";
 import path from "path";
 
-
-const uploadPath = path.resolve("upload");
+const uploadPath = path.resolve("upload/record");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

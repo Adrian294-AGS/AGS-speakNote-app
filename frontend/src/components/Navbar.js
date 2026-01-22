@@ -44,6 +44,11 @@ function Navbar({ username, photo, Id }) {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/home">
+                    Messenger
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/home/transcription">
                     Transcription
                   </Link>

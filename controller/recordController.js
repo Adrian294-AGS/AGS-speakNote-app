@@ -9,10 +9,10 @@ export const record = async (req, res) => {
   const audio = req.file;
   const Id = req.user;
   const inputPath = path.resolve(audio.path);
-  const audioName = `${audio.originalName}.wav`;
+  const audioName = `${audio.filename}.wav`;
   const audioPath = path.resolve("upload/record", audioName);
   const ffmpegPath = "C:/ffmpeg/ffmpeg-7.1.1-essentials_build/bin/ffmpeg.exe";
-
+  console.log(audio);
   if (!audio) {
     return res
       .status(500)
