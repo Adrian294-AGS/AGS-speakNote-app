@@ -44,7 +44,7 @@ function Navbar({ username, photo, Id }) {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/home">
+                  <Link className="nav-link" to="/messenger">
                     Messenger
                   </Link>
                 </li>

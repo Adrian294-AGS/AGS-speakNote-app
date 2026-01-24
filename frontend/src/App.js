@@ -23,7 +23,7 @@ function App() {
               <Route path="/home/transcription" element={<History />} />
               <Route path="/home/profile" element={<Profile />} />
               <Route path="/about" element={<About />} />
-              <Route path="/messsenger" element={<Messenger />} />
+              <Route path="/messenger" element={<Messenger />} />
             </Routes>
           </div>
         </BrowserRouter>
