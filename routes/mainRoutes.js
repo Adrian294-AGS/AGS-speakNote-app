@@ -47,4 +47,6 @@ router.put("/update", uploadPhoto.single("photo"), jwt_authenticate, userUpdate)
 
 router.post("/audioRecord", audioRecord.single("audio"), jwt_authenticate, record);
 
+router.get("/fetchChatUser", jwt_authenticate, fetchChatUser);
+
 export default router;

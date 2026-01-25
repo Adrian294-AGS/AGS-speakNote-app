@@ -67,3 +67,8 @@ export const selectUserInfo = async (params) => {
     const [result] = await db.query("SELECT B.info_id FROM tbl_users AS A JOIN tbl_user_info AS B ON A.UID = B.UID WHERE A.UID = ?",[params]);
     return result[0];
 }
+
+export const selectChatUser = async (params) => {
+    const [result] = await db.query("SELECT UID, display_name, photo FROM tbl_users");
+    return result;
+}

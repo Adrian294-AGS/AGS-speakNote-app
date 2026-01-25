@@ -1,45 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
 
 const Messenger = () => {
   const { accessToken, user } = useAuth();
+  const [chatUser, setChatUser] = useState([]);
   const chats = [
     {
       id: 1,
       name: "Library boys",
-      lastMessage: "Aysing ng kapkeyk ko sent an att...",
-      time: "46m",
-      avatar: "https://via.placeholder.com/50",
-      online: true,
-    },
-    {
-      id: 2,
-      name: "BSIT 2A",
-      lastMessage: "Steevan: okii thankyou poo",
-      time: "4h",
-      avatar: "https://via.placeholder.com/50",
-      online: true,
-    },
-    {
-      id: 3,
-      name: "BSIT-2 STUDENTS 2025–2026",
-      lastMessage: "Hazel sent an attachment.",
-      time: "1d",
-      avatar: "https://via.placeholder.com/50",
-      online: true,
-    },
-    {
-      id: 4,
-      name: "Albert Jan",
-      lastMessage: "You: Pa punta na kami rizal · Follow up?",
-      time: "1d",
       avatar: "https://via.placeholder.com/50",
       online: true,
     },
   ];
   const [active, setActive] = useState(2);
+
+  const fetchChatUser = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/fetchChatUser", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        credentials: "include"
+      });
+
+      const result = await res.json();
+      if(result.success){
+        setChatUser(result);
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(() => {
+    if(accessToken){
+      fetchChatUser();
+    }
+  }, [accessToken]);
 
   return (
     <div>
