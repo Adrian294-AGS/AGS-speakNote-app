@@ -6,14 +6,6 @@ import Navbar from "../components/Navbar";
 const Messenger = () => {
   const { accessToken, user } = useAuth();
   const [chatUser, setChatUser] = useState([]);
-  const chats = [
-    {
-      id: 1,
-      name: "Library boys",
-      avatar: "https://via.placeholder.com/50",
-      online: true,
-    },
-  ];
   const [active, setActive] = useState(2);
 
   const fetchChatUser = async () => {
@@ -28,7 +20,7 @@ const Messenger = () => {
 
       const result = await res.json();
       if(result.success){
-        setChatUser(result);
+        setChatUser(result.result);
       }
     } catch (error) {
       
@@ -89,19 +81,19 @@ const Messenger = () => {
                   height: "calc(100vh - 160px)",
                 }}
               >
-                {chats.map((chat) => (
+                {chatUser.map((chat) => (
                   <button
-                    key={chat.id}
-                    onClick={() => setActive(chat.id)}
+                    key={chat.UID}
+                    onClick={() => setActive(chat.UID)}
                     className={`list-group-item list-group-item-action border-0 rounded-3 mb-1 ${
-                      active === chat.id ? "bg-light" : ""
+                      active === chat.UID ? "bg-light" : ""
                     }`}
                   >
                     <div className="d-flex align-items-center gap-3">
                       {/* Avatar */}
                       <div className="position-relative flex-shrink-0">
                         <img
-                          src={chat.avatar}
+                          src={`http://localhost:5000/photo/${chat.photo}`}
                           alt="avatar"
                           className="rounded-circle"
                           width="48"
@@ -115,16 +107,8 @@ const Messenger = () => {
                       {/* Name + message */}
                       <div className="flex-grow-1 text-start overflow-hidden">
                         <div className="fw-semibold text-truncate">
-                          {chat.name}
+                          {chat.display_name}
                         </div>
-                        <div className="text-muted small text-truncate">
-                          {chat.lastMessage}
-                        </div>
-                      </div>
-
-                      {/* Time */}
-                      <div className="text-muted small flex-shrink-0">
-                        {chat.time}
                       </div>
                     </div>
                   </button>

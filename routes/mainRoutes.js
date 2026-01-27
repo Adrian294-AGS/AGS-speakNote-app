@@ -7,6 +7,7 @@ import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../contro
 import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
 import { record } from "../controller/recordController.js";
 import { cache } from "../Middlewares/redisCached.js";
+import { fetchChatUser } from "../controller/chatController.js";
 import "../services/facebookAuth.js"
 import uploadPhoto from "../Middlewares/multerPhoto.js"; 
 import audioRecord from "../Middlewares/audioRecord.js";
