@@ -6,6 +6,7 @@ import History from "./page/History";
 import Profile from "./page/Profile";
 import About from "./components/About";
 import Messenger from "./page/Messenger";
+import ChatBox from "./page/chatBox";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/home/profile" element={<Profile />} />
               <Route path="/about" element={<About />} />
               <Route path="/messenger" element={<Messenger />} />
+              <Route path="/chat/:userId" element={<ChatBox />} />
             </Routes>
           </div>
         </BrowserRouter>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
 import LogInFirst from "../components/LogInFirst";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Messenger = () => {
   const { accessToken, user } = useAuth();
@@ -13,22 +14,20 @@ const Messenger = () => {
       const res = await fetch("http://localhost:5000/fetchChatUser", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
-        credentials: "include"
+        credentials: "include",
       });
 
       const result = await res.json();
-      if(result.success){
+      if (result.success) {
         setChatUser(result.result);
       }
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    if(accessToken){
+    if (accessToken) {
       fetchChatUser();
     }
   }, [accessToken]);
@@ -37,7 +36,7 @@ const Messenger = () => {
     <div>
       {accessToken ? (
         <div>
-          <Navbar />
+          <Navbar username={user.display_name} photo={user.photo} />
           <div className="container-fluid p-0 p-md-3">
             <div
               className="mx-auto"
@@ -82,36 +81,38 @@ const Messenger = () => {
                 }}
               >
                 {chatUser.map((chat) => (
-                  <button
-                    key={chat.UID}
-                    onClick={() => setActive(chat.UID)}
-                    className={`list-group-item list-group-item-action border-0 rounded-3 mb-1 ${
-                      active === chat.UID ? "bg-light" : ""
-                    }`}
-                  >
-                    <div className="d-flex align-items-center gap-3">
-                      {/* Avatar */}
-                      <div className="position-relative flex-shrink-0">
-                        <img
-                          src={`http://localhost:5000/photo/${chat.photo}`}
-                          alt="avatar"
-                          className="rounded-circle"
-                          width="48"
-                          height="48"
-                        />
-                        {chat.online && (
-                          <span className="position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-white rounded-circle" />
-                        )}
-                      </div>
+                  <Link to={`/chat/${user.Id}`}>
+                    <button
+                      key={chat.UID}
+                      onClick={() => setActive(chat.UID)}
+                      className={`list-group-item list-group-item-action border-0 rounded-3 mb-1 ${
+                        active === chat.UID ? "bg-light" : ""
+                      }`}
+                    >
+                      <div className="d-flex align-items-center gap-3">
+                        {/* Avatar */}
+                        <div className="position-relative flex-shrink-0">
+                          <img
+                            src={`http://localhost:5000/photo/${chat.photo}`}
+                            alt="avatar"
+                            className="rounded-circle"
+                            width="48"
+                            height="48"
+                          />
+                          {chat.online && (
+                            <span className="position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-white rounded-circle" />
+                          )}
+                        </div>
 
-                      {/* Name + message */}
-                      <div className="flex-grow-1 text-start overflow-hidden">
-                        <div className="fw-semibold text-truncate">
-                          {chat.display_name}
+                        {/* Name + message */}
+                        <div className="flex-grow-1 text-start overflow-hidden">
+                          <div className="fw-semibold text-truncate">
+                            {chat.display_name}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+                  </Link>
                 ))}
               </div>
             </div>
