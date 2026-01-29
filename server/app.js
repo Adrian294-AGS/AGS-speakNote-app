@@ -38,6 +38,6 @@ const io = new Server(server, {
 
 socketHandler(io);
 
-app.listen(Port, () => {
+app.listen(Port, "0.0.0.0", () => {
   console.log("server started at http://localhost:5000");
 });

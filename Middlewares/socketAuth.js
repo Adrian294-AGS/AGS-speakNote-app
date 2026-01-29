@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export default socketAuth = (socket, next) => {
+export default function socketAuth  (socket, next)  {
     try {
         const token = socket.handshake.auth?.token;
 

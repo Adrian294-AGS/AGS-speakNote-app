@@ -6,7 +6,7 @@ import History from "./page/History";
 import Profile from "./page/Profile";
 import About from "./components/About";
 import Messenger from "./page/Messenger";
-import ChatBox from "./page/chatBox";
+import ChatBox from "./page/ChatBox";
 
 function App() {
   return (

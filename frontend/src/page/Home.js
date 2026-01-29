@@ -36,7 +36,7 @@ function Home() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/signIn", {
+      const res = await fetch("http://192.168.100.90:5000/signIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -81,7 +81,7 @@ const Messenger = () => {
                 }}
               >
                 {chatUser.map((chat) => (
-                  <Link to={`/chat/${user.Id}`}>
+                  <Link to={`/chat/${chat.UID}`}>
                     <button
                       key={chat.UID}
                       onClick={() => setActive(chat.UID)}

@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import { useAuth } from "./authContext";
+import { io } from "socket.io-client";
 
-const SOCKETCONTEXT = createContext();
+const socketContext = createContext();
 
-export const socketContext = ({Children}) => {
+export const SocketProvider = ({children}) => {
     const { user, accessToken } = useAuth();
     const socketRef = useRef(null);
 
@@ -18,16 +19,16 @@ export const socketContext = ({Children}) => {
         socketRef.current.emit("join", user.Id);
 
         return () => {
-            socketRef.current.disconnect();
+            socketRef.current?.disconnect();
         }
     }, [user?.Id])
 
 
     return(
-        <SOCKETCONTEXT.Provider value={socketRef.current}>
-            {Children}
-        </SOCKETCONTEXT.Provider>
+        <socketContext.Provider value={socketRef.current}>
+            {children}
+        </socketContext.Provider>
     )
 }
 
-export const useSocket = () => useContext(SOCKETCONTEXT);
+export const useSocket = () => useContext(socketContext);

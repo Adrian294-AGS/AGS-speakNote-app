@@ -4,15 +4,15 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { AuthProvider } from "./context/authContext";
-import { socketContext } from "./context/socketContext";
+import { SocketProvider } from "./context/SocketProvider.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <socketContext>
+      <SocketProvider>
         <App />
-      </socketContext>
+      </SocketProvider>
     </AuthProvider>
   </React.StrictMode>,
 );
