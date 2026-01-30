@@ -11,7 +11,7 @@ const Messenger = () => {
 
   const fetchChatUser = async () => {
     try {
-      const res = await fetch("http://localhost:5000/fetchChatUser", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchChatUser`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -93,7 +93,7 @@ const Messenger = () => {
                         {/* Avatar */}
                         <div className="position-relative flex-shrink-0">
                           <img
-                            src={`http://localhost:5000/photo/${chat.photo}`}
+                            src={`${process.env.REACT_APP_API_URL}/photo/${chat.photo}`}
                             alt="avatar"
                             className="rounded-circle"
                             width="48"

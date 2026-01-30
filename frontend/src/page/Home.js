@@ -6,7 +6,7 @@ import { useAuth } from "../context/authContext";
 
 function Home() {
   const navigate = useNavigate();
-  const {setAccessToken} = useAuth();
+  const { setAccessToken } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -36,7 +36,7 @@ function Home() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://192.168.100.90:5000/signIn", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/signIn`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -53,143 +53,155 @@ function Home() {
       localStorage.setItem("navbarOnChange", true);
       navigate("/home");
     } catch (err) {
-      console.error(err);
+      console.log("AXIOS ERROR:", err);
+      console.log("RESPONSE:", err.response);
+      console.log("MESSAGE:", err.message);
+
+      alert(err.response?.data?.message || err.message || "Unknown error");
       setFormData({ username: "", password: "" });
       alert("Something went wrong!");
     }
   };
 
   const googleSignin = async () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
   };
 
   const facebookSignIn = () => {
-    window.location.href = "http://localhost:5000/auth/facebook";
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/facebook`;
   };
 
   return (
     <div>
-  <Navbar />
-  <div className="container mt-5">
-    <div className="row justify-content-center">
-      <div className="col-12 col-sm-10 col-md-8 col-lg-5">
-        <div className="p-4 rounded shadow-lg bg-light">
-          <h2 className="mb-4 text-center" style={{ color: "green" }}>
-            Log-In
-          </h2>
+      <Navbar />
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-10 col-md-8 col-lg-5">
+            <div className="p-4 rounded shadow-lg bg-light">
+              <h2 className="mb-4 text-center" style={{ color: "green" }}>
+                Log-In
+              </h2>
 
-          {error && (
-            <div
-              className="alert alert-danger alert-dismissible fade show text-center"
-              role="alert"
-            >
-              {error}
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-              ></button>
-            </div>
-          )}
+              {error && (
+                <div
+                  className="alert alert-danger alert-dismissible fade show text-center"
+                  role="alert"
+                >
+                  {error}
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                  ></button>
+                </div>
+              )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </div>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label className="form-label">Username</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                  />
+                </div>
 
-            <div className="mb-3">
-              <label className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
+                <div className="mb-3">
+                  <label className="form-label">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary mt-2 w-100"
-              style={{ backgroundColor: "green", border: "none" }}
-            >
-              Log-in
-            </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary mt-2 w-100"
+                  style={{ backgroundColor: "green", border: "none" }}
+                >
+                  Log-in
+                </button>
 
-            <Link to={"/register"}>
-              <button
-                className="btn btn-primary mt-2 w-100"
-                style={{ backgroundColor: "green", border: "none" }}
+                <Link to={"/register"}>
+                  <button
+                    className="btn btn-primary mt-2 w-100"
+                    style={{ backgroundColor: "green", border: "none" }}
+                  >
+                    Create Account
+                  </button>
+                </Link>
+              </form>
+
+              <hr />
+
+              {/* Google button */}
+              <div
+                className="d-flex justify-content-center align-items-center rounded p-2 text-white gap-2 w-100 mt-2"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "green",
+                  minHeight: "45px",
+                }}
+                onClick={googleSignin}
               >
-                Create Account
-              </button>
-            </Link>
-          </form>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  viewBox="0 0 48 48"
+                >
+                  <path
+                    fill="#4285F4"
+                    d="M43.6 20.5h-1.9V20H24v8h11.3C33.1 32.5 29 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.1 6.2 28.8 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.1-.4-3.5z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M6.3 14.7l6.6 4.8C14.3 16.1 18.8 13 24 13c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.1 6.2 28.8 4 24 4c-7.9 0-14.7 4.6-17.7 10.7z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M24 44c5.4 0 10.3-1.9 14-5.2l-6.5-5.4c-2 1.6-4.6 2.6-7.5 2.6-5 0-9.1-3.3-10.6-7.9l-6.7 5.2C9.3 39.3 16.1 44 24 44z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M43.6 20.5h-1.9V20H24v8h11.3c-1.2 3.4-4.3 6.2-8.1 6.8v6.7h7.6c4.4-4.1 7-10.1 7-16.5 0-1.2-.1-2.1-.4-3.5z"
+                  />
+                </svg>
+                <span>Sign in With Google</span>
+              </div>
 
-          <hr />
-
-          {/* Google button */}
-          <div
-            className="d-flex justify-content-center align-items-center rounded p-2 text-white gap-2 w-100 mt-2"
-            style={{ cursor: "pointer", backgroundColor: "green", minHeight: "45px" }}
-            onClick={googleSignin}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              viewBox="0 0 48 48"
-            >
-              <path
-                fill="#4285F4"
-                d="M43.6 20.5h-1.9V20H24v8h11.3C33.1 32.5 29 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.1 6.2 28.8 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.1-.4-3.5z"
-              />
-              <path
-                fill="#34A853"
-                d="M6.3 14.7l6.6 4.8C14.3 16.1 18.8 13 24 13c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.1 6.2 28.8 4 24 4c-7.9 0-14.7 4.6-17.7 10.7z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M24 44c5.4 0 10.3-1.9 14-5.2l-6.5-5.4c-2 1.6-4.6 2.6-7.5 2.6-5 0-9.1-3.3-10.6-7.9l-6.7 5.2C9.3 39.3 16.1 44 24 44z"
-              />
-              <path
-                fill="#EA4335"
-                d="M43.6 20.5h-1.9V20H24v8h11.3c-1.2 3.4-4.3 6.2-8.1 6.8v6.7h7.6c4.4-4.1 7-10.1 7-16.5 0-1.2-.1-2.1-.4-3.5z"
-              />
-            </svg>
-            <span>Sign in With Google</span>
-          </div>
-
-          {/* Facebook button */}
-          <div
-            className="d-flex justify-content-center align-items-center rounded p-2 text-white gap-2 w-100 mt-3"
-            style={{ cursor: "pointer", backgroundColor: "green", minHeight: "45px" }}
-            onClick={facebookSignIn}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              viewBox="0 0 320 512"
-              fill="white"
-            >
-              <path d="M279.14 288l14.22-92.66h-88.91V127.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.3 0 268.1 0c-73.52 0-121.3 44.38-121.3 124.72V195.3H86.41V288h60.39v224h92.66V288z" />
-            </svg>
-            <span>Sign in With Facebook</span>
+              {/* Facebook button */}
+              <div
+                className="d-flex justify-content-center align-items-center rounded p-2 text-white gap-2 w-100 mt-3"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "green",
+                  minHeight: "45px",
+                }}
+                onClick={facebookSignIn}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  viewBox="0 0 320 512"
+                  fill="white"
+                >
+                  <path d="M279.14 288l14.22-92.66h-88.91V127.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.3 0 268.1 0c-73.52 0-121.3 44.38-121.3 124.72V195.3H86.41V288h60.39v224h92.66V288z" />
+                </svg>
+                <span>Sign in With Facebook</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
   );
 }
 

@@ -17,7 +17,7 @@ function Profile() {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/fetchUsers`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchUsers`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -54,7 +54,7 @@ function Profile() {
       formData.append("photo", profile.photo);
     }
     try {
-      const res = await fetch(`http://localhost:5000/update`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/update`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -101,7 +101,7 @@ function Profile() {
                     >
                       {profile.photo ? (
                         <img
-                          src={`http://localhost:5000/photo/${profile.photo}`}
+                          src={`${process.env.REACT_APP_API_URL}/photo/${profile.photo}`}
                           alt="Profile"
                           className="rounded-circle img-fluid"
                           style={{

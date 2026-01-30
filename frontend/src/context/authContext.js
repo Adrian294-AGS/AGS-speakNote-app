@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const logout = async (params) => {
-    const res = await fetch(`http://localhost:5000/logout/${params}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/logout/${params}`, {
       method: "GET",
       credentials: "include"
     });
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const login = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/protection", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/protection`, {
         method: "GET",
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const refresh = async () => {
   try {
-    const res = await fetch("http://localhost:5000/auth/refresh", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/refresh`, {
       method: "GET",
       credentials: "include",
     });

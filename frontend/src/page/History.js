@@ -15,7 +15,7 @@ function History() {
   const fetchAudio = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/fetchAllAudio`,
+        `${process.env.REACT_APP_API_URL}/fetchAllAudio`,
         {
           method: "GET",
           headers:{
@@ -48,7 +48,7 @@ function History() {
   const handleDelete = async (Id) => {
     const transId = Id;
     try {
-      const res = await fetch(`http://localhost:5000/deleteAudio/${transId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/deleteAudio/${transId}`, {
         method: "DELETE",
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -72,7 +72,7 @@ function History() {
   const handleCopy = async (Id) => {
     const transId = Id;
     try {
-      const res = await fetch(`http://localhost:5000/copyText/${transId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/copyText/${transId}`, {
         method: "GET",
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -179,7 +179,7 @@ function History() {
                           </button>
                           <a
                             className="btn btn-sm btn-primary"
-                            href={`http://localhost:5000/PDF/${t.txt_file_path}`}
+                            href={`${process.env.REACT_APP_API_URL}/PDF/${t.txt_file_path}`}
                             download
                             target="blank"
                           >

@@ -62,7 +62,7 @@ function Navbar({ username, photo, Id }) {
                     <span className="fw-bold text-success">{username}</span>
                     {photo ? (
                       <img
-                        src={`http://localhost:5000/photo/${photo}`}
+                        src={`${process.env.REACT_APP_API_URL}/photo/${photo}`}
                         alt="User"
                         className="rounded-circle border"
                         style={{

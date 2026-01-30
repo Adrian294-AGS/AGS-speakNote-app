@@ -40,7 +40,7 @@ function Main() {
 
       formData.append("file", audioFile);
 
-      const res = await fetch("http://localhost:5000/home/transcriptions", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/home/transcriptions`, {
         method: "POST",
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -64,7 +64,7 @@ function Main() {
 
   const fetchAudio = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/fetchAudio/${audioId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/fetchAudio/${audioId}`, {
         method: "GET",
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -123,7 +123,7 @@ const uploadAudio = async (blob) => {
   formData.append("audio", blob, "recording.wbm");
 
   try {
-      const res = await fetch("http://localhost:5000/audioRecord", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/audioRecord`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`

@@ -21,7 +21,7 @@ app.use(express.static("upload"));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "http://192.168.100.90:3000",
   credentials: true
 }));
 
