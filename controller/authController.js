@@ -14,17 +14,24 @@ dotenv.config();
 //Google-oauth2 callBack
 export const googleCallback = async (req, res) => {
   console.log(req.user);
-  const payload = { id: req.user.UID, username: req.user.display_name};
+  const payload = { id: req.user.UID, username: req.user.display_name };
   try {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 
+    console.log("refresh token in payload: ", refresh_token);
+
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
+      sameSite: "lax", // REQUIRED for OAuth redirect
+      secure: false, // MUST be false on http
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      domain: "192.168.100.90"
     });
 
-    return res.status(302).redirect(`http://localhost:3000/?token=${access_token}`);
+    return res
+      .status(302)
+      .redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
   }
@@ -74,8 +81,8 @@ export const register = async (req, res) => {
     const insertResult = await createUser("tbl_users", newUser);
     const userInfo = {
       UID: insertResult.insertId,
-      userInfo: "Insert Info"
-    }
+      userInfo: "Insert Info",
+    };
     const insertInfo = await createUser("tbl_user_info", userInfo);
     console.log("Inserted success ID: ", insertResult.insertId);
     return res.status(201).json({
@@ -100,13 +107,19 @@ export const logForm = async (req, res) => {
 
   try {
     const result = await loginUser(username);
-  
-    if(!result){
-      return res.status(500).json({success: false, message: "Account dos not exist"});
-    } else if(result.provider == "google"){
-      return res.status(204).json({success: false, message: "Continue with Google."});
-    } else if(result.provider == "facebook"){
-      return res.status(204).json({success: false, message: "Continue with Facebook"});
+
+    if (!result) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Account dos not exist" });
+    } else if (result.provider == "google") {
+      return res
+        .status(204)
+        .json({ success: false, message: "Continue with Google." });
+    } else if (result.provider == "facebook") {
+      return res
+        .status(204)
+        .json({ success: false, message: "Continue with Facebook" });
     }
 
     if (result.display_name) {
@@ -121,13 +134,11 @@ export const logForm = async (req, res) => {
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
 
-      console.log(refresh_token);
-
       res.cookie("refresh_token", refresh_token, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      
+
       await client.setEx(`user:${result.UID}`, 3600, JSON.stringify(userInfo));
 
       return res.status(200).json({ access_token, success: true });
@@ -160,6 +171,8 @@ export const logout = async (req, res) => {
 // Refresh token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
+  console.log("refresh token in function: ", token);
+
   if (!token) {
     return res
       .status(403)
@@ -176,7 +189,7 @@ export const refreshToken = async (req, res) => {
       const payload = { id: user.id, username: user.username };
       const access_token = generate_access_token(payload);
 
-      return res.status(200).json({success: true, access_token});
+      return res.status(200).json({ success: true, access_token });
     });
   } catch (error) {
     console.log(error);
@@ -201,7 +214,9 @@ export const facebookCallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(301).redirect(`http://localhost:3000/?token=${access_token}`);
+    return res
+      .status(301)
+      .redirect(`http://localhost:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
     return res.status(500);

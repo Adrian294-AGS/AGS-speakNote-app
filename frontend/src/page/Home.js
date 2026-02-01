@@ -64,7 +64,7 @@ function Home() {
   };
 
   const googleSignin = async () => {
-    window.location.href = `http://localhost:5000/auth/google`;
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
   };
 
   const facebookSignIn = () => {
