@@ -121,6 +121,8 @@ export const logForm = async (req, res) => {
       const access_token = generate_access_token(payload);
       const refresh_token = generate_refresh_token(payload);
 
+      console.log(refresh_token);
+
       res.cookie("refresh_token", refresh_token, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -158,7 +160,6 @@ export const logout = async (req, res) => {
 // Refresh token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
-
   if (!token) {
     return res
       .status(403)

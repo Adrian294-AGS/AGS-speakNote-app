@@ -21,8 +21,8 @@ app.use(express.static("upload"));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "http://192.168.100.90:3000",
-  credentials: true
+  origin: ["http://192.168.100.90:3000", "http://localhost:3000"],
+  credentials: true,
 }));
 
 app.use(passport.initialize());
@@ -38,6 +38,6 @@ const io = new Server(server, {
 
 socketHandler(io);
 
-app.listen(Port, "0.0.0.0", () => {
+app.listen(Port, () => {
   console.log("server started at http://localhost:5000");
 });

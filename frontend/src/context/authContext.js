@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const refresh = async () => {
   try {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/refresh`, {
+    const res = await fetch(`http://localhost:5000/auth/refresh`, {
       method: "GET",
       credentials: "include",
     });
