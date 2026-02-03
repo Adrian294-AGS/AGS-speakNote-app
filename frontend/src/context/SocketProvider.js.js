@@ -17,10 +17,6 @@ export const SocketProvider = ({children}) => {
         });
 
         socketRef.current.emit("join", user.Id);
-
-        return () => {
-            socketRef.current?.disconnect();
-        }
     }, [user?.Id])
 
 

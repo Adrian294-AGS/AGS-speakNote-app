@@ -8,7 +8,7 @@ export const socketHandler = (io) => {
 
         socket.on("private_message", ({to, message}) => {
             if(!to || !message) return;
-
+            console.log("socket message: ",message);
             io.to(to).emit("recieve_message", {
                 from: to,
                 message,
@@ -16,8 +16,9 @@ export const socketHandler = (io) => {
             })
         });
 
-        socket.on("disconnected", () => {
-            console.log("socket disconnected: ", socket.userId);
+         socket.on("join", () => {
+            socket.join(userId);
         })
+       
     })
 }

@@ -7,6 +7,7 @@ import Profile from "./page/Profile";
 import About from "./components/About";
 import Messenger from "./page/Messenger";
 import ChatBox from "./page/ChatBox";
+import Sample from "./page/Sample";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/messenger" element={<Messenger />} />
               <Route path="/chat/:userId" element={<ChatBox />} />
+              <Route path="/testing" element={<Sample />} />
             </Routes>
           </div>
         </BrowserRouter>
