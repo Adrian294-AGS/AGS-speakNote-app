@@ -32,7 +32,8 @@ app.use("/home", subRouter);
 
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: ["http://192.168.100.90:3000", "http://localhost:3000"],
+    methods: ["GET", "POST"]
   }
 });
 

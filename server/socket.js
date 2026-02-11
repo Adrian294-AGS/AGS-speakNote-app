@@ -1,24 +1,19 @@
-import socketAuth from "../Middlewares/socketAuth.js";
-
 export const socketHandler = (io) => {
-    io.use(socketAuth);
-
+    console.log("dumman dito");
     io.on("connection", (socket) => {
-        socket.join(socket.userId);
+        console.log("socket connected");
+        socket.on("join", (data) => {
+            socket.join(data);
+        });
 
         socket.on("private_message", ({to, message}) => {
             if(!to || !message) return;
             console.log("socket message: ",message);
-            io.to(to).emit("recieve_message", {
+            socket.to(to).emit("recieve_message", {
                 from: to,
                 message,
                 timeStamp: new Date()
-            })
-        });
-
-         socket.on("join", () => {
-            socket.join(userId);
-        })
-       
+            });
+        });  
     })
 }

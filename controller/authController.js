@@ -171,7 +171,6 @@ export const logout = async (req, res) => {
 // Refresh token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
-  console.log("refresh token in function: ", token);
 
   if (!token) {
     return res
