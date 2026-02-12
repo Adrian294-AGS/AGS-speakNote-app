@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { io } from "socket.io-client";
+import { useAuth } from '../context/authContext';
 
-const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
+
 
 function ChatBox() {
   const { userId } = useParams();
-  
   const [ message, setMessage ] = useState("");
   const [ recieveMess, setRecieveMess ] = useState("");
-  socket.emit("join", userId);
+  const { accessToken } = useAuth();
+
+  const socket = io.connect(`http://192.168.100.90:5000`,{
+    auth: {
+      token: accessToken
+    }
+  } 
+  );
 
   const sendMessage = () => {
-    socket.emit("private_message", {to: 22, message: message });
+    socket.emit("private_message", {to: 29, message: message });
   };
 
   useEffect(() => {

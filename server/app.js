@@ -7,7 +7,7 @@ import subRouter from "../routes/subRoutes.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
-import { socketHandler } from "./socket.js";
+import { socketHandler } from "./socket.js"
 
 dotenv.config({ path: "./.env" });
 
@@ -20,10 +20,12 @@ app.use(express.json());
 app.use(express.static("upload"));
 app.use(cookieParser());
 
-app.use(cors({
-  origin: ["http://192.168.100.90:3000", "http://localhost:3000"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://192.168.100.90:3000",
+    credentials: true,
+  }),
+);
 
 app.use(passport.initialize());
 
@@ -32,13 +34,13 @@ app.use("/home", subRouter);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://192.168.100.90:3000", "http://localhost:3000"],
-    methods: ["GET", "POST"]
-  }
+    origin: "http://192.168.100.90:3000",
+    methods: ["GET", "POST"],
+  },
 });
 
 socketHandler(io);
 
-app.listen(Port, () => {
+server.listen(Port, () => {
   console.log("server started at http://localhost:5000");
 });
