@@ -9,8 +9,7 @@ export const socketHandler = (io) => {
 
         socket.on("private_message", ({to, message}) => {
             if(!to || !message) return;
-            console.log("socket message: ",message);
-            socket.to(to).emit("recieve_message", {
+            io.to(Number(to)).emit("receive_message", {
                 from: to,
                 message,
                 timeStamp: new Date()

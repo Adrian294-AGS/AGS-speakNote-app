@@ -1,42 +1,42 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { io } from "socket.io-client";
-import { useAuth } from '../context/authContext';
-
-
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSocket } from "../context/socketContext";
 
 function ChatBox() {
   const { userId } = useParams();
-  const [ message, setMessage ] = useState("");
-  const [ recieveMess, setRecieveMess ] = useState("");
-  const { accessToken } = useAuth();
-
-  const socket = io.connect(`http://192.168.100.90:5000`,{
-    auth: {
-      token: accessToken
-    }
-  } 
-  );
+  const [message, setMessage] = useState("");
+  const [recieveMess, setRecieveMess] = useState("");
+  const socket = useSocket();
 
   const sendMessage = () => {
-    socket.emit("private_message", {to: 29, message: message });
+    alert(message);
+    socket.emit("private_message", { to: userId, message: message });
   };
 
   useEffect(() => {
-    socket.on("recieve_message", (data) => {
-      setRecieveMess(data.message)
-    })
-  }, [socket]);
+    if (!socket) return; // socket not ready yet
 
+    const handler = (data) => {
+      setRecieveMess(data.message);
+    };
+
+    socket.on("receive_message", handler);
+    return () => socket.off("receive_message", handler);
+  }, [socket]);
   return (
     <div>
-      <input placeholder='message' onChange={(e) => {setMessage(e.target.value)}}/>
+      <input
+        placeholder="message"
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
+      />
       <button onClick={sendMessage}>Send</button>
 
       <h1>Message</h1>
       {recieveMess}
     </div>
-  )
+  );
 }
 
 export default ChatBox;
