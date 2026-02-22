@@ -1,15 +1,13 @@
-import mongoose from "mongoose";
+import { MongoClient, ServerApiVersion } from "mongodb";
+import dotenv from "dotenv";
 
-const db = mongoose.connection;
+dotenv.config({ path: "./.env" });
 
-const mongo = async () => {
-    try {
-        await mongoose.connect("mongodb://127.0.0.1:27017/myapp");
-    } catch (error) {
-        console.log("MongoDb Error: ", error);
-    }
-};
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri);
 
-export const test = db.collection("adrian");
+await client.connect();
+const db = client.db("myapp");
 
-export default mongo;
+export default db;
+

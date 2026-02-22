@@ -8,7 +8,6 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import { socketHandler } from "./socket.js"
-import mongo from "../models/mongoConnection.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -28,7 +27,6 @@ app.use(
   }),
 );
 
-await mongo();
 app.use(passport.initialize());
 
 app.use("/", router);
@@ -43,6 +41,7 @@ const io = new Server(server, {
 });
 
 socketHandler(io);
+
 
 server.listen(Port, () => {
   console.log("server started at http://localhost:5000");
