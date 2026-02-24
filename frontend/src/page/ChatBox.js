@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../context/socketContext";
+import Navbar from "../components/Navbar";
+import { useAuth } from "../context/authContext";
 
 function ChatBox() {
+  const { user } = useAuth();
   const { userId } = useParams();
   const [message, setMessage] = useState("");
   const [recieveMess, setRecieveMess] = useState("");
@@ -14,7 +17,7 @@ function ChatBox() {
   };
 
   useEffect(() => {
-    if (!socket) return; // socket not ready yet
+    if (!socket) return; 
 
     const handler = (data) => {
       setRecieveMess(data.message);
@@ -25,6 +28,7 @@ function ChatBox() {
   }, [socket]);
   return (
     <div>
+      <Navbar username={user.display_name} photo={user.photo} />
       <input
         placeholder="message"
         onChange={(e) => {

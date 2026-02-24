@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar({ username, photo, Id }) {
+function Navbar({ username, photo}) {
   const [condition, setCondition] = useState(false);
   const changeNavbar = localStorage.getItem("navbarOnChange");
 
