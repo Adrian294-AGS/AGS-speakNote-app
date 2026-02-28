@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
 
     const data = await res.json();
     if (data) {
+      setUser({display_name: null, photo: null, Id: null});
       return alert(`${data.message}`);
     }
   };

@@ -50,4 +50,6 @@ router.post("/audioRecord", audioRecord.single("audio"), jwt_authenticate, recor
 
 router.get("/fetchChatUser", jwt_authenticate, fetchChatUser);
 
+router.get("/fetchPrevMess", jwt_authenticate, )
+
 export default router;

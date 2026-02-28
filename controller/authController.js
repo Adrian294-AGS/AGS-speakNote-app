@@ -111,7 +111,7 @@ export const logForm = async (req, res) => {
     if (!result) {
       return res
         .status(500)
-        .json({ success: false, message: "Account dos not exist" });
+        .json({ success: false, message: "Account does not exist" });
     } else if (result.provider == "google") {
       return res
         .status(204)

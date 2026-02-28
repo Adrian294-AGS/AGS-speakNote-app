@@ -1,4 +1,5 @@
 import { selectChatUser } from "../models/sql.js";
+import db from "../models/mongoConnection.js";
 
 export const fetchChatUser = async (req, res) => {
     try {
@@ -10,5 +11,14 @@ export const fetchChatUser = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({success: false, message: error});
+    }
+};
+
+export const fetchPrevMess = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        console.log("fetchPrevError: ", error);
+        return res.status(500).json({success: false});
     }
 }
