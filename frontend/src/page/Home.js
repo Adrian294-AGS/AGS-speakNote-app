@@ -26,6 +26,7 @@ function Home() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
     if (token) {
+      alert(token);
       setAccessToken(token);
       localStorage.setItem("navbarOnChange", true);
       navigate("/home");

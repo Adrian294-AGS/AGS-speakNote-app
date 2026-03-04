@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     Id: null
   });
   const [loading, setLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(null);
 
   const logout = async (params) => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/logout/${params}`, {
@@ -21,6 +22,8 @@ export const AuthProvider = ({ children }) => {
 
     const data = await res.json();
     if (data) {
+      setAccessToken(null);
+      setIsLogin(false);
       setUser({display_name: null, photo: null, Id: null});
       return alert(`${data.message}`);
     }
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }) => {
       });
       const result = await res.json();
       if(result){
+        setIsLogin(true);
         setUser({display_name: result.username, photo: result.photo, Id: result.Id});
         setLoading(false);
       }
@@ -54,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     const data = await res.json();
+    console.log("REFRESH RESPONSE:", data); 
 
     if (data.success) {
       setAccessToken(data.access_token);
@@ -71,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if(accessToken){
       login();
-    }else if(!accessToken){
+    }else if(!accessToken && !isLogin){
       refresh();
     }
   }, [accessToken]);

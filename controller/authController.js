@@ -26,12 +26,11 @@ export const googleCallback = async (req, res) => {
       sameSite: "lax", // REQUIRED for OAuth redirect
       secure: false, // MUST be false on http
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: "192.168.100.90"
     });
 
     return res
       .status(302)
-      .redirect(`http://localhost:3000/?token=${access_token}`);
+      .redirect(`http://192.168.100.90:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
   }
