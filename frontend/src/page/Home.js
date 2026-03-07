@@ -6,8 +6,8 @@ import { useAuth } from "../context/authContext";
 
 function Home() {
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
-
+  const { setAccessToken, accessToken} = useAuth();
+  
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -29,6 +29,7 @@ function Home() {
       alert(token);
       setAccessToken(token);
       localStorage.setItem("navbarOnChange", true);
+      alert(accessToken);
       navigate("/home");
     }
   }, []);

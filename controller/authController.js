@@ -13,24 +13,23 @@ dotenv.config();
 
 //Google-oauth2 callBack
 export const googleCallback = async (req, res) => {
-  console.log(req.user);
   const payload = { id: req.user.UID, username: req.user.display_name };
   try {
     const access_token = generate_access_token(payload);
     const refresh_token = generate_refresh_token(payload);
 
-    console.log("refresh token in payload: ", refresh_token);
+    console.log(refresh_token);
 
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
-      sameSite: "lax", // REQUIRED for OAuth redirect
-      secure: false, // MUST be false on http
+      sameSite: "lax", // ← allows cross-domain cookies
+      secure: false, // ← required when sameSite is none
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res
       .status(302)
-      .redirect(`http://192.168.100.90:3000/?token=${access_token}`);
+      .redirect(`${process.env.CLIENT_URL}/?token=${access_token}`);
   } catch (error) {
     console.log(error);
   }
@@ -170,13 +169,12 @@ export const logout = async (req, res) => {
 // Refresh token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
-
   if (!token) {
     return res
       .status(403)
       .json({ success: false, message: "Invalid Refresh Token!!!" });
   }
-  
+
   try {
     jwt.verify(token, process.env.refresh_token, async (error, user) => {
       if (error) {

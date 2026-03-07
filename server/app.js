@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://192.168.100.90:3000",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   }),
 );
@@ -34,7 +34,7 @@ app.use("/home", subRouter);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://192.168.100.90:3000",
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
     credentials: true
   },
