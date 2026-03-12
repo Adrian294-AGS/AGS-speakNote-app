@@ -13,7 +13,7 @@ passport.use(
       clientSecret: process.env.facebookSecret,
       callbackURL: process.env.facebookCallbackUrl,
       profileFields: ["id", "displayName", "photos", "email"],
-      passReqToCallback: true,
+      passReqToCallback: true
     },
     async (request, accessToken, refreshToken, profile, done) => {
       try {

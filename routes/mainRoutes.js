@@ -26,7 +26,10 @@ router.get("/auth/google/callback", passport.authenticate('google',{session: fal
 
 router.get("/auth/facebook", passport.authenticate('facebook',{scope:['email']}));
 
-router.get("/auth/facebook/callback", passport.authenticate('facebook', {session: false}), facebookCallback);
+router.get("/auth/facebook/callback",  (req, res, next) => {
+    if (!req.query.code) return res.redirect(`${process.env.CLIENT_URL}/`);
+    next();
+  }, passport.authenticate('facebook', {session: false}), facebookCallback);
 
 router.post("/signIn", logForm);
 

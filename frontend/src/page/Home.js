@@ -40,7 +40,10 @@ function Home() {
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/signIn`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': 'true',
+         },
         credentials: "include",
         body: JSON.stringify(formData),
       });

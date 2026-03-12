@@ -13,17 +13,15 @@ dotenv.config();
 
 //Google-oauth2 callBack
 export const googleCallback = async (req, res) => {
+  const { refreshToken } = req.user;
   const payload = { id: req.user.UID, username: req.user.display_name };
   try {
     const access_token = generate_access_token(payload);
-    const refresh_token = generate_refresh_token(payload);
 
-    console.log(refresh_token);
-
-    res.cookie("refresh_token", refresh_token, {
+    res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
-      sameSite: "lax", // ← allows cross-domain cookies
-      secure: false, // ← required when sameSite is none
+      sameSite: "lax",
+      secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -203,16 +201,18 @@ export const facebookCallback = async (req, res) => {
 
   try {
     const access_token = generate_access_token(payload);
-    const refresh_token = generate_refresh_token(payload);
+    const refreshToken = generate_refresh_token(payload);
 
-    res.cookie("refresh_token", refresh_token, {
+    res.cookie("refresh_token", refreshToken, {
+      sameSite: "lax",
+      secure: false,
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res
-      .status(301)
-      .redirect(`http://localhost:3000/?token=${access_token}`);
+      .status(302)
+      .redirect(`${process.env.CLIENT_URL}:3000/?token=${access_token}`);
   } catch (error) {
     console.log(error);
     return res.status(500);
