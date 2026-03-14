@@ -12,10 +12,11 @@ passport.use(
       clientID: process.env.googleClientId,
       clientSecret: process.env.googleClientSecret,
       callbackURL: process.env.googleCallbackUrl,
-      passReqToCallback: true,
+      passReqToCallback: true
     },
     async function (request, accessToken, refreshToken, profile, done) {
       try {
+        console.log("refreshGoogle: ", refreshToken);
         const googleId = profile.id;
         const select_results = await SelectUserGoogle(googleId);
         if (select_results) {   

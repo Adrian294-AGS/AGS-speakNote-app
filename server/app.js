@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: ['http://192.168.100.90:3000', "http://localhost:3000"],
     credentials: true,
   }),
 );
@@ -41,7 +41,6 @@ const io = new Server(server, {
 });
 
 socketHandler(io);
-
 
 server.listen(Port, () => {
   console.log("server started at http://localhost:5000");

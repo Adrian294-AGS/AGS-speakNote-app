@@ -21,8 +21,7 @@ export const googleCallback = async (req, res) => {
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false
     });
 
     return res
