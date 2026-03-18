@@ -8,7 +8,7 @@ const generateToPdf = async (txtPath, pdfPath) => {
     doc.pipe(writeStream);
     const content = readFileSync(txtPath, "utf-8");
     doc.font("Times-Roman").fontSize(12).text(content, {
-        width: 410,
+        width: 450,
         align: "justify"
     });
 
