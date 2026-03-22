@@ -19,7 +19,7 @@ export const uploadController = async (req, res) => {
     
     await convertToWav(inputPath, wavPath, ffmpegPath);
     const py = spawn("python", ["./services/transcriber.py", wavPath]);
-    let result = "";
+    let result = " ";
 
     py.stdout.on("data", (data) => {
       result += data.toString();

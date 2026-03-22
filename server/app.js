@@ -7,7 +7,8 @@ import subRouter from "../routes/subRoutes.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
-import { socketHandler } from "./socket.js"
+import { socketHandler } from "./socket.js";
+import { connectDb } from "../database/mongoConnection.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -22,7 +23,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['http://192.168.100.90:3000', "http://localhost:3000"],
+    origin: ["http://192.168.100.90:3000", "http://localhost:3000"],
     credentials: true,
   }),
 );
@@ -36,12 +37,14 @@ const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
-    credentials: true
+    credentials: true,
   },
 });
 
 socketHandler(io);
 
-server.listen(Port, () => {
-  console.log("server started at http://localhost:5000");
+connectDb().then(() => {
+  server.listen(Port, () => {
+    console.log("server started at http://localhost:5000");
+  });
 });
