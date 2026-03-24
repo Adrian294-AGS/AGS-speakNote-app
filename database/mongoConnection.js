@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const connectDb = async () => {
+export const connectDb = async () => {
     try {
         await mongoose.connect(process.env.mongodbUri, {
             dbName: "myapp"
@@ -12,4 +12,4 @@ const connectDb = async () => {
     } catch (error) {
         console.log("mongodb ERROR: ", error);
     }
-}
+};
