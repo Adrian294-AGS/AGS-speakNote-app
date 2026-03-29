@@ -1,5 +1,5 @@
 import socketAuth from "../Middlewares/socketAuth.js";
-import db from "../models/mongoConnection.js";
+
 export const socketHandler = async (io) => {
     io.use(socketAuth);
     io.on("connection", (socket) => {

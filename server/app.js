@@ -7,8 +7,8 @@ import subRouter from "../routes/subRoutes.js";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
-import { socketHandler } from "./socket.js";
 import { connectDb } from "../database/mongoConnection.js";
+import socketHandler from "../services/chatSocket.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -28,11 +28,6 @@ app.use(
   }),
 );
 
-app.use(passport.initialize());
-
-app.use("/", router);
-app.use("/home", subRouter);
-
 const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT_URL,
@@ -41,7 +36,16 @@ const io = new Server(server, {
   },
 });
 
-socketHandler(io);
+io.on("connection", (socket) => {
+  socketHandler(io, socket);
+})
+
+app.use(passport.initialize());
+
+app.use("/", router);
+app.use("/home", subRouter);
+
+
 
 connectDb().then(() => {
   server.listen(Port, () => {
