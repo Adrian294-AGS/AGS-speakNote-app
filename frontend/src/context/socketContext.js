@@ -5,15 +5,22 @@ import { useAuth } from "./authContext";
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const [socket, setSocket] = useState(null);
+  const userId = user.Id;
 
   useEffect(() => {
     if (!accessToken) return;
 
     const newSocket = io("http://192.168.100.90:5000", {
-      auth: { token: accessToken }
+      autoConnect: false 
     });
+
+    newSocket.connect();
+
+    newSocket.on("connect", () => {
+      newSocket.emit("user:connect", {userId});
+    })
 
     setSocket(newSocket); // 🔥 triggers re-render
 

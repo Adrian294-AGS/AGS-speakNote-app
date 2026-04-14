@@ -38,14 +38,12 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socketHandler(io, socket);
-})
+});
 
 app.use(passport.initialize());
 
 app.use("/", router);
 app.use("/home", subRouter);
-
-
 
 connectDb().then(() => {
   server.listen(Port, () => {
