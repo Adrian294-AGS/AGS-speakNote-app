@@ -15,15 +15,13 @@ export const SocketProvider = ({ children }) => {
     const newSocket = io("http://192.168.100.90:5000", {
       autoConnect: false 
     });
-
+    
     newSocket.connect();
 
-    newSocket.on("connect", () => {
-      newSocket.emit("user:connect", {userId});
-    })
+    newSocket.emit("user:connect", {userId});
 
     setSocket(newSocket); // 🔥 triggers re-render
-
+    
   }, [accessToken]);
 
   return (
