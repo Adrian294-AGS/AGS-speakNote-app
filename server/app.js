@@ -8,7 +8,7 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import { connectDb } from "../database/mongoConnection.js";
-import socketHandler from "../services/chatSocket.js";
+import { socketHandler} from "../services/chatSocket.js";
 
 dotenv.config({ path: "./.env" });
 

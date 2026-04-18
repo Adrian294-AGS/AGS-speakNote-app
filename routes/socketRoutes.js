@@ -24,6 +24,9 @@ export const socketRoutes = (io) => {
                 });
             }
 
+            return res.status(201).json({success: true, conversationId: result.participants});
+     
+            
         } catch (error) {
             console.log(error);
             return res.status(500).json({message: `Error: ${error}`});

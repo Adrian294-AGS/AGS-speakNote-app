@@ -1,6 +1,6 @@
 import message from "../models/message.js";
 
-export default socketHandler = (io, socket) => {
+export const socketHandler = (io, socket) => {
     socket.on("user:connect", ({userId}) => {
         socket.userId = userId;
         socket.join(`user:${userId}`);
@@ -19,7 +19,6 @@ export default socketHandler = (io, socket) => {
                 text,
                 sendAt: Date.now()
             });
-
             io.to(`conv:${conversationId}`).emit("message:new", {
                 Message: result.text,
             });

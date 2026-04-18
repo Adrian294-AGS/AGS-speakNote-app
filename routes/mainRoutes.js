@@ -7,7 +7,6 @@ import { fetchAudio, fetchTranscription, deleteAudio, copyText } from "../contro
 import { fetchUserProfile, getProfileInfo, userUpdate } from "../controller/userController.js";
 import { record } from "../controller/recordController.js";
 import { cache } from "../Middlewares/redisCached.js";
-import { fetchChatUser } from "../controller/chatController.js";
 import "../services/facebookAuth.js"
 import uploadPhoto from "../Middlewares/multerPhoto.js"; 
 import audioRecord from "../Middlewares/audioRecord.js";
@@ -50,8 +49,6 @@ router.get("/copyText/:Id", jwt_authenticate, copyText);
 router.put("/update", uploadPhoto.single("photo"), jwt_authenticate, userUpdate);
 
 router.post("/audioRecord", audioRecord.single("audio"), jwt_authenticate, record);
-
-router.get("/fetchChatUser", jwt_authenticate, fetchChatUser);
 
 router.get("/fetchPrevMess", jwt_authenticate, )
 

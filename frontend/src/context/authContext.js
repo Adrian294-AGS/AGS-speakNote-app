@@ -30,16 +30,19 @@ export const AuthProvider = ({ children }) => {
   const login = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/protection`, {
+      const respond = await fetch(`${process.env.REACT_APP_API_URL}/protection`, {
         method: "GET",
         headers:{
-          Authorization: `Bearer ${accessToken}`
+          authorization: `Bearer ${accessToken}`
         },
         credentials: "include"
       });
-      const result = await res.json();
-      if(result){
-        setUser({display_name: result.username, photo: result.photo, Id: result.Id});
+      
+      const logResult = await respond.json();
+
+      if(logResult){
+        alert(logResult.Id);
+        setUser({display_name: logResult.username, photo: logResult.photo, Id: logResult.Id});
         setLoading(false);
       }
     } catch (error) {

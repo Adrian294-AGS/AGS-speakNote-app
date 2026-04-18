@@ -32,10 +32,19 @@ export default function useChat() {
                 },
                 credentials: "include"
             });
-
-            const 
+            const result = await res.json();
+            if(result.success){
+                setConversationId(result.conversationId);
+                socket.emit("conversation:join", {conversationId: result.conversationId});
+            }
         } catch (err) {
             console.error("Start Conversation Error: ", err);
         }
     }
+
+    const sendMessage = async (sendText) => {
+        socket.emit("message:send", {conversationId: conversationId, text: sendText});
+    }
+
+    return {message, conversationId, startConversation, sendMessage};
 }
